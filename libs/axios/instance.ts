@@ -1,6 +1,6 @@
 import environment from "@/config/environment";
 import axios from "axios";
-import { Session } from "inspector";
+import type { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 interface CustomSession extends Session {
@@ -19,13 +19,13 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async (request) => {
-    const session: CustomSession || null = await getSession();
+    const session = (await getSession()) as CustomSession | null;
     if (session && session.accessToken) {
       request.headers.Authorization = `Bearer ${session.accessToken}`;
     }
     return request;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 instance.interceptors.response.use(
@@ -34,7 +34,7 @@ instance.interceptors.response.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 export default instance;
