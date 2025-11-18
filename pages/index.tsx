@@ -1,4 +1,4 @@
-import LandingPageLayout from "@/components/LandingPageLayout/LandingPageLayout";
+import LandingPageLayout from "@/components/layouts/LandingPageLayout/LandingPageLayout";
 import Home from "./views/Home";
 // import DefaultLayout from "@/layouts/default";
 
