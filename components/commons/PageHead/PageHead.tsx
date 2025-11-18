@@ -11,6 +11,7 @@ const PageHead = (props: PropTypes) => {
       <title>{title}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link href="/images/general/logo2.svg" rel="icon" />
     </Head>
   );
 };
