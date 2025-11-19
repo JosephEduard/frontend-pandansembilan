@@ -44,12 +44,13 @@ const LandingPageLayoutNavbar = () => {
   return (
     <Navbar
       maxWidth="full"
+      height={90}
       className="max-w-screen-3xl 3xl:container"
       isBordered
-      shouldHideOnScroll
+      // isBlurred={false}
     >
       <div className="flex w-full items-center justify-between">
-        <NavbarBrand as={NextLink} href="/" className="ml-4 flex-none lg:ml-12">
+        <NavbarBrand as={NextLink} href="/" className="ml-4 flex-none lg:ml-40">
           <Image
             src="/images/general/logolong.svg"
             alt="Logo"
@@ -59,7 +60,7 @@ const LandingPageLayoutNavbar = () => {
           />
         </NavbarBrand>
         <NavbarContent
-          className="hidden flex-1 justify-center gap-6 lg:flex"
+          className="hidden flex-1 justify-center gap-15 lg:mr-40 lg:flex"
           justify="center"
         >
           {NAV_ITEMS.map((item, index) => {
