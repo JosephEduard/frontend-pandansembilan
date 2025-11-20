@@ -135,27 +135,29 @@ const LandingPageLayoutNavbar = () => {
                   >
                     <DropdownItem
                       description="Learn more about us"
-                      key="about"
-                      onClick={() => router.push("/about")}
+                      key="Company Profile"
+                      onClick={() => router.push("/company-profile")}
                       className="transition-all hover:translate-x-1"
                     >
-                      About
+                      Company Profile
                     </DropdownItem>
                     <DropdownItem
-                      description="See our team"
-                      key="team"
-                      onClick={() => router.push("/team")}
+                      description="See our goals"
+                      key="vision-mission"
+                      onClick={() => router.push("/company-profile#vision")}
                       className="transition-all hover:translate-x-1"
                     >
-                      Team
+                      Vision & Mission
                     </DropdownItem>
                     <DropdownItem
-                      description="Open positions"
-                      key="careers"
-                      onClick={() => router.push("/careers")}
+                      description="Our Certifications"
+                      key="certifications"
+                      onClick={() =>
+                        router.push("/company-profile#certifications")
+                      }
                       className="transition-all hover:translate-x-1"
                     >
-                      Careers
+                      Legality
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>

@@ -1,7 +1,7 @@
 ﻿import Carousel from "@/components/Carousel/Carousel";
 import { Button } from "@heroui/button";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const services = [
   {
@@ -18,9 +18,29 @@ const services = [
   },
 ];
 
-const portfolio = new Array(6).fill(0).map((_, i) => ({
-  img: `https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=60&ixid=${i}`,
-}));
+const portfolio = [
+  {
+    category: "Project 1",
+    title: "Residential Renovation",
+    img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=60",
+    description:
+      "Renovasi rumah tinggal dengan peningkatan struktur, tata ruang modern, dan efisiensi material tanpa mengorbankan estetika.",
+  },
+  {
+    category: "Project 2",
+    title: "Villa Construction",
+    img: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=60",
+    description:
+      "Pembangunan vila premium dengan konstruksi kokoh, pencahayaan alami optimal, dan finishing berkualitas tinggi.",
+  },
+  {
+    category: "Project 3",
+    title: "Commercial Building",
+    img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=60",
+    description:
+      "Proyek gedung komersial fokus pada keamanan struktural, aksesibilitas, serta fleksibilitas ruang untuk berbagai kebutuhan bisnis.",
+  },
+];
 
 const Home = () => {
   const aboutRef = useRef(null);
@@ -81,6 +101,12 @@ const Home = () => {
     [0, 0.5, 1],
     [0.985, 1, 0.985],
   );
+
+  const [activeFilter, setActiveFilter] = useState("All");
+  const filteredProjects =
+    activeFilter === "All"
+      ? portfolio
+      : portfolio.filter((p) => p.category === activeFilter);
 
   const ctaOpacity = useTransform(
     ctaScroll.scrollYProgress,
@@ -343,7 +369,7 @@ const Home = () => {
             className="mb-8 flex flex-wrap items-center justify-center gap-3"
           >
             {["All", "Project 1", "Project 2", "Project 3"].map((filter, i) => (
-              <motion.button
+              <motion.div
                 key={filter}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -351,75 +377,115 @@ const Home = () => {
                 transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
-                  i === 0
-                    ? "bg-blue-500 text-white shadow-lg shadow-blue-500/50"
-                    : "border border-blue-200 bg-white text-blue-600 hover:border-blue-500 hover:bg-blue-50"
-                }`}
               >
-                {filter}
-              </motion.button>
+                <Button
+                  onClick={() => setActiveFilter(filter)}
+                  className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
+                    activeFilter === filter
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/40"
+                      : "border border-blue-200 bg-white text-blue-600 hover:border-blue-500 hover:bg-blue-50"
+                  }`}
+                  radius="full"
+                  variant={activeFilter === filter ? "solid" : "flat"}
+                  size="sm"
+                >
+                  {filter}
+                </Button>
+              </motion.div>
             ))}
           </motion.div>
 
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
-            {portfolio.map((p, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.5 }}
-                transition={{ duration: 0.5, delay: 0.5 + i * 0.05 }}
-                whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                className="group relative overflow-hidden rounded-2xl shadow-lg"
-              >
-                <div className="relative overflow-hidden">
+          {activeFilter === "All" ? (
+            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
+              {filteredProjects.map((p, i) => (
+                <motion.div
+                  key={p.category}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: false, amount: 0.5 }}
+                  transition={{ duration: 0.5, delay: 0.5 + i * 0.05 }}
+                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                  className="group relative overflow-hidden rounded-2xl shadow-lg"
+                >
+                  <div className="relative overflow-hidden">
+                    <motion.div
+                      className="h-40 bg-cover bg-center sm:h-48 md:h-56 lg:h-64 xl:h-72 2xl:h-[22rem]"
+                      style={{ backgroundImage: `url('${p.img}')` }}
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0 flex items-center justify-center bg-blue-600/80"
+                    >
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        whileHover={{ scale: 1, rotate: 90 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-blue-600"
+                      >
+                        <svg
+                          className="h-8 w-8"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                          />
+                        </svg>
+                      </motion.div>
+                    </motion.div>
+                  </div>
                   <motion.div
-                    className="h-40 bg-cover bg-center sm:h-48 md:h-56 lg:h-64 xl:h-72 2xl:h-[22rem]"
-                    style={{ backgroundImage: `url('${p.img}')` }}
-                    whileHover={{ scale: 1.15 }}
-                    transition={{ duration: 0.6 }}
-                  />
-
-                  {/* Hover overlay with icon */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
+                    className="absolute inset-0 rounded-2xl border-2 border-blue-500 opacity-0"
                     whileHover={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
-                    className="absolute inset-0 flex items-center justify-center bg-blue-600/80"
-                  >
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      whileHover={{ scale: 1, rotate: 90 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-blue-600"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.6 }}
+              className="mx-auto w-full max-w-[1100px]"
+            >
+              {filteredProjects.map((p) => (
+                <div
+                  key={p.category}
+                  className="overflow-hidden rounded-3xl bg-white shadow-2xl"
+                >
+                  <div
+                    className="h-[420px] bg-cover bg-center sm:h-[500px] md:h-[560px] lg:h-[600px]"
+                    style={{ backgroundImage: `url('${p.img}')` }}
+                  />
+                  <div className="space-y-4 px-6 py-8 sm:px-8 md:px-10">
+                    <h4 className="text-2xl font-bold text-blue-700 sm:text-3xl md:text-4xl">
+                      {p.title}
+                    </h4>
+                    <p className="text-base leading-relaxed text-gray-700 sm:text-lg md:text-xl">
+                      {p.description}
+                    </p>
+                    <Button
+                      radius="full"
+                      size="md"
+                      className="bg-blue-600 text-white shadow-lg hover:bg-blue-500"
                     >
-                      <svg
-                        className="h-8 w-8"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
-                        />
-                      </svg>
-                    </motion.div>
-                  </motion.div>
+                      Contact For This Project
+                    </Button>
+                  </div>
                 </div>
-
-                {/* Animated border */}
-                <motion.div
-                  className="absolute inset-0 rounded-2xl border-2 border-blue-500 opacity-0"
-                  whileHover={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </motion.div>
+          )}
         </div>
       </motion.section>
 
@@ -429,13 +495,13 @@ const Home = () => {
         style={{ opacity: ctaOpacity, scale: ctaScale }}
         className="w-full"
       >
-        <div className="mx-auto mb-150 max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
+        <div className="mx-auto mb-8 max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: false, amount: 0.5 }}
             transition={{ duration: 0.8 }}
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 p-6 text-white shadow-2xl sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16"
+            className="relative flex min-h-[380px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 p-6 text-white shadow-2xl max-sm:min-h-[460px] sm:min-h-[420px] sm:p-8 md:min-h-[440px] md:p-10 lg:min-h-[420px] lg:p-12 xl:min-h-[400px] xl:p-14 2xl:min-h-[380px] 2xl:p-16"
           >
             {/* Animated background patterns */}
             <div className="absolute inset-0 opacity-10">
@@ -464,13 +530,13 @@ const Home = () => {
               />
             ))}
 
-            <div className="relative flex flex-col items-center justify-between gap-6 md:flex-row">
+            <div className="relative flex flex-col items-center justify-center gap-10 text-center">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false, amount: 0.5 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex flex-1 items-center text-justify text-base sm:text-lg md:text-left md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl"
+                className="flex flex-1 items-center text-center text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl"
               >
                 <div>
                   <motion.div
@@ -482,7 +548,7 @@ const Home = () => {
                   >
                     Ready to Build?
                   </motion.div>
-                  CV Pandan Sembilan Menyediakan jasa perencanaan pembangunan,
+                  CV Pandan Sembilan menyediakan jasa perencanaan pembangunan,
                   renovasi dan pemeliharaan gedung, perumahan, vila, kost,
                   sekolah, mekanikal elektrikal plumbing, ACP (Aluminium
                   Composite Panel), jalan raya, dan lain-lain.

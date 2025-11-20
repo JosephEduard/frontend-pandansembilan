@@ -54,7 +54,7 @@ export default function Carousel(
 
   return (
     <div id="hero-carousel" className="relative w-full">
-      <div className="relative h-[60vh] overflow-hidden sm:h-[70vh] lg:h-screen">
+      <div className="relative min-h-[100vh] overflow-hidden max-sm:min-h-[115vh] sm:min-h-[108vh] md:min-h-[100vh] lg:min-h-screen">
         {slides.map((s, i) => (
           <div
             key={i}

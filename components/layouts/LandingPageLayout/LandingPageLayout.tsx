@@ -3,6 +3,7 @@ import { title } from "@/components/primitives";
 import { Fragment, ReactNode } from "react";
 import Topbar from "./Topbar";
 import LandingPageLayoutNavbar from "./LandingPageLayoutNavbar";
+import Footer from "@/components/commons/Footer/Footer";
 import { useRouter } from "next/router";
 import { cn } from "@/utils/cn";
 
@@ -28,6 +29,7 @@ const LandingPageLayout = (props: PropTypes) => {
       >
         {children}
       </div>
+      <Footer />
     </Fragment>
   );
 };
