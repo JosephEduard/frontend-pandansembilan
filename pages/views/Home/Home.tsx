@@ -22,9 +22,9 @@ const portfolio = new Array(6).fill(0).map((_, i) => ({
 
 const Home = () => {
   return (
-    <main className="flex flex-col items-center justify-center gap-8 py-8 md:py-10">
-      {/* Carousel / Hero */}
-      <div className="w-full">
+    <main className="flex flex-col gap-8 pt-0 pb-8 md:pb-10">
+      {/* Carousel / Hero (full-bleed under navbar) */}
+      <div className="relative h-full w-full">
         <Carousel />
       </div>
 

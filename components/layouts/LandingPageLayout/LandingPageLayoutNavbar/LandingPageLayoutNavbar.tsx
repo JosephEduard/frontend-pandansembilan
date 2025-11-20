@@ -17,7 +17,7 @@ import NextLink from "next/link";
 import NAV_ITEMS from "../LandingPageLayout.constants";
 import { cn } from "@/utils/cn";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Spacer } from "@heroui/react";
 
 const Chevron = (props: any) => (
@@ -42,13 +42,33 @@ const Chevron = (props: any) => (
 const LandingPageLayoutNavbar = () => {
   const router = useRouter();
   const [mobileCompanyOpen, setMobileCompanyOpen] = useState(false);
+  const [transparent, setTransparent] = useState(true);
+
+  useEffect(() => {
+    const hero = document.getElementById("hero-carousel");
+    if (!hero) return; // fallback: keep existing state
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Transparent when hero is intersecting (still visible under navbar)
+        setTransparent(entry.isIntersecting);
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
   return (
     <Navbar
       maxWidth="full"
       height={90}
-      className="max-w-screen-3xl 3xl:container"
-      isBordered
-      // isBlurred={false}
+      className={cn(
+        "max-w-screen-3xl 3xl:container mb-0 pt-0 pb-0 transition-colors duration-300",
+        transparent
+          ? "backdrop-blur-0 bg-transparent shadow-none"
+          : "bg-white/95 shadow-md backdrop-blur-sm",
+      )}
+      isBordered={!transparent}
+      isBlurred={false}
     >
       <div className="flex w-full items-center justify-between sm:ml-0 sm:justify-start md:justify-between">
         <NavbarBrand

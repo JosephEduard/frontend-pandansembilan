@@ -1,32 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 interface Slide {
   title: string;
   subtitle?: string;
-  image?: string;
-  bgClass?: string;
+  image: string;
+  overlay?: string; // optional overlay gradient
 }
 
+// Option A: Full-bleed image carousel with overlayed text & existing controls/indicators.
 const slides: Slide[] = [
   {
-    title: "Welcome to Our Site",
-    subtitle: "Quality services, tailored for you",
-    bgClass: "bg-gradient-to-r from-blue-600 to-teal-400",
+    title: "Transforming Spaces",
+    subtitle: "Kualitas & Integritas dalam setiap proyek",
+    image:
+      "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1600&q=60",
+    overlay: "bg-gradient-to-r from-black/60 via-black/40 to-transparent",
   },
   {
-    title: "Our Services",
-    subtitle: "We build modern, responsive apps",
-    bgClass: "bg-gradient-to-r from-purple-600 to-pink-500",
+    title: "Engineering Excellence",
+    subtitle: "Struktur kokoh, desain modern, hasil memuaskan",
+    image:
+      "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=1600&q=60",
+    overlay: "bg-gradient-to-r from-black/50 via-black/30 to-transparent",
   },
   {
-    title: "Get In Touch",
-    subtitle: "Let's make something great together",
-    bgClass: "bg-gradient-to-r from-yellow-400 to-orange-500",
+    title: "Build With Confidence",
+    subtitle: "Solusi konstruksi lengkap dan profesional",
+    image:
+      "https://images.unsplash.com/photo-1493863641987-4b4e4891fb89?auto=format&fit=crop&w=1600&q=60",
+    overlay: "bg-gradient-to-r from-black/55 via-black/35 to-transparent",
   },
 ];
 
 export default function Carousel(
-  { autoPlay = true, interval = 5000 } = { autoPlay: true, interval: 5000 },
+  { autoPlay = true, interval = 6000 } = { autoPlay: true, interval: 6000 },
 ) {
   const [index, setIndex] = useState(0);
   const timerRef = useRef<number | null>(null);
@@ -36,7 +44,6 @@ export default function Carousel(
     timerRef.current = window.setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
     }, interval);
-
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
     };
@@ -46,95 +53,68 @@ export default function Carousel(
   const goNext = () => setIndex((i) => (i + 1) % slides.length);
 
   return (
-    // Full-bleed hero area. Slide visuals span full width, but text is constrained
-    // inside a centered container so it aligns with the rest of the site (Option B).
-    <div className="w-full">
-      <div className="relative overflow-hidden">
-        {/* responsive hero height: mobile -> small, desktop -> large */}
-        <div className="relative h-56 md:h-72 lg:h-[70vh]">
-          {slides.map((s, i) => (
-            <div
-              key={i}
-              className={`absolute inset-0 flex transform items-center justify-center px-4 text-center transition-transform duration-600 ease-in-out ${
-                i === index
-                  ? "z-10 translate-x-0"
-                  : i < index
-                    ? "z-0 -translate-x-full"
-                    : "z-0 translate-x-full"
-              }`}
-            >
-              {/* slide background: gradient for now; replace with Image (commented example below) when using real hero images */}
-              <div className={`${s.bgClass} absolute inset-0 -z-10`} />
-
-              {/* optional overlay for better contrast */}
-              <div className="absolute inset-0 -z-0 bg-black/30" />
-
-              {/* constrained content container so text aligns with site width */}
-              <div className="relative w-full">
-                <div className="max-w-screen-3xl mx-auto px-4">
-                  <div className="mx-auto max-w-3xl text-white">
-                    <h2 className="text-2xl font-bold drop-shadow-md sm:text-3xl md:text-4xl">
-                      {s.title}
-                    </h2>
-                    {s.subtitle && (
-                      <p className="mt-3 text-sm opacity-95 sm:text-base md:text-lg">
-                        {s.subtitle}
-                      </p>
-                    )}
+    <div id="hero-carousel" className="relative w-full">
+      <div className="relative h-[60vh] overflow-hidden sm:h-[70vh] lg:h-screen">
+        {slides.map((s, i) => (
+          <div
+            key={i}
+            className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out ${i === index ? "opacity-100" : "opacity-0"}`}
+          >
+            {/* Background image */}
+            <Image
+              src={s.image}
+              alt={s.title}
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className="object-cover"
+            />
+            {/* Overlay gradient for legibility */}
+            {s.overlay && <div className={`absolute inset-0 ${s.overlay}`} />}
+            {/* Dark layer for consistent contrast */}
+            <div className="absolute inset-0 bg-black/30" />
+            {/* Centered content (reuse aligned width) */}
+            <div className="relative z-10 w-full px-4">
+              <div className="mx-auto max-w-[1450px]">
+                <div className="max-w-3xl text-white">
+                  <h2 className="text-2xl font-bold drop-shadow-md sm:text-3xl md:text-5xl lg:text-6xl">
+                    {s.title}
+                  </h2>
+                  {s.subtitle && (
+                    <p className="mt-4 text-sm font-medium opacity-95 sm:text-base md:text-lg lg:text-xl">
+                      {s.subtitle}
+                    </p>
+                  )}
+                  <div className="mt-8 flex gap-4">
+                    <button
+                      onClick={goPrev}
+                      className="rounded-full bg-white/90 px-6 py-3 text-sm font-semibold text-gray-800 shadow-lg backdrop-blur-sm transition hover:bg-white"
+                    >
+                      Prev
+                    </button>
+                    <button
+                      onClick={goNext}
+                      className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-500"
+                    >
+                      Next
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* controls */}
-        <button
-          aria-label="Previous"
-          onClick={goPrev}
-          className="absolute top-1/2 left-3 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2 text-gray-800 shadow-lg focus:outline-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.293 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L8.414 10l3.879 3.879a1 1 0 010 1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-
-        <button
-          aria-label="Next"
-          onClick={goNext}
-          className="absolute top-1/2 right-3 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2 text-gray-800 shadow-lg focus:outline-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-
-        {/* indicators */}
-        <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
+          </div>
+        ))}
+        {/* Side arrow controls removed (using internal Prev/Next buttons) */}
+        {/* Indicators */}
+        <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
           {slides.map((_, i) => (
             <button
               key={i}
               aria-label={`Go to slide ${i + 1}`}
               onClick={() => setIndex(i)}
-              className={`h-2 w-8 rounded-full transition-all duration-300 ${i === index ? "bg-white" : "bg-white/40"}`}
+              className={`h-2 w-8 rounded-full transition-all duration-300 ${
+                i === index ? "bg-white" : "bg-white/40"
+              }`}
             />
           ))}
         </div>
@@ -142,27 +122,3 @@ export default function Carousel(
     </div>
   );
 }
-
-/*
-How to replace the gradient slides with real hero images (Next.js `Image`):
-
-1) Import Image from "next/image" at the top of this file.
-
-2) Instead of rendering `<div className={`${s.bgClass} absolute inset-0 -z-10`} />`, use:
-
-   <Image
-     src={s.image as string}
-     alt={s.title}
-     fill
-     className="object-cover"
-     priority
-   />
-
-   Make sure your `slides` entries have an `image` property with a valid path or remote URL.
-
-3) Optionally remove the gradient `bgClass` values from the slides to avoid overlaying.
-
-Notes:
-- Using `Image fill` requires the parent to be `position: relative`; this file already sets that.
-- For best results provide multiple sizes or use the `sizes` prop on `Image`.
-*/
