@@ -18,6 +18,7 @@ import NAV_ITEMS from "../LandingPageLayout.constants";
 import { cn } from "@/utils/cn";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { Spacer } from "@heroui/react";
 
 const Chevron = (props: any) => (
   <svg
@@ -49,18 +50,30 @@ const LandingPageLayoutNavbar = () => {
       isBordered
       // isBlurred={false}
     >
-      <div className="flex w-full items-center justify-between">
-        <NavbarBrand as={NextLink} href="/" className="ml-4 flex-none lg:ml-40">
+      <div className="flex w-full items-center justify-between sm:ml-0 sm:justify-start md:justify-between">
+        <NavbarBrand
+          as={NextLink}
+          href="/"
+          className="sm:-flex-auto sm:ml-0 sm:justify-start md:ml-0 md:flex-none lg:ml-5 xl:ml-15 2xl:ml-40"
+        >
           <Image
-            src="/images/general/logolong.svg"
+            src="/images/general/logo2.svg"
             alt="Logo"
-            width={300}
+            width={65}
             height={65}
             className="cursor-pointer"
           />
+          <Image
+            src={"/images/general/logotext.svg"}
+            alt={"LogoText"}
+            height={65}
+            width={300}
+            className="sm:inline-flex-auto ml-2 cursor-pointer md:flex-none"
+          />
         </NavbarBrand>
+        <Spacer x={32} className="lg:x={0} lg:hidden" />
         <NavbarContent
-          className="hidden flex-1 justify-center gap-15 lg:mr-40 lg:flex"
+          className="hidden flex-1 justify-center sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-15"
           justify="center"
         >
           {NAV_ITEMS.map((item, index) => {
@@ -131,8 +144,9 @@ const LandingPageLayoutNavbar = () => {
           })}
         </NavbarContent>
       </div>
-      <NavbarContent className="flex-none" justify="end">
-        <NavbarMenuToggle className="lg:hidden" />
+
+      <NavbarContent className="sm:flex-1 md:flex-none" justify="end">
+        <NavbarMenuToggle className="sm:flex-auto md:flex-none lg:hidden" />
       </NavbarContent>
 
       <NavbarMenu>

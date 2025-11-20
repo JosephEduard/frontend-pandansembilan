@@ -40,11 +40,11 @@ export default function Topbar() {
         }`}
       >
         <div className="w-full bg-[#0077a8] text-white">
-          <div className="max-w-screen-3xl 3xl:container mx-auto px-4">
+          <div className="max-w-screen-3xl 3xl:container mx-auto px-3 sm:px-4">
             <div
               className={`flex ${heightClass} items-center justify-between text-sm`}
             >
-              <div className="flex items-center gap-8 lg:ml-47">
+              <div className="ml-47 hidden items-center gap-3 lg:ml-10 lg:flex xl:ml-22">
                 <NextLink href="#" className="hover:opacity-90">
                   <FaWhatsapp />
                 </NextLink>
@@ -62,15 +62,28 @@ export default function Topbar() {
                 </NextLink>
               </div>
 
-              <div className="flex items-center gap-6 lg:mr-47">
+              <div className="flex-1">
+                <div className="w-full text-center">
+                  <span className="text-sm font-medium">
+                    Building Constructions - Supplier - ETC
+                  </span>
+                </div>
+              </div>
+
+              <div className="mr-37 hidden items-center justify-end gap-6 lg:mr-0 lg:flex lg:w-auto xl:mr-15">
                 <div className="flex items-center gap-2">
                   <HiPhone className="text-lg" />
-                  <span>0898-1234-1231</span>
+                  <span className="text-sm whitespace-nowrap">
+                    0898-1234-1231
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <HiLocationMarker className="text-lg" />
-                  <span>Palembang - Indonesia</span>
+                  <span className="text-sm whitespace-nowrap">
+                    Palembang - Indonesia
+                  </span>
                 </div>
+                <div className="w-4" />
               </div>
             </div>
           </div>
