@@ -46,13 +46,16 @@ export default function Carousel(
   const goNext = () => setIndex((i) => (i + 1) % slides.length);
 
   return (
+    // Full-bleed hero area. Slide visuals span full width, but text is constrained
+    // inside a centered container so it aligns with the rest of the site (Option B).
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-lg">
-        <div className="relative h-64 sm:h-80 md:h-96">
+      <div className="relative overflow-hidden">
+        {/* responsive hero height: mobile -> small, desktop -> large */}
+        <div className="relative h-56 md:h-72 lg:h-[70vh]">
           {slides.map((s, i) => (
             <div
               key={i}
-              className={`absolute inset-0 flex transform items-center justify-center px-6 text-center transition-transform duration-500 ease-in-out ${
+              className={`absolute inset-0 flex transform items-center justify-center px-4 text-center transition-transform duration-600 ease-in-out ${
                 i === index
                   ? "z-10 translate-x-0"
                   : i < index
@@ -60,18 +63,25 @@ export default function Carousel(
                     : "z-0 translate-x-full"
               }`}
             >
-              <div
-                className={`${s.bgClass} flex h-full w-full items-center justify-center text-white`}
-              >
-                <div className="max-w-3xl">
-                  <h2 className="text-2xl font-bold drop-shadow-md sm:text-3xl md:text-4xl">
-                    {s.title}
-                  </h2>
-                  {s.subtitle && (
-                    <p className="mt-3 text-sm opacity-95 sm:text-base md:text-lg">
-                      {s.subtitle}
-                    </p>
-                  )}
+              {/* slide background: gradient for now; replace with Image (commented example below) when using real hero images */}
+              <div className={`${s.bgClass} absolute inset-0 -z-10`} />
+
+              {/* optional overlay for better contrast */}
+              <div className="absolute inset-0 -z-0 bg-black/30" />
+
+              {/* constrained content container so text aligns with site width */}
+              <div className="relative w-full">
+                <div className="max-w-screen-3xl mx-auto px-4">
+                  <div className="mx-auto max-w-3xl text-white">
+                    <h2 className="text-2xl font-bold drop-shadow-md sm:text-3xl md:text-4xl">
+                      {s.title}
+                    </h2>
+                    {s.subtitle && (
+                      <p className="mt-3 text-sm opacity-95 sm:text-base md:text-lg">
+                        {s.subtitle}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -82,7 +92,7 @@ export default function Carousel(
         <button
           aria-label="Previous"
           onClick={goPrev}
-          className="absolute top-1/2 left-3 -translate-y-1/2 rounded-full bg-white/70 p-2 text-gray-800 hover:bg-white"
+          className="absolute top-1/2 left-3 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2 text-gray-800 shadow-lg focus:outline-none"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +111,7 @@ export default function Carousel(
         <button
           aria-label="Next"
           onClick={goNext}
-          className="absolute top-1/2 right-3 -translate-y-1/2 rounded-full bg-white/70 p-2 text-gray-800 hover:bg-white"
+          className="absolute top-1/2 right-3 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2 text-gray-800 shadow-lg focus:outline-none"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -111,15 +121,14 @@ export default function Carousel(
           >
             <path
               fillRule="evenodd"
-              d="M7.707 4.293a1 1 0 010 1.414L3.414 10l4.293 4.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 0z"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 111.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
               clipRule="evenodd"
-              transform="translate(8 0) scale(-1 1)"
             />
           </svg>
         </button>
 
         {/* indicators */}
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2">
+        <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
           {slides.map((_, i) => (
             <button
               key={i}
@@ -133,3 +142,27 @@ export default function Carousel(
     </div>
   );
 }
+
+/*
+How to replace the gradient slides with real hero images (Next.js `Image`):
+
+1) Import Image from "next/image" at the top of this file.
+
+2) Instead of rendering `<div className={`${s.bgClass} absolute inset-0 -z-10`} />`, use:
+
+   <Image
+     src={s.image as string}
+     alt={s.title}
+     fill
+     className="object-cover"
+     priority
+   />
+
+   Make sure your `slides` entries have an `image` property with a valid path or remote URL.
+
+3) Optionally remove the gradient `bgClass` values from the slides to avoid overlaying.
+
+Notes:
+- Using `Image fill` requires the parent to be `position: relative`; this file already sets that.
+- For best results provide multiple sizes or use the `sizes` prop on `Image`.
+*/

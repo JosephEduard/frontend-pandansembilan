@@ -21,6 +21,84 @@ const Home = () => {
           <p>Describe your key features here.</p>
         </div>
       </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
+      <section>
+        <div className="max-w-screen-3xl 3xl:container py-10 md:p-6">
+          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <p>Describe your key features here.</p>
+        </div>
+      </section>
     </section>
   );
 };
