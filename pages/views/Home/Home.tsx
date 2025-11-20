@@ -1,5 +1,7 @@
 ﻿import Carousel from "@/components/Carousel/Carousel";
 import { Button } from "@heroui/button";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 const services = [
   {
@@ -21,23 +23,135 @@ const portfolio = new Array(6).fill(0).map((_, i) => ({
 }));
 
 const Home = () => {
+  const aboutRef = useRef(null);
+  const servicesRef = useRef(null);
+  const portfolioRef = useRef(null); // Reference for portfolio section
+  const ctaRef = useRef(null); // Reference for CTA section
+  // Use `whileInView` with `viewport` for repeatable, smooth entrance animations.
+
+  // Per-section scroll tracking (independent fade logic)
+  const aboutScroll = useScroll({
+    target: aboutRef,
+    offset: ["start end", "end start"],
+  });
+  const servicesScroll = useScroll({
+    target: servicesRef,
+    offset: ["start end", "end start"],
+  });
+  const portfolioScroll = useScroll({
+    target: portfolioRef,
+    offset: ["start end", "end start"],
+  });
+  const ctaScroll = useScroll({
+    target: ctaRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Make sections most visible while centered in viewport; fade when out (both directions)
+  // Opacity peaks at progress ~0.5 (center) and lowers near 0 and 1.
+  const aboutOpacity = useTransform(
+    aboutScroll.scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.6, 1, 1, 0.6],
+  );
+  const aboutScale = useTransform(
+    aboutScroll.scrollYProgress,
+    [0, 0.5, 1],
+    [0.985, 1, 0.985],
+  );
+
+  const servicesOpacity = useTransform(
+    servicesScroll.scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.6, 1, 1, 0.6],
+  );
+  const servicesScale = useTransform(
+    servicesScroll.scrollYProgress,
+    [0, 0.5, 1],
+    [0.985, 1, 0.985],
+  );
+
+  const portfolioOpacity = useTransform(
+    portfolioScroll.scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.6, 1, 1, 0.6],
+  );
+  const portfolioScale = useTransform(
+    portfolioScroll.scrollYProgress,
+    [0, 0.5, 1],
+    [0.985, 1, 0.985],
+  );
+
+  const ctaOpacity = useTransform(
+    ctaScroll.scrollYProgress,
+    [0, 0.3, 0.7, 1],
+    [0.65, 1, 1, 0.65],
+  );
+  const ctaScale = useTransform(
+    ctaScroll.scrollYProgress,
+    [0, 0.5, 1],
+    [0.985, 1, 0.985],
+  );
+
   return (
-    <main className="flex flex-col gap-8 pt-0 pb-8 md:pb-10">
+    <main className="flex flex-col gap-32 pt-0 pb-8 md:gap-40 md:pb-10 lg:gap-48">
       {/* Carousel / Hero (full-bleed under navbar) */}
-      <div className="relative h-full w-full">
+      <div id="hero-carousel" className="relative h-full w-full">
         <Carousel />
       </div>
 
       {/* About Us */}
-      <section className="w-full">
+      <motion.section
+        ref={aboutRef}
+        style={{ opacity: aboutOpacity, scale: aboutScale }}
+        className="w-full"
+      >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
-          <div className="w-full rounded-md bg-white p-0">
-            <div className="grid grid-cols-1 items-stretch gap-12 md:grid-cols-2">
-              <div>
-                <h3 className="mb-4 text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative w-full overflow-hidden rounded-2xl border border-gray-200 bg-white p-0 shadow-xl"
+          >
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 h-40 w-40 bg-gradient-to-br from-blue-100 to-transparent opacity-50" />
+            <div className="absolute bottom-0 left-0 h-32 w-32 bg-gradient-to-tr from-red-100 to-transparent opacity-50" />
+
+            <div className="relative grid grid-cols-1 items-stretch gap-12 p-8 md:grid-cols-2 md:p-12">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="mb-2 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600"
+                >
+                  Who We Are
+                </motion.div>
+
+                <motion.h3
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl"
+                >
                   About Us
-                </h3>
-                <p className="text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl">
+                </motion.h3>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl"
+                >
                   CV Pandan Sembilan merupakan Perusahaan konstruksi Swasta
                   berskala Nasional yang berdiri pada Desember 2021 oleh Founder
                   CV Pandan Sembilan, Heru Noviyanto. CV Pandan Sembilan
@@ -45,108 +159,401 @@ const Home = () => {
                   pemeliharaan gedung, perumahan, vila, kost, sekolah, mekanikal
                   elektrikal plumbing, ACP (Aluminium Composite Panel), jalan
                   raya, dan lain-lain.
-                </p>
-                <p className="mt-4 text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl">
+                </motion.p>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="mt-4 text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl"
+                >
                   Pada dasarnya CV Pandan Sembilan dibangun untuk memenuhi
                   kebutuhan konsumen serta meningkatkan struktur pembangunan
                   yang kian meningkat, serta menjaga keselamatan masyarakat di
                   lokasi pembangunan proyek dan sekitarnya.
-                </p>
-              </div>
+                </motion.p>
 
-              <div className="flex items-stretch justify-end">
-                <div className="h-full w-full max-w-full overflow-hidden rounded-3xl shadow-lg sm:max-w-[420px] md:max-w-[640px] lg:max-w-[820px] xl:max-w-[980px] 2xl:max-w-[1100px]">
+                {/* Stats */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="mt-8 grid grid-cols-3 gap-4"
+                >
+                  {[
+                    { number: "100+", label: "Projects" },
+                    { number: "50+", label: "Clients" },
+                    { number: "3+", label: "Years" },
+                  ].map((stat, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ scale: 1.05 }}
+                      className="rounded-lg bg-gradient-to-br from-blue-50 to-gray-50 p-4 text-center"
+                    >
+                      <div className="text-2xl font-bold text-blue-600 md:text-3xl">
+                        {stat.number}
+                      </div>
+                      <div className="text-sm text-gray-600">{stat.label}</div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="flex items-stretch justify-end"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  className="group relative h-full w-full max-w-full overflow-hidden rounded-2xl shadow-2xl sm:max-w-[420px] md:max-w-[640px] lg:max-w-[820px] xl:max-w-[980px] 2xl:max-w-[1100px]"
+                >
                   <div
-                    className="h-full w-full bg-cover bg-center"
+                    className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                     style={{
                       backgroundImage: `url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1400&q=60')`,
+                      minHeight: "400px",
                     }}
                   />
-                </div>
-              </div>
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                </motion.div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Our Best Services */}
-      <section className="w-full">
+      <motion.section
+        ref={servicesRef}
+        style={{ opacity: servicesOpacity, scale: servicesScale }}
+        className="w-full"
+      >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
-          <h3 className="mb-8 text-center text-5xl font-semibold">
-            Our Best Services
-          </h3>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12 text-center"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mb-4 inline-block rounded-full bg-red-100 px-4 py-1 text-sm font-medium text-red-600"
+            >
+              What We Offer
+            </motion.div>
+            <h3 className="bg-gradient-to-r from-gray-900 via-red-700 to-gray-900 bg-clip-text text-5xl font-bold text-transparent">
+              Our Best Services
+            </h3>
+          </motion.div>
+
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
-            {services.map((s) => (
-              <div
+            {services.map((s, index) => (
+              <motion.div
                 key={s.title}
-                className="relative overflow-hidden rounded-xl bg-white shadow-md"
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
+                className="group relative overflow-hidden rounded-2xl bg-white shadow-lg"
               >
-                <div
-                  className="h-48 bg-cover bg-center sm:h-60 md:h-72 lg:h-80 xl:h-96 2xl:h-[28rem]"
-                  style={{ backgroundImage: `url('${s.img}')` }}
-                />
-                <div className="absolute right-0 bottom-0 left-0">
-                  <div className="rounded-b-xl bg-red-600 py-3 text-center text-sm font-semibold text-white sm:py-4 sm:text-base md:text-lg">
-                    {s.title}
-                  </div>
+                <div className="relative overflow-hidden">
+                  <motion.div
+                    className="h-48 bg-cover bg-center sm:h-60 md:h-72 lg:h-80 xl:h-96 2xl:h-[28rem]"
+                    style={{ backgroundImage: `url('${s.img}')` }}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  {/* Hover overlay */}
+                  <motion.div className="absolute inset-0 bg-gradient-to-t from-red-600/90 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 </div>
-              </div>
+
+                <motion.div
+                  className="absolute right-0 bottom-0 left-0"
+                  whileHover={{ height: "100%" }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="flex h-full flex-col justify-end rounded-b-2xl bg-red-600 py-3 text-center text-sm font-semibold text-white sm:py-4 sm:text-base md:text-lg">
+                    <motion.span
+                      initial={{ opacity: 1 }}
+                      whileHover={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {s.title}
+                    </motion.span>
+                  </div>
+                </motion.div>
+
+                {/* Animated border */}
+                <motion.div
+                  className="absolute inset-0 rounded-2xl border-2 border-red-500 opacity-0"
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Our Portfolio */}
-      <section className="w-full">
+      <motion.section
+        ref={portfolioRef}
+        style={{ opacity: portfolioOpacity, scale: portfolioScale }}
+        className="w-full"
+      >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
-          <h3 className="mb-6 text-center text-5xl font-semibold">
-            Our Portofolio
-          </h3>
-          <div className="mb-6 flex items-center justify-center gap-3">
-            <button className="rounded-full bg-blue-500 px-4 py-1 text-sm text-white">
-              All
-            </button>
-            <button className="rounded-full border bg-white px-4 py-1 text-sm text-blue-600">
-              Project 1
-            </button>
-            <button className="rounded-full border bg-white px-4 py-1 text-sm text-blue-600">
-              Project 2
-            </button>
-            <button className="rounded-full border bg-white px-4 py-1 text-sm text-blue-600">
-              Project 3
-            </button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8 text-center"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="mb-4 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600"
+            >
+              Our Work
+            </motion.div>
+            <h3 className="bg-gradient-to-r from-gray-900 via-blue-700 to-gray-900 bg-clip-text text-5xl font-bold text-transparent">
+              Our Portfolio
+            </h3>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mb-8 flex flex-wrap items-center justify-center gap-3"
+          >
+            {["All", "Project 1", "Project 2", "Project 3"].map((filter, i) => (
+              <motion.button
+                key={filter}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
+                  i === 0
+                    ? "bg-blue-500 text-white shadow-lg shadow-blue-500/50"
+                    : "border border-blue-200 bg-white text-blue-600 hover:border-blue-500 hover:bg-blue-50"
+                }`}
+              >
+                {filter}
+              </motion.button>
+            ))}
+          </motion.div>
+
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
             {portfolio.map((p, i) => (
-              <div key={i} className="overflow-hidden rounded-xl shadow-md">
-                <div
-                  className="h-40 bg-cover bg-center sm:h-48 md:h-56 lg:h-64 xl:h-72 2xl:h-[22rem]"
-                  style={{ backgroundImage: `url('${p.img}')` }}
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.5, delay: 0.5 + i * 0.05 }}
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className="group relative overflow-hidden rounded-2xl shadow-lg"
+              >
+                <div className="relative overflow-hidden">
+                  <motion.div
+                    className="h-40 bg-cover bg-center sm:h-48 md:h-56 lg:h-64 xl:h-72 2xl:h-[22rem]"
+                    style={{ backgroundImage: `url('${p.img}')` }}
+                    whileHover={{ scale: 1.15 }}
+                    transition={{ duration: 0.6 }}
+                  />
+
+                  {/* Hover overlay with icon */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 flex items-center justify-center bg-blue-600/80"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileHover={{ scale: 1, rotate: 90 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-blue-600"
+                    >
+                      <svg
+                        className="h-8 w-8"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                        />
+                      </svg>
+                    </motion.div>
+                  </motion.div>
+                </div>
+
+                {/* Animated border */}
+                <motion.div
+                  className="absolute inset-0 rounded-2xl border-2 border-blue-500 opacity-0"
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
                 />
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA / Info box */}
-      <section className="w-full">
-        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
-          <div className="flex items-center justify-between gap-6 rounded-xl bg-blue-600 p-6 text-white sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16">
-            <div className="flex flex-1 items-center text-justify text-base sm:text-lg md:text-left md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl">
-              CV Pandan Sembilan Menyediakan jasa perencanaan pembangunan,
-              renovasi dan pemeliharaan gedung, perumahan, vila, kost, sekolah,
-              mekanikal elektrikal plumbing, ACP (Aluminium Composite Panel),
-              jalan raya, dan lain-lain.
+      <motion.section
+        ref={ctaRef}
+        style={{ opacity: ctaOpacity, scale: ctaScale }}
+        className="w-full"
+      >
+        <div className="mx-auto mb-150 max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.8 }}
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 p-6 text-white shadow-2xl sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16"
+          >
+            {/* Animated background patterns */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-white blur-3xl" />
+              <div className="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-white blur-3xl" />
             </div>
-            <div className="flex-shrink-0 self-center">
-              <Button className="flex rounded-full bg-white px-6 py-12 font-semibold text-blue-600 shadow-lg">
-                Contact Us
-              </Button>
+
+            {/* Floating dots */}
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute h-2 w-2 rounded-full bg-white/30"
+                style={{
+                  top: `${20 + i * 15}%`,
+                  right: `${10 + i * 10}%`,
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  opacity: [0.3, 0.8, 0.3],
+                }}
+                transition={{
+                  duration: 3 + i * 0.5,
+                  repeat: Infinity,
+                  delay: i * 0.3,
+                }}
+              />
+            ))}
+
+            <div className="relative flex flex-col items-center justify-between gap-6 md:flex-row">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex flex-1 items-center text-justify text-base sm:text-lg md:text-left md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl"
+              >
+                <div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.5 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="mb-4 text-sm font-medium tracking-wider text-blue-100 uppercase"
+                  >
+                    Ready to Build?
+                  </motion.div>
+                  CV Pandan Sembilan Menyediakan jasa perencanaan pembangunan,
+                  renovasi dan pemeliharaan gedung, perumahan, vila, kost,
+                  sekolah, mekanikal elektrikal plumbing, ACP (Aluminium
+                  Composite Panel), jalan raya, dan lain-lain.
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="flex-shrink-0 self-center"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button className="group relative overflow-hidden rounded-full bg-white px-8 py-6 font-bold text-blue-600 shadow-xl transition-all hover:shadow-2xl sm:px-10 sm:py-7 md:px-10 md:py-7 lg:px-12 lg:py-8 xl:px-14 xl:py-9">
+                    <motion.span
+                      className="relative z-10 flex items-center gap-2"
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      Contact Us
+                      <motion.svg
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </motion.svg>
+                    </motion.span>
+
+                    {/* Hover effect background */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-blue-50 to-white"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: 0 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </Button>
+                </motion.div>
+              </motion.div>
             </div>
-          </div>
+
+            {/* Corner accents */}
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="absolute top-4 left-4 h-12 w-12 border-t-2 border-l-2 border-white/30"
+            />
+            <motion.div
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="absolute right-4 bottom-4 h-12 w-12 border-r-2 border-b-2 border-white/30"
+            />
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </main>
   );
 };
