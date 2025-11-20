@@ -30,12 +30,14 @@ const Home = () => {
 
       {/* About Us */}
       <section className="w-full">
-        <div className="mx-auto max-w-[1536px] px-0 py-14">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="w-full rounded-md bg-white p-0">
             <div className="grid grid-cols-1 items-stretch gap-12 md:grid-cols-2">
               <div>
-                <h3 className="mb-4 text-5xl font-semibold">About Us</h3>
-                <p className="text-2xl leading-relaxed text-gray-700">
+                <h3 className="mb-4 text-2xl font-semibold sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl">
+                  About Us
+                </h3>
+                <p className="text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl">
                   CV Pandan Sembilan merupakan Perusahaan konstruksi Swasta
                   berskala Nasional yang berdiri pada Desember 2021 oleh Founder
                   CV Pandan Sembilan, Heru Noviyanto. CV Pandan Sembilan
@@ -44,7 +46,7 @@ const Home = () => {
                   elektrikal plumbing, ACP (Aluminium Composite Panel), jalan
                   raya, dan lain-lain.
                 </p>
-                <p className="mt-4 text-2xl leading-relaxed text-gray-700">
+                <p className="mt-4 text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl">
                   Pada dasarnya CV Pandan Sembilan dibangun untuk memenuhi
                   kebutuhan konsumen serta meningkatkan struktur pembangunan
                   yang kian meningkat, serta menjaga keselamatan masyarakat di
@@ -53,7 +55,7 @@ const Home = () => {
               </div>
 
               <div className="flex items-stretch justify-end">
-                <div className="h-full w-full max-w-[980px] overflow-hidden rounded-3xl shadow-lg">
+                <div className="h-full w-full max-w-full overflow-hidden rounded-3xl shadow-lg sm:max-w-[420px] md:max-w-[640px] lg:max-w-[820px] xl:max-w-[980px] 2xl:max-w-[1100px]">
                   <div
                     className="h-full w-full bg-cover bg-center"
                     style={{
@@ -69,7 +71,7 @@ const Home = () => {
 
       {/* Our Best Services */}
       <section className="w-full">
-        <div className="mx-auto max-w-[1536px] px-0 py-14">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <h3 className="mb-8 text-center text-5xl font-semibold">
             Our Best Services
           </h3>
@@ -80,11 +82,11 @@ const Home = () => {
                 className="relative overflow-hidden rounded-xl bg-white shadow-md"
               >
                 <div
-                  className="h-80 bg-cover bg-center md:h-96"
+                  className="h-48 bg-cover bg-center sm:h-60 md:h-72 lg:h-80 xl:h-96 2xl:h-[28rem]"
                   style={{ backgroundImage: `url('${s.img}')` }}
                 />
                 <div className="absolute right-0 bottom-0 left-0">
-                  <div className="rounded-b-xl bg-red-600 py-4 text-center text-base font-semibold text-white sm:text-base">
+                  <div className="rounded-b-xl bg-red-600 py-3 text-center text-sm font-semibold text-white sm:py-4 sm:text-base md:text-lg">
                     {s.title}
                   </div>
                 </div>
@@ -96,7 +98,7 @@ const Home = () => {
 
       {/* Our Portfolio */}
       <section className="w-full">
-        <div className="mx-auto max-w-[1536px] px-0 py-14">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <h3 className="mb-6 text-center text-5xl font-semibold">
             Our Portofolio
           </h3>
@@ -118,7 +120,7 @@ const Home = () => {
             {portfolio.map((p, i) => (
               <div key={i} className="overflow-hidden rounded-xl shadow-md">
                 <div
-                  className="h-56 bg-cover bg-center sm:h-64"
+                  className="h-40 bg-cover bg-center sm:h-48 md:h-56 lg:h-64 xl:h-72 2xl:h-[22rem]"
                   style={{ backgroundImage: `url('${p.img}')` }}
                 />
               </div>
@@ -129,16 +131,16 @@ const Home = () => {
 
       {/* CTA / Info box */}
       <section className="w-full">
-        <div className="mx-auto max-w-[1536px] px-0 py-14">
-          <div className="flex items-center justify-between gap-6 rounded-xl bg-blue-600 p-16 text-white">
-            <div className="flex flex-1 items-center text-3xl">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
+          <div className="flex items-center justify-between gap-6 rounded-xl bg-blue-600 p-6 text-white sm:p-8 md:p-10 lg:p-12 xl:p-14 2xl:p-16">
+            <div className="flex flex-1 items-center text-justify text-base sm:text-lg md:text-left md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl">
               CV Pandan Sembilan Menyediakan jasa perencanaan pembangunan,
               renovasi dan pemeliharaan gedung, perumahan, vila, kost, sekolah,
               mekanikal elektrikal plumbing, ACP (Aluminium Composite Panel),
               jalan raya, dan lain-lain.
             </div>
             <div className="flex-shrink-0 self-center">
-              <Button className="rounded-full bg-white px-8 py-12 font-semibold text-blue-600 shadow-lg">
+              <Button className="flex rounded-full bg-white px-6 py-12 font-semibold text-blue-600 shadow-lg">
                 Contact Us
               </Button>
             </div>
