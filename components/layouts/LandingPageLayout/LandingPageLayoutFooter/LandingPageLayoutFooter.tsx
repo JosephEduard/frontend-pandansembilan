@@ -9,7 +9,7 @@ import {
   FaFacebookF,
 } from "react-icons/fa";
 
-const Footer = () => {
+const LandingPageLayoutFooter = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
@@ -171,4 +171,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default LandingPageLayoutFooter;

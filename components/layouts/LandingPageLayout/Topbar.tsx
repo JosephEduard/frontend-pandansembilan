@@ -45,19 +45,34 @@ export default function Topbar() {
               className={`flex ${heightClass} items-center justify-between text-sm`}
             >
               <div className="ml-47 hidden items-center gap-3 lg:ml-10 lg:flex xl:ml-22">
-                <NextLink href="#" className="hover:opacity-90">
+                <NextLink
+                  href="#https://whatsapp.com"
+                  className="hover:opacity-90"
+                >
                   <FaWhatsapp />
                 </NextLink>
-                <NextLink href="#" className="hover:opacity-90">
+                <NextLink
+                  href="https://instagram.com"
+                  className="hover:opacity-90"
+                >
                   <FaInstagram />
                 </NextLink>
-                <NextLink href="#" className="hover:opacity-90">
+                <NextLink
+                  href="https://linkedin.com"
+                  className="hover:opacity-90"
+                >
                   <FaLinkedinIn />
                 </NextLink>
-                <NextLink href="#" className="hover:opacity-90">
+                <NextLink
+                  href="https://www.google.com/maps/place/cv.+pandan+sembilan/@-2.9614983,104.7306695,1140m/data=!3m1!1e3!4m15!1m8!3m7!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!2scv.+pandan+sembilan!8m2!3d-2.9614983!4d104.7332444!10e1!16s%2Fg%2F11sqnngp5n!3m5!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!8m2!3d-2.9614983!4d104.7332444!16s%2Fg%2F11sqnngp5n?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+                  className="hover:opacity-90"
+                >
                   <FaGoogle />
                 </NextLink>
-                <NextLink href="#" className="hover:opacity-90">
+                <NextLink
+                  href="https://facebook.com"
+                  className="hover:opacity-90"
+                >
                   <FaFacebookF />
                 </NextLink>
               </div>
