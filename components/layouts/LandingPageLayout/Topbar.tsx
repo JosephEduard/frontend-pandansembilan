@@ -46,7 +46,7 @@ export default function Topbar() {
             >
               <div className="ml-47 hidden items-center gap-3 lg:ml-10 lg:flex xl:ml-22">
                 <NextLink
-                  href="#https://whatsapp.com"
+                  href="https://web.whatsapp.com"
                   className="hover:opacity-90"
                 >
                   <FaWhatsapp />
