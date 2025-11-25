@@ -1,7 +1,7 @@
 ﻿import Carousel from "@/components/Carousel/Carousel";
 import { Button } from "@heroui/button";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 const services = [
   {
@@ -49,58 +49,55 @@ const Home = () => {
   const ctaRef = useRef(null); // Reference for CTA section
   // Use `whileInView` with `viewport` for repeatable, smooth entrance animations.
 
-  // Per-section scroll tracking (independent fade logic)
-  const aboutScroll = useScroll({
-    target: aboutRef,
-    offset: ["start end", "end start"],
-  });
-  const servicesScroll = useScroll({
-    target: servicesRef,
-    offset: ["start end", "end start"],
-  });
-  const portfolioScroll = useScroll({
-    target: portfolioRef,
-    offset: ["start end", "end start"],
-  });
-  const ctaScroll = useScroll({
-    target: ctaRef,
-    offset: ["start end", "end start"],
-  });
+  // Track scroll direction globally
+  const [scrollDir, setScrollDir] = useState<"down" | "up">("down");
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrollDir(lastY > y ? "up" : "down");
+      lastY = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  // Make sections most visible while centered in viewport; fade when out (both directions)
-  // Opacity peaks at progress ~0.5 (center) and lowers near 0 and 1.
-  const aboutOpacity = useTransform(
-    aboutScroll.scrollYProgress,
-    [0, 0.3, 0.7, 1],
-    [0.6, 1, 1, 0.6],
-  );
-  const aboutScale = useTransform(
-    aboutScroll.scrollYProgress,
-    [0, 0.5, 1],
-    [0.985, 1, 0.985],
-  );
+  // Directional reveal hook
+  const useDirectionalReveal = (ref: React.RefObject<HTMLElement>) => {
+    const [entered, setEntered] = useState(false);
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            // Always reveal when entering viewport from any direction
+            setEntered(true);
+          } else {
+            // Only hide if scrolling up and element has passed above the viewport
+            const rect = entry.boundingClientRect;
+            const fullyAbove = rect.bottom < 0;
+            const fullyBelow = rect.top > window.innerHeight;
+            if (scrollDir === "up" && fullyAbove) {
+              setEntered(false);
+            } else if (scrollDir === "down" && fullyBelow) {
+              // Reset when scrolling down and section has moved entirely below viewport
+              setEntered(false);
+            }
+          }
+        },
+        { threshold: 0.25 },
+      );
+      obs.observe(el);
+      return () => obs.disconnect();
+    }, [scrollDir, ref]);
+    return entered;
+  };
 
-  const servicesOpacity = useTransform(
-    servicesScroll.scrollYProgress,
-    [0, 0.3, 0.7, 1],
-    [0.6, 1, 1, 0.6],
-  );
-  const servicesScale = useTransform(
-    servicesScroll.scrollYProgress,
-    [0, 0.5, 1],
-    [0.985, 1, 0.985],
-  );
-
-  const portfolioOpacity = useTransform(
-    portfolioScroll.scrollYProgress,
-    [0, 0.3, 0.7, 1],
-    [0.6, 1, 1, 0.6],
-  );
-  const portfolioScale = useTransform(
-    portfolioScroll.scrollYProgress,
-    [0, 0.5, 1],
-    [0.985, 1, 0.985],
-  );
+  const aboutEntered = useDirectionalReveal(aboutRef);
+  const servicesEntered = useDirectionalReveal(servicesRef);
+  const portfolioEntered = useDirectionalReveal(portfolioRef);
+  const ctaEntered = useDirectionalReveal(ctaRef);
 
   const [activeFilter, setActiveFilter] = useState("All");
   const filteredProjects =
@@ -108,16 +105,59 @@ const Home = () => {
       ? portfolio
       : portfolio.filter((p) => p.category === activeFilter);
 
-  const ctaOpacity = useTransform(
-    ctaScroll.scrollYProgress,
-    [0, 0.3, 0.7, 1],
-    [0.65, 1, 1, 0.65],
-  );
-  const ctaScale = useTransform(
-    ctaScroll.scrollYProgress,
-    [0, 0.5, 1],
-    [0.985, 1, 0.985],
-  );
+  // Upward fade mapping config
+  const UP_FADE_START = 400; // px after center passes viewport center (guard)
+  const UP_FADE_DISTANCE = 550; // px range to fade 1 -> 0 when scrolling up
+
+  // Compute upward fade alpha per section (1 while scrolling down)
+  const useUpwardAlpha = (ref: React.RefObject<HTMLElement>) => {
+    const [alpha, setAlpha] = useState(1);
+    useEffect(() => {
+      const el = ref.current;
+      if (!el) return;
+      let ticking = false;
+      const update = () => {
+        ticking = false;
+        const rect = el.getBoundingClientRect();
+        const viewportCenter = window.innerHeight / 2;
+        const sectionCenter = rect.top + rect.height / 2;
+        // Only fade sections that are BELOW the viewport center while scrolling up
+        if (scrollDir === "up" && sectionCenter > viewportCenter) {
+          const delta = sectionCenter - viewportCenter - UP_FADE_START;
+          const t = Math.max(0, Math.min(1, delta / UP_FADE_DISTANCE));
+          setAlpha(1 - t);
+        } else {
+          if (alpha !== 1) setAlpha(1);
+        }
+      };
+      const onScroll = () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      update();
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      };
+    }, [ref, scrollDir]);
+    return alpha;
+  };
+
+  const aboutAlpha = useUpwardAlpha(aboutRef);
+  const servicesAlpha = useUpwardAlpha(servicesRef);
+  const portfolioAlpha = useUpwardAlpha(portfolioRef);
+  const ctaAlpha = useUpwardAlpha(ctaRef);
+
+  // Animation mapping per section
+  const sectionAnimate = (entered: boolean, alpha: number) => ({
+    opacity: entered ? (scrollDir === "down" ? 1 : alpha) : 0,
+    y: entered ? 0 : 40,
+    scale: 1,
+  });
 
   return (
     <main className="flex flex-col gap-32 pt-0 pb-8 md:gap-40 md:pb-10 lg:gap-48">
@@ -129,15 +169,16 @@ const Home = () => {
       {/* About Us */}
       <motion.section
         ref={aboutRef}
-        style={{ opacity: aboutOpacity, scale: aboutScale }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={sectionAnimate(aboutEntered, aboutAlpha)}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="w-full"
       >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <motion.div
             initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeIn" }}
             className="relative w-full overflow-hidden rounded-2xl border border-gray-200 bg-white p-0 shadow-xl"
           >
             {/* Decorative elements */}
@@ -147,14 +188,12 @@ const Home = () => {
             <div className="relative grid grid-cols-1 items-stretch gap-12 p-8 md:grid-cols-2 md:p-12">
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.5 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
                   className="mb-2 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600"
                 >
@@ -163,8 +202,7 @@ const Home = () => {
 
                 <motion.h3
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.5 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                   className="mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl"
                 >
@@ -173,8 +211,7 @@ const Home = () => {
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.5 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl"
                 >
@@ -189,8 +226,7 @@ const Home = () => {
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.5 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
                   className="mt-4 text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl"
                 >
@@ -203,8 +239,7 @@ const Home = () => {
                 {/* Stats */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, amount: 0.5 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.7 }}
                   className="mt-8 grid grid-cols-3 gap-4"
                 >
@@ -229,8 +264,7 @@ const Home = () => {
 
               <motion.div
                 initial={{ opacity: 0, x: 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="flex items-stretch justify-end"
               >
@@ -258,21 +292,21 @@ const Home = () => {
       {/* Our Best Services */}
       <motion.section
         ref={servicesRef}
-        style={{ opacity: servicesOpacity, scale: servicesScale }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={sectionAnimate(servicesEntered, servicesAlpha)}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="w-full"
       >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.5 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="mb-12 text-center"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-4 inline-block rounded-full bg-red-100 px-4 py-1 text-sm font-medium text-red-600"
             >
@@ -288,8 +322,7 @@ const Home = () => {
               <motion.div
                 key={s.title}
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
                 className="group relative overflow-hidden rounded-2xl bg-white shadow-lg"
@@ -336,21 +369,21 @@ const Home = () => {
       {/* Our Portfolio */}
       <motion.section
         ref={portfolioRef}
-        style={{ opacity: portfolioOpacity, scale: portfolioScale }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={sectionAnimate(portfolioEntered, portfolioAlpha)}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="w-full"
       >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.5 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="mb-8 text-center"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
               className="mb-4 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600"
             >
@@ -363,8 +396,7 @@ const Home = () => {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.5 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mb-8 flex flex-wrap items-center justify-center gap-3"
           >
@@ -372,8 +404,7 @@ const Home = () => {
               <motion.div
                 key={filter}
                 initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -401,8 +432,7 @@ const Home = () => {
                 <motion.div
                   key={p.category}
                   initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: false, amount: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.5 + i * 0.05 }}
                   whileHover={{ y: -8, transition: { duration: 0.3 } }}
                   className="group relative overflow-hidden rounded-2xl shadow-lg"
@@ -453,8 +483,7 @@ const Home = () => {
           ) : (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="mx-auto w-full max-w-[1100px]"
             >
@@ -492,14 +521,15 @@ const Home = () => {
       {/* CTA / Info box */}
       <motion.section
         ref={ctaRef}
-        style={{ opacity: ctaOpacity, scale: ctaScale }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={sectionAnimate(ctaEntered, ctaAlpha)}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="w-full"
       >
         <div className="mx-auto mb-8 max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
             className="relative flex min-h-[380px] flex-col items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 p-6 text-white shadow-2xl max-sm:min-h-[460px] sm:min-h-[420px] sm:p-8 md:min-h-[440px] md:p-10 lg:min-h-[420px] lg:p-12 xl:min-h-[400px] xl:p-14 2xl:min-h-[380px] 2xl:p-16"
           >
@@ -533,16 +563,14 @@ const Home = () => {
             <div className="relative flex flex-col items-center justify-center gap-10 text-center">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.5 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="flex flex-1 items-center text-center text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl"
               >
                 <div>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, amount: 0.5 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="mb-4 text-sm font-medium tracking-wider text-blue-100 uppercase"
                   >
@@ -557,8 +585,7 @@ const Home = () => {
 
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="flex-shrink-0 self-center"
               >
@@ -605,15 +632,13 @@ const Home = () => {
             {/* Corner accents */}
             <motion.div
               initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: false, amount: 0.5 }}
+              animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.5 }}
               className="absolute top-4 left-4 h-12 w-12 border-t-2 border-l-2 border-white/30"
             />
             <motion.div
               initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: false, amount: 0.5 }}
+              animate={{ scale: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
               className="absolute right-4 bottom-4 h-12 w-12 border-r-2 border-b-2 border-white/30"
             />

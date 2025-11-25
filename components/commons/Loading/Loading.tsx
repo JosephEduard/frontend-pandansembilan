@@ -41,70 +41,45 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
           </div>
 
           <div className="relative z-10 w-full max-w-md px-8">
-            {/* Logo Animation */}
+            {/* Logo Animation (Company Logo) */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="mb-12 text-center"
             >
-              {/* Construction Icon */}
               <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
+                className="relative mx-auto mb-6 h-28 w-28 bg-transparent"
+                animate={{ rotate: [0, 2, -2, 0] }}
                 transition={{
-                  duration: 3,
+                  duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="mx-auto mb-6 h-24 w-24"
               >
-                <svg
-                  viewBox="0 0 100 100"
-                  className="h-full w-full text-blue-500"
-                >
-                  <motion.path
-                    d="M50 10 L80 30 L80 70 L50 90 L20 70 L20 30 Z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                {/* Logo image */}
+                <motion.img
+                  src="/images/general/logo2.svg"
+                  alt="CV Pandan Sembilan Logo"
+                  className="absolute inset-0 h-full w-full bg-transparent object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.4)]"
+                  initial={{ filter: "blur(4px)", opacity: 0 }}
+                  animate={{ filter: "blur(0px)", opacity: 1 }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                />
+                {/* Shimmer sweep */}
+                <motion.div className="absolute inset-0 overflow-hidden rounded-full bg-transparent">
+                  <motion.div
+                    className="absolute inset-y-0 left-[-60%] w-[50%] bg-gradient-to-r from-transparent via-blue-500/20 to-transparent"
+                    animate={{ x: ["0%", "180%"] }}
+                    transition={{
+                      duration: 2.8,
+                      repeat: Infinity,
+                      ease: "linear",
+                      delay: 0.8,
+                    }}
                   />
-                  <motion.circle
-                    cx="50"
-                    cy="50"
-                    r="8"
-                    fill="currentColor"
-                    animate={{ scale: [1, 1.3, 1] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                  {/* Inner lines */}
-                  <motion.line
-                    x1="50"
-                    y1="30"
-                    x2="50"
-                    y2="70"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1, delay: 0.5, repeat: Infinity }}
-                  />
-                  <motion.line
-                    x1="30"
-                    y1="50"
-                    x2="70"
-                    y2="50"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1, delay: 0.7, repeat: Infinity }}
-                  />
-                </svg>
+                </motion.div>
               </motion.div>
-
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -113,49 +88,22 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
               >
                 CV PANDAN <span className="text-blue-500">SEMBILAN</span>
               </motion.h2>
-
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-sm text-gray-400"
+                className="text-sm tracking-wide text-gray-400"
               >
-                Building Your Dreams...
+                Building your experience...
               </motion.p>
             </motion.div>
 
-            {/* Progress Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
-              className="relative"
-            >
-              <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${Math.min(progress, 100)}%` }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                />
-              </div>
-
-              {/* Percentage */}
-              <motion.div
-                className="mt-4 text-center font-mono text-lg text-blue-500"
-                animate={{ opacity: [1, 0.6, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                {Math.floor(progress)}%
-              </motion.div>
-            </motion.div>
-
-            {/* Loading Status Text */}
+            {/* Progress Status */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
-              className="mt-8 text-center text-sm text-gray-500"
+              className="mt-4 text-center text-sm text-gray-400"
             >
               {progress < 25 && (
                 <motion.span
@@ -203,6 +151,35 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                 </motion.span>
               )}
             </motion.div>
+
+            {/* Progress Line Bar */}
+            <div className="mt-3">
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/15">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{
+                    width: `${Math.min(Math.max(progress, 0), 100)}%`,
+                  }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 20,
+                    mass: 0.4,
+                  }}
+                  className="h-full rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-blue-500"
+                  aria-label="Loading progress"
+                  role="progressbar"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={Math.round(
+                    Math.min(Math.max(progress, 0), 100),
+                  )}
+                />
+              </div>
+              <div className="mt-1 text-right text-xs text-gray-500">
+                {Math.round(Math.min(Math.max(progress, 0), 100))}%
+              </div>
+            </div>
 
             {/* Floating Dots */}
             <div className="pointer-events-none absolute inset-0 overflow-hidden">

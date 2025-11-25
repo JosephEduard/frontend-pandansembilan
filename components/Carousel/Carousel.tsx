@@ -27,8 +27,7 @@ const slides: Slide[] = [
   {
     title: "Build With Confidence",
     subtitle: "Solusi konstruksi lengkap dan profesional",
-    image:
-      "https://images.unsplash.com/photo-1493863641987-4b4e4891fb89?auto=format&fit=crop&w=1600&q=60",
+    image: "/images/general/construction.jpg",
     overlay: "bg-gradient-to-r from-black/55 via-black/35 to-transparent",
   },
 ];
@@ -73,19 +72,77 @@ export default function Carousel(
             {s.overlay && <div className={`absolute inset-0 ${s.overlay}`} />}
             {/* Dark layer for consistent contrast */}
             <div className="absolute inset-0 bg-black/30" />
-            {/* Centered content (reuse aligned width) */}
+            {/* Centered content (responsive alignment) */}
             <div className="relative z-10 w-full px-4">
               <div className="mx-auto max-w-[1450px]">
-                <div className="max-w-3xl text-white">
-                  <h2 className="text-2xl font-bold drop-shadow-md sm:text-3xl md:text-5xl lg:text-6xl">
-                    {s.title}
-                  </h2>
-                  {s.subtitle && (
-                    <p className="mt-4 text-sm font-medium opacity-95 sm:text-base md:text-lg lg:text-xl">
-                      {s.subtitle}
-                    </p>
-                  )}
-                  <div className="mt-8 flex gap-4">
+                <div className="mx-auto max-w-3xl text-white sm:p-20 sm:text-left md:p-20">
+                  {/* Mobile: arrows flanking text; Desktop: normal stack */}
+                  <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:block">
+                    {/* Left arrow (mobile only) */}
+                    <div className="flex justify-center sm:hidden">
+                      <button
+                        aria-label="Previous slide"
+                        onClick={goPrev}
+                        className="p-3 text-white transition"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+
+                    {/* Text block */}
+                    <div className="text-center sm:text-left">
+                      <h2 className="text-xl font-bold drop-shadow-md max-sm:leading-snug sm:text-3xl md:text-5xl lg:text-6xl">
+                        {s.title}
+                      </h2>
+                      {s.subtitle && (
+                        <p className="mt-3 text-xs font-medium opacity-95 max-sm:leading-relaxed sm:mt-4 sm:text-base md:text-lg lg:text-xl">
+                          {s.subtitle}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Right arrow (mobile only) */}
+                    <div className="flex justify-center sm:hidden">
+                      <button
+                        aria-label="Next slide"
+                        onClick={goNext}
+                        className="p-3 text-white transition"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Desktop/tablet inline buttons */}
+                  <div className="mt-8 hidden gap-4 sm:flex">
                     <button
                       onClick={goPrev}
                       className="rounded-full bg-white/90 px-6 py-3 text-sm font-semibold text-gray-800 shadow-lg backdrop-blur-sm transition hover:bg-white"
