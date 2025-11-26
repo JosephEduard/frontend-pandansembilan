@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { Lato } from "next/font/google";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 interface Slide {
   title: string;
@@ -18,14 +24,14 @@ const slides: Slide[] = [
     overlay: "bg-gradient-to-r from-black/60 via-black/40 to-transparent",
   },
   {
-    title: "Engineering Excellence",
+    title: "Excellent Engineering",
     subtitle: "Struktur kokoh, desain modern, hasil memuaskan",
     image:
       "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=1600&q=60",
     overlay: "bg-gradient-to-r from-black/50 via-black/30 to-transparent",
   },
   {
-    title: "Build With Confidence",
+    title: "Build Confidence",
     subtitle: "Solusi konstruksi lengkap dan profesional",
     image: "/images/general/construction.jpg",
     overlay: "bg-gradient-to-r from-black/55 via-black/35 to-transparent",
@@ -104,12 +110,18 @@ export default function Carousel(
                     </div>
 
                     {/* Text block */}
-                    <div className="text-center sm:text-left">
-                      <h2 className="text-xl font-bold drop-shadow-md max-sm:leading-snug sm:text-3xl md:text-5xl lg:text-6xl">
+                    <div
+                      className={`${lato.className} text-center sm:text-left`}
+                    >
+                      <h2
+                        className={`${lato.className} text-xl font-bold drop-shadow-md max-sm:leading-snug sm:text-3xl md:text-5xl lg:text-6xl`}
+                      >
                         {s.title}
                       </h2>
                       {s.subtitle && (
-                        <p className="mt-3 text-xs font-medium opacity-95 max-sm:leading-relaxed sm:mt-4 sm:text-base md:text-lg lg:text-xl">
+                        <p
+                          className={`${lato.className} mt-3 text-xs font-medium opacity-95 max-sm:leading-relaxed sm:mt-4 sm:text-base md:text-lg lg:text-xl`}
+                        >
                           {s.subtitle}
                         </p>
                       )}
@@ -145,13 +157,13 @@ export default function Carousel(
                   <div className="mt-8 hidden gap-4 sm:flex">
                     <button
                       onClick={goPrev}
-                      className="rounded-full bg-white/90 px-6 py-3 text-sm font-semibold text-gray-800 shadow-lg backdrop-blur-sm transition hover:bg-white"
+                      className={`${lato.className} rounded-full bg-white/90 px-6 py-3 text-sm font-semibold text-gray-800 shadow-lg backdrop-blur-sm transition hover:bg-white`}
                     >
                       Prev
                     </button>
                     <button
                       onClick={goNext}
-                      className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-500"
+                      className={`${lato.className} rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-500`}
                     >
                       Next
                     </button>

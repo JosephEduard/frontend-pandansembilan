@@ -1,4 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { Lato } from "next/font/google";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 interface LoadingProps {
   isLoading: boolean;
@@ -84,7 +90,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
-                className="mb-2 text-3xl font-bold text-white"
+                className={`${lato.className} mb-2 text-3xl font-bold text-white`}
               >
                 CV PANDAN <span className="text-blue-500">SEMBILAN</span>
               </motion.h2>
@@ -92,7 +98,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-sm tracking-wide text-gray-400"
+                className={`${lato.className} text-sm tracking-wide text-gray-400`}
               >
                 Building your experience...
               </motion.p>

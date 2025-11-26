@@ -8,6 +8,12 @@ import {
 import { HiPhone, HiLocationMarker } from "react-icons/hi";
 import NextLink from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Lato } from "next/font/google";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 export default function Topbar() {
   const [hidden, setHidden] = useState(false);
@@ -78,8 +84,8 @@ export default function Topbar() {
               </div>
 
               <div className="flex-1">
-                <div className="w-full text-center">
-                  <span className="text-sm font-medium">
+                <div className={`${lato.className} w-full text-center`}>
+                  <span className={`${lato.className} text-sm font-medium`}>
                     Building Constructions - Supplier - ETC
                   </span>
                 </div>
@@ -87,14 +93,18 @@ export default function Topbar() {
 
               <div className="mr-37 hidden items-center justify-end gap-6 lg:mr-0 lg:flex lg:w-auto xl:mr-15">
                 <div className="flex items-center gap-2">
-                  <HiPhone className="text-lg" />
-                  <span className="text-sm whitespace-nowrap">
+                  <HiPhone className={`${lato.className} text-lg`} />
+                  <span
+                    className={`${lato.className} text-sm whitespace-nowrap`}
+                  >
                     0898-1234-1231
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <HiLocationMarker className="text-lg" />
-                  <span className="text-sm whitespace-nowrap">
+                  <HiLocationMarker className={`${lato.className} text-lg`} />
+                  <span
+                    className={`${lato.className} text-sm whitespace-nowrap`}
+                  >
                     Palembang - Indonesia
                   </span>
                 </div>

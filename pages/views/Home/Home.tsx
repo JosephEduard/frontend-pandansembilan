@@ -1,7 +1,14 @@
 ﻿import Carousel from "@/components/Carousel/Carousel";
 import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Lato } from "next/font/google";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 const services = [
   {
@@ -195,25 +202,25 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="mb-2 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600"
+                  className={`${lato.className} mb-2 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600`}
                 >
-                  Who We Are
+                  CV Pandan Sembilan
                 </motion.div>
 
                 <motion.h3
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl"
+                  className={`${lato.className} mb-0 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text pb-6 text-2xl font-bold text-transparent sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl`}
                 >
-                  About Us
+                  Tentang Kami
                 </motion.h3>
 
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl"
+                  className={`${lato.className} text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl`}
                 >
                   CV Pandan Sembilan merupakan Perusahaan konstruksi Swasta
                   berskala Nasional yang berdiri pada Desember 2021 oleh Founder
@@ -228,7 +235,7 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
-                  className="mt-4 text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl"
+                  className={`${lato.className} mt-4 text-justify text-base leading-relaxed text-gray-700 sm:text-lg md:text-left md:text-xl lg:text-2xl`}
                 >
                   Pada dasarnya CV Pandan Sembilan dibangun untuk memenuhi
                   kebutuhan konsumen serta meningkatkan struktur pembangunan
@@ -241,22 +248,28 @@ const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.7 }}
-                  className="mt-8 grid grid-cols-3 gap-4"
+                  className={`${lato.className} mt-8 grid grid-cols-3 gap-4`}
                 >
                   {[
-                    { number: "100+", label: "Projects" },
-                    { number: "50+", label: "Clients" },
-                    { number: "3+", label: "Years" },
+                    { number: "100+", label: "Projek" },
+                    { number: "50+", label: "Klien" },
+                    { number: "3+", label: "Tahun" },
                   ].map((stat, i) => (
                     <motion.div
                       key={i}
                       whileHover={{ scale: 1.05 }}
                       className="rounded-lg bg-gradient-to-br from-blue-50 to-gray-50 p-4 text-center"
                     >
-                      <div className="text-2xl font-bold text-blue-600 md:text-3xl">
+                      <div
+                        className={`${lato.className} text-2xl font-bold text-blue-600 md:text-3xl`}
+                      >
                         {stat.number}
                       </div>
-                      <div className="text-sm text-gray-600">{stat.label}</div>
+                      <div
+                        className={`${lato.className} text-sm text-gray-600`}
+                      >
+                        {stat.label}
+                      </div>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -308,12 +321,14 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-4 inline-block rounded-full bg-red-100 px-4 py-1 text-sm font-medium text-red-600"
+              className={`${lato.className} mb-4 inline-block rounded-full bg-red-100 px-4 py-1 text-sm font-medium text-red-600`}
             >
-              What We Offer
+              Tawaran Kami
             </motion.div>
-            <h3 className="bg-gradient-to-r from-gray-900 via-red-700 to-gray-900 bg-clip-text text-5xl font-bold text-transparent">
-              Our Best Services
+            <h3
+              className={`${lato.className} bg-gradient-to-r from-gray-900 via-red-700 to-gray-900 bg-clip-text text-5xl font-bold text-transparent`}
+            >
+              Layanan Terbaik Kami
             </h3>
           </motion.div>
 
@@ -343,7 +358,9 @@ const Home = () => {
                   whileHover={{ height: "100%" }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="flex h-full flex-col justify-end rounded-b-2xl bg-red-600 py-3 text-center text-sm font-semibold text-white sm:py-4 sm:text-base md:text-lg">
+                  <div
+                    className={`${lato.className} flex h-full flex-col justify-end rounded-b-2xl bg-red-600 py-3 text-center text-sm font-semibold text-white sm:py-4 sm:text-base md:text-lg`}
+                  >
                     <motion.span
                       initial={{ opacity: 1 }}
                       whileHover={{ opacity: 0 }}
@@ -385,12 +402,14 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mb-4 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600"
+              className={`${lato.className} mb-4 inline-block rounded-full bg-blue-100 px-4 py-1 text-sm font-medium text-blue-600`}
             >
-              Our Work
+              Pekerjaan Kami
             </motion.div>
-            <h3 className="bg-gradient-to-r from-gray-900 via-blue-700 to-gray-900 bg-clip-text text-5xl font-bold text-transparent">
-              Our Portfolio
+            <h3
+              className={`${lato.className} bg-gradient-to-r from-gray-900 via-blue-700 to-gray-900 bg-clip-text text-5xl font-bold text-transparent`}
+            >
+              Portofolio Kami
             </h3>
           </motion.div>
 
@@ -398,7 +417,7 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-8 flex flex-wrap items-center justify-center gap-3"
+            className={`${lato.className} mb-8 flex flex-wrap items-center justify-center gap-3`}
           >
             {["All", "Project 1", "Project 2", "Project 3"].map((filter, i) => (
               <motion.div
@@ -497,18 +516,22 @@ const Home = () => {
                     style={{ backgroundImage: `url('${p.img}')` }}
                   />
                   <div className="space-y-4 px-6 py-8 sm:px-8 md:px-10">
-                    <h4 className="text-2xl font-bold text-blue-700 sm:text-3xl md:text-4xl">
+                    <h4
+                      className={`${lato.className} text-2xl font-bold text-blue-700 sm:text-3xl md:text-4xl`}
+                    >
                       {p.title}
                     </h4>
-                    <p className="text-base leading-relaxed text-gray-700 sm:text-lg md:text-xl">
+                    <p
+                      className={`${lato.className} text-base leading-relaxed text-gray-700 sm:text-lg md:text-xl`}
+                    >
                       {p.description}
                     </p>
                     <Button
                       radius="full"
                       size="md"
-                      className="bg-blue-600 text-white shadow-lg hover:bg-blue-500"
+                      className={`${lato.className} bg-blue-600 text-white shadow-lg hover:bg-blue-500`}
                     >
-                      Contact For This Project
+                      Hubungi Kami Untuk Projek Ini
                     </Button>
                   </div>
                 </div>
@@ -565,16 +588,16 @@ const Home = () => {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex flex-1 items-center text-center text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl"
+                className={`${lato.className} flex flex-1 items-center text-center text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-3xl`}
               >
                 <div>
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
-                    className="mb-4 text-sm font-medium tracking-wider text-blue-100 uppercase"
+                    className={`${lato.className} mb-4 text-sm font-medium tracking-wider text-blue-100 uppercase`}
                   >
-                    Ready to Build?
+                    Siap Membangun?
                   </motion.div>
                   CV Pandan Sembilan menyediakan jasa perencanaan pembangunan,
                   renovasi dan pemeliharaan gedung, perumahan, vila, kost,
@@ -593,13 +616,17 @@ const Home = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Button className="group relative overflow-hidden rounded-full bg-white px-8 py-6 font-bold text-blue-600 shadow-xl transition-all hover:shadow-2xl sm:px-10 sm:py-7 md:px-10 md:py-7 lg:px-12 lg:py-8 xl:px-14 xl:py-9">
+                  <Button
+                    as={Link}
+                    href="/contact"
+                    className={`${lato.className} group relative overflow-hidden rounded-full bg-white px-8 py-6 font-bold text-blue-600 shadow-xl transition-all hover:shadow-2xl sm:px-10 sm:py-7 md:px-10 md:py-7 lg:px-12 lg:py-8 xl:px-14 xl:py-9`}
+                  >
                     <motion.span
-                      className="relative z-10 flex items-center gap-2"
+                      className={`${lato.className} relative z-10 flex items-center gap-2`}
                       whileHover={{ x: 5 }}
                       transition={{ duration: 0.3 }}
                     >
-                      Contact Us
+                      Hubungi Kami
                       <motion.svg
                         className="h-5 w-5"
                         fill="none"

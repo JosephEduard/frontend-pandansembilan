@@ -20,6 +20,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Spacer } from "@heroui/react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Lato } from "next/font/google";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 const Chevron = (props: any) => (
   <svg
@@ -77,7 +83,9 @@ const LandingPageLayoutNavbar = () => {
       isBordered={!transparent}
       isBlurred={false}
     >
-      <div className="flex w-full items-center justify-between sm:ml-0 sm:justify-start md:justify-between">
+      <div
+        className={`${cn(lato.className)} flex w-full items-center justify-between sm:ml-0 sm:justify-start md:justify-between`}
+      >
         <NavbarBrand
           as={NextLink}
           href="/"
@@ -100,7 +108,7 @@ const LandingPageLayoutNavbar = () => {
         </NavbarBrand>
         <Spacer x={32} className="lg:x={0} lg:hidden" />
         <NavbarContent
-          className="hidden flex-1 justify-center sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-15"
+          className={`${cn(lato.className)} hidden flex-1 justify-center font-bold sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-15`}
           justify="center"
         >
           {NAV_ITEMS.map((item, index) => {
@@ -112,7 +120,7 @@ const LandingPageLayoutNavbar = () => {
                       <Button
                         disableRipple
                         className={cn(
-                          "text-default-700 hover:text-primary-600 bg-transparent p-0 text-base font-medium data-[hover=true]:bg-transparent",
+                          `${lato.className} hover:text-primary-700 bg-transparent p-0 text-base font-bold data-[hover=true]:bg-transparent`,
                           {
                             "text-danger-500 font-bold":
                               router.pathname === item.href,
@@ -134,30 +142,30 @@ const LandingPageLayoutNavbar = () => {
                     }}
                   >
                     <DropdownItem
-                      description="Learn more about us"
+                      description="Pelajari lebih lanjut tentang kami"
                       key="Company Profile"
                       onClick={() => router.push("/company-profile")}
-                      className="transition-all hover:translate-x-1"
+                      className={`${lato.className} transition-all hover:translate-x-1`}
                     >
-                      Company Profile
+                      Profil Perusahaan
                     </DropdownItem>
                     <DropdownItem
-                      description="See our goals"
+                      description="Lihat tujuan kami"
                       key="vision-mission"
                       onClick={() => router.push("/company-profile#vision")}
-                      className="transition-all hover:translate-x-1"
+                      className={`${lato.className} transition-all hover:translate-x-1`}
                     >
-                      Vision & Mission
+                      Visi dan Misi
                     </DropdownItem>
                     <DropdownItem
-                      description="Our Certifications"
+                      description="Sertifikasi dan legalitas kami"
                       key="certifications"
                       onClick={() =>
                         router.push("/company-profile#certifications")
                       }
-                      className="transition-all hover:translate-x-1"
+                      className={`${lato.className} transition-all hover:translate-x-1`}
                     >
-                      Legality
+                      Legalitas
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
@@ -170,7 +178,7 @@ const LandingPageLayoutNavbar = () => {
                 as={NextLink}
                 href={item.href}
                 className={cn(
-                  "text-default-700 hover:text-primary-600 font-medium",
+                  `${lato.className} hover:text-primary-600 font-bold`,
                   {
                     "text-danger-500 font-bold": router.pathname === item.href,
                   },
@@ -196,7 +204,7 @@ const LandingPageLayoutNavbar = () => {
                   <button
                     onClick={() => setMobileCompanyOpen((s) => !s)}
                     className={cn(
-                      "text-default-700 hover:text-primary-600 w-full text-left text-base font-medium",
+                      `${lato.className} font-bold-700 hover:text-primary-600 w-full text-left text-base font-medium`,
                       {
                         "text-danger-500 font-bold":
                           router.pathname === item.href,
@@ -228,10 +236,10 @@ const LandingPageLayoutNavbar = () => {
                             transition={{ delay: 0.1 }}
                           >
                             <NextLink
-                              href="/about"
-                              className="text-default-700 hover:text-primary-600 block w-full py-2 pl-6 text-base font-medium transition-all hover:translate-x-1"
+                              href="/company-profile"
+                              className={`${lato.className} hover:text-primary-600 block w-full py-2 pl-6 text-base font-bold transition-all hover:translate-x-1`}
                             >
-                              About
+                              Profil Perusahaan
                             </NextLink>
                           </motion.div>
                         </NavbarMenuItem>
@@ -242,10 +250,10 @@ const LandingPageLayoutNavbar = () => {
                             transition={{ delay: 0.15 }}
                           >
                             <NextLink
-                              href="/team"
-                              className="text-default-700 hover:text-primary-600 block w-full py-2 pl-6 text-base font-medium transition-all hover:translate-x-1"
+                              href="/company-profile#vision"
+                              className={`${lato.className} hover:text-primary-600 block w-full py-2 pl-6 text-base font-bold transition-all hover:translate-x-1`}
                             >
-                              Team
+                              Visi dan Misi
                             </NextLink>
                           </motion.div>
                         </NavbarMenuItem>
@@ -256,10 +264,10 @@ const LandingPageLayoutNavbar = () => {
                             transition={{ delay: 0.2 }}
                           >
                             <NextLink
-                              href="/careers"
-                              className="text-default-700 hover:text-primary-600 block w-full py-2 pl-6 text-base font-medium transition-all hover:translate-x-1"
+                              href="/company-profile#certifications"
+                              className={`${lato.className} hover:text-primary-700 block w-full py-2 pl-6 text-base font-bold transition-all hover:translate-x-1`}
                             >
-                              Careers
+                              Legalitas
                             </NextLink>
                           </motion.div>
                         </NavbarMenuItem>
@@ -276,7 +284,7 @@ const LandingPageLayoutNavbar = () => {
               <NextLink
                 href={item.href}
                 className={cn(
-                  "text-default-700 hover:text-primary-600 w-full text-base font-medium",
+                  `${lato.className} hover:text-primary-600 w-full text-base font-bold`,
                   {
                     "text-danger-500 font-bold": router.pathname === item.href,
                   },

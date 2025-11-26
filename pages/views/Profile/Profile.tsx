@@ -9,6 +9,13 @@ import {
   Shield,
   Building2,
 } from "lucide-react";
+import { Lato } from "next/font/google";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
+
 const Profile = () => {
   return (
     <div className="min-h-screen bg-white">
@@ -16,8 +23,10 @@ const Profile = () => {
       <section id="profile" className="relative px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-gray-800 md:text-5xl">
-              Company Profile
+            <h2
+              className={`${lato.className} mb-4 text-4xl font-bold text-gray-800 md:text-5xl`}
+            >
+              Profil Perusahaan
             </h2>
             <div className="mx-auto h-1 w-20 rounded-full bg-blue-600" />
           </div>
@@ -27,15 +36,42 @@ const Profile = () => {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
                 <Users className="h-7 w-7 text-white" />
               </div>
-              <h3 className="mb-4 text-2xl font-bold text-gray-800">
-                Who We Are
+              <h3
+                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
+              >
+                Identitas Perusahaan
               </h3>
-              <p className="leading-relaxed text-gray-600">
-                CV Pandan Sembilan is a leading construction company
-                specializing in building constructions and supplier services.
-                Established in Palembang, Indonesia, we have built a reputation
-                for delivering high-quality construction projects with
-                excellence and integrity.
+              <p
+                className={`${lato.className} text-justify leading-relaxed text-gray-600`}
+              >
+                CV Pandan Sembilan adalah perusahaan konstruksi yang berkembang
+                pesat dan berkomitmen menghadirkan solusi pembangunan yang
+                berkualitas tinggi, efisien, dan berstandar keselamatan yang
+                baik. Sejak awal berdirinya, perusahaan ini dibangun dengan
+                tujuan menjadi mitra tepercaya dalam berbagai proyek konstruksi,
+                baik untuk sektor privat maupun publik. Dengan kemampuan yang
+                mencakup perencanaan, pembangunan, renovasi, serta pemeliharaan
+                berbagai jenis bangunan, CV Pandan Sembilan melayani proyek
+                seperti pembangunan gedung, perumahan, villa, rumah kos,
+                fasilitas pendidikan, serta pekerjaan
+                Mekanikal–Elektrikal–Plumbing (MEP), instalasi ACP (Aluminium
+                Composite Panel), hingga pekerjaan jalan dan infrastruktur
+                pendukung lainnya. Keberagaman layanan ini menunjukkan kesiapan
+                perusahaan dalam memberikan solusi konstruksi menyeluruh sesuai
+                kebutuhan klien. Berbekal tenaga profesional yang kompeten dan
+                manajemen proyek yang terstruktur, CV Pandan Sembilan selalu
+                memastikan setiap proyek berjalan tepat waktu, sesuai standar
+                mutu, dan memenuhi regulasi keselamatan yang berlaku. Komitmen
+                ini menjadi fondasi utama dalam membangun kepercayaan serta
+                hubungan jangka panjang dengan klien dan mitra bisnis. Didukung
+                visi untuk memperkuat kualitas pembangunan nasional, CV Pandan
+                Sembilan terus melakukan pengembangan kapasitas, penerapan
+                teknologi konstruksi modern, dan peningkatan kualitas sumber
+                daya manusia. Dengan reputasi yang terus meningkat dan
+                portofolio proyek yang berkembang, perusahaan ini siap membuka
+                peluang kolaborasi dengan investor yang ingin berkontribusi
+                dalam pembangunan berkelanjutan dan menghadirkan infrastruktur
+                berkualitas di Indonesia.
               </p>
             </div>
 
@@ -43,10 +79,12 @@ const Profile = () => {
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
                 <TrendingUp className="h-7 w-7 text-white" />
               </div>
-              <h3 className="mb-4 text-2xl font-bold text-gray-800">
-                Our Impact
+              <h3
+                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
+              >
+                Dampak Kami
               </h3>
-              <p className="leading-relaxed text-gray-600">
+              <p className={`${lato.className} leading-relaxed text-gray-600`}>
                 With numerous successful projects across Palembang and South
                 Sumatra, we have delivered transformative construction solutions
                 that meet the highest standards. Our dedicated team works
@@ -68,10 +106,14 @@ const Profile = () => {
                 key={index}
                 className="rounded-lg border border-blue-100 bg-blue-50 p-6 text-center transition-all duration-300 hover:border-blue-300"
               >
-                <div className="mb-2 text-4xl font-bold text-blue-600 md:text-5xl">
+                <div
+                  className={`${lato.className} mb-2 text-4xl font-bold text-blue-600 md:text-5xl`}
+                >
                   {stat.number}
                 </div>
-                <div className="text-sm font-medium text-gray-600">
+                <div
+                  className={`${lato.className} text-sm font-medium text-gray-600`}
+                >
                   {stat.label}
                 </div>
               </div>
@@ -84,8 +126,10 @@ const Profile = () => {
       <section id="vision" className="relative bg-gray-50 px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-gray-800 md:text-5xl">
-              Vision & Mission
+            <h2
+              className={`${lato.className} mb-4 text-4xl font-bold text-gray-800 md:text-5xl`}
+            >
+              Visi & Misi
             </h2>
             <div className="mx-auto h-1 w-20 rounded-full bg-blue-600" />
           </div>
@@ -95,14 +139,19 @@ const Profile = () => {
               <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-blue-600">
                 <Eye className="h-9 w-9 text-white" />
               </div>
-              <h3 className="mb-6 text-3xl font-bold text-gray-800">
-                Our Vision
+              <h3
+                className={`${lato.className} mb-6 text-3xl font-bold text-gray-800`}
+              >
+                Visi
               </h3>
-              <p className="text-lg leading-relaxed text-gray-600">
-                To become the most trusted and reliable construction company in
-                South Sumatra, recognized for our commitment to quality,
-                innovation, and sustainable building practices that create
-                lasting value for our clients and community.
+              <p
+                className={`${lato.className} text-justify text-lg leading-relaxed text-gray-600`}
+              >
+                Menjadi Perusahaan Konstruksi terbaik di Indonesia yang
+                menekankan pada Perkembangan Kepuasan konsumen & kesejahteraan
+                para pemangku kepentingan melalui tata kelola Perusahaan yang
+                Efektif, Efesiensi & Profesional dibidang Konstruksi serta
+                tanggung jawab menjaga kualitas kinerja.
               </p>
             </div>
 
@@ -110,23 +159,37 @@ const Profile = () => {
               <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-blue-600">
                 <Target className="h-9 w-9 text-white" />
               </div>
-              <h3 className="mb-6 text-3xl font-bold text-gray-800">
-                Our Mission
+              <h3
+                className={`${lato.className} mb-6 text-3xl font-bold text-gray-800`}
+              >
+                Misi
               </h3>
-              <p className="text-lg leading-relaxed text-gray-600">
-                To deliver exceptional construction services and quality
-                building materials through professional expertise, integrity,
-                and dedication to excellence. We strive to exceed client
-                expectations while maintaining the highest standards of safety
-                and quality.
-              </p>
+              <ol className="list-decimal pl-6 text-justify text-lg leading-relaxed text-gray-600">
+                <li>
+                  Menyeragamkan pandangan antar pihak manajemen dengan karyawan
+                  dalam mempertahankan nilai perusahaan guna mencapai tujuan
+                  bersama.
+                </li>
+                <li>
+                  Memaksimalkan aspek manajemen operasional, pemasaran, resiko,
+                  sumber daya manusia, keuangan, teknologi, informasi yang
+                  efektif & efesiensi.
+                </li>
+                <li>
+                  Menjalin kerjasama dengan berbagai pihak dibidang kontruksi
+                  berskala nasional maupun internasional guna meningkatkan
+                  kompetisi, sekaligus membuka lapangan pekerjaan.
+                </li>
+              </ol>
             </div>
           </div>
 
           {/* Core Values */}
           <div className="rounded-lg border border-gray-200 bg-white p-10 shadow-md">
-            <h3 className="mb-8 text-center text-3xl font-bold text-gray-800">
-              Our Core Values
+            <h3
+              className={`${lato.className} mb-8 text-center text-3xl font-bold text-gray-800`}
+            >
+              Nilai Inti Kami
             </h3>
             <div className="grid gap-6 md:grid-cols-3">
               {[
@@ -147,10 +210,14 @@ const Profile = () => {
                   key={index}
                   className="rounded-lg border border-blue-100 bg-blue-50 p-6 text-center transition-all duration-300 hover:border-blue-300"
                 >
-                  <h4 className="mb-3 text-xl font-semibold text-blue-600">
+                  <h4
+                    className={`${lato.className} mb-3 text-xl font-semibold text-blue-600`}
+                  >
                     {value.title}
                   </h4>
-                  <p className="text-gray-600">{value.desc}</p>
+                  <p className={`${lato.className} text-gray-600`}>
+                    {value.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -162,8 +229,10 @@ const Profile = () => {
       <section id="certifications" className="relative px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-gray-800 md:text-5xl">
-              Legal Information
+            <h2
+              className={`${lato.className} mb-4 text-4xl font-bold text-gray-800 md:text-5xl`}
+            >
+              Informasi Legal
             </h2>
             <div className="mx-auto h-1 w-20 rounded-full bg-blue-600" />
           </div>
@@ -171,32 +240,44 @@ const Profile = () => {
           <div className="grid gap-8 md:grid-cols-2">
             <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
-                <FileCheck className="h-7 w-7 text-white" />
+                <FileCheck className={`${lato.className} h-7 w-7 text-white`} />
               </div>
-              <h3 className="mb-4 text-2xl font-bold text-gray-800">
+              <h3
+                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
+              >
                 Company Registration
               </h3>
               <div className="space-y-3 text-gray-600">
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Legal Name:
                   </span>{" "}
                   CV Pandan Sembilan
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Registration Number:
                   </span>{" "}
                   [Your Registration Number]
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Establishment Date:
                   </span>{" "}
                   [Your Date]
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">Location:</span>{" "}
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
+                    Location:
+                  </span>{" "}
                   Palembang, South Sumatra, Indonesia
                 </p>
               </div>
@@ -204,32 +285,42 @@ const Profile = () => {
 
             <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
-                <Shield className="h-7 w-7 text-white" />
+                <Shield className={`${lato.className} h-7 w-7 text-white`} />
               </div>
-              <h3 className="mb-4 text-2xl font-bold text-gray-800">
+              <h3
+                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
+              >
                 Certifications & Compliance
               </h3>
               <div className="space-y-3 text-gray-600">
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Business License:
                   </span>{" "}
                   Active & Valid
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Construction Permit:
                   </span>{" "}
                   Certified
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Safety Standards:
                   </span>{" "}
                   Compliant
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Environmental Compliance:
                   </span>{" "}
                   Certified
@@ -239,24 +330,34 @@ const Profile = () => {
 
             <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
-                <Award className="h-7 w-7 text-white" />
+                <Award className={`${lato.className} h-7 w-7 text-white`} />
               </div>
-              <h3 className="mb-4 text-2xl font-bold text-gray-800">
+              <h3
+                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
+              >
                 Tax Information
               </h3>
               <div className="space-y-3 text-gray-600">
                 <p>
-                  <span className="font-semibold text-blue-600">NPWP:</span>{" "}
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
+                    NPWP:
+                  </span>{" "}
                   [Your Tax Number]
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     Tax Status:
                   </span>{" "}
                   Registered & Compliant
                 </p>
                 <p>
-                  <span className="font-semibold text-blue-600">
+                  <span
+                    className={`${lato.className} font-semibold text-blue-600`}
+                  >
                     VAT Registered:
                   </span>{" "}
                   Yes
@@ -266,25 +367,31 @@ const Profile = () => {
 
             <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
-                <Building2 className="h-7 w-7 text-white" />
+                <Building2 className={`${lato.className} h-7 w-7 text-white`} />
               </div>
-              <h3 className="mb-4 text-2xl font-bold text-gray-800">
+              <h3
+                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
+              >
                 Corporate Address
               </h3>
               <div className="space-y-2 text-gray-600">
-                <p>CV Pandan Sembilan</p>
-                <p>[Your Street Address]</p>
-                <p>Palembang, South Sumatra</p>
-                <p>Indonesia</p>
+                <p className={`${lato.className}`}>CV Pandan Sembilan</p>
+                <p className={`${lato.className}`}>[Your Street Address]</p>
+                <p className={`${lato.className}`}>Palembang, South Sumatra</p>
+                <p className={`${lato.className}`}>Indonesia</p>
               </div>
             </div>
           </div>
 
           <div className="mt-12 rounded-lg border border-gray-200 bg-white p-8 shadow-md">
-            <h3 className="mb-6 text-center text-2xl font-bold text-gray-800">
+            <h3
+              className={`${lato.className} mb-6 text-center text-2xl font-bold text-gray-800`}
+            >
               Legal Documents
             </h3>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div
+              className={`${lato.className} flex flex-wrap justify-center gap-4`}
+            >
               {[
                 "Business License",
                 "Company Certificate",
@@ -293,7 +400,7 @@ const Profile = () => {
               ].map((doc, index) => (
                 <button
                   key={index}
-                  className="rounded bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-blue-700"
+                  className={`${lato.className} rounded bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-blue-700`}
                 >
                   {doc}
                 </button>

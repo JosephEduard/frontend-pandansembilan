@@ -1,5 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Lato } from "next/font/google";
+import { EnvelopeIcon, UserGroupIcon } from "@heroicons/react/24/solid";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 const Contact = () => {
   return (
@@ -9,24 +16,31 @@ const Contact = () => {
           <div className="flex flex-col items-start justify-center gap-8 md:flex-row md:gap-28 lg:items-center">
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:gap-8">
               <div className="bg-primary/20 flex h-14 w-14 items-center justify-center rounded-full">
-                <i className="inline-block h-9 w-9 bg-[url('/images/contact-page/email.svg')] bg-contain bg-no-repeat"></i>
+                <EnvelopeIcon
+                  className="text-primary h-9 w-9"
+                  aria-hidden="true"
+                />
               </div>
               <div className="flex h-full flex-col items-start justify-between sm:flex-row sm:items-center md:flex-col md:items-start">
                 <div>
-                  <span className="text-secondary text-xl font-bold dark:text-white">
-                    Email US
+                  <span
+                    className={`${lato.className} text-secondary text-xl font-bold dark:text-white`}
+                  >
+                    Email Kami
                   </span>
-                  <p className="text-SlateBlueText dark:text-opacity-80 max-w-80 pt-3 pb-7 text-xl font-normal">
-                    Please feel free to drop us a line. We will respond as soon
-                    as possible.
+                  <p
+                    className={`${lato.className} text-SlateBlueText dark:text-opacity-80 max-w-80 pt-3 pb-7 text-xl font-normal`}
+                  >
+                    Jangan ragu untuk menghubungi kami. Kami akan merespons
+                    secepat mungkin.
                   </p>
                 </div>
                 <div>
                   <Link
                     href="#"
-                    className="text-primary group hover:text-secondary flex items-center gap-3 text-lg font-medium dark:hover:text-white"
+                    className={`${lato.className} text-primary group hover:text-secondary flex items-center gap-3 text-lg font-medium dark:hover:text-white`}
                   >
-                    Leave a message
+                    Tinggalkan Pesan
                     <svg
                       width="23"
                       height="17"
@@ -43,24 +57,31 @@ const Contact = () => {
             </div>
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:gap-8">
               <div className="bg-primary/20 flex h-14 w-14 items-center justify-center rounded-full">
-                <i className="inline-block h-9 w-9 bg-[url('/images/contact-page/Career.svg')] bg-contain bg-no-repeat"></i>
+                <UserGroupIcon
+                  className="text-primary h-9 w-9"
+                  aria-hidden="true"
+                />
               </div>
               <div className="flex h-full flex-col items-start justify-between sm:flex-row sm:items-center md:flex-col md:items-start">
                 <div>
-                  <span className="text-secondary text-xl font-bold dark:text-white">
-                    Careers
+                  <span
+                    className={`${lato.className} text-secondary text-xl font-bold dark:text-white`}
+                  >
+                    Karir
                   </span>
-                  <p className="text-SlateBlueText dark:text-opacity-80 max-w-80 pt-3 pb-7 text-xl font-normal">
-                    Sit ac ipsum leo lorem magna nunc mattis maecenas non
-                    vestibulum
+                  <p
+                    className={`${lato.className} text-SlateBlueText dark:text-opacity-80 max-w-80 pt-3 pb-7 text-xl font-normal`}
+                  >
+                    Bergabunglah dengan tim kami dan kembangkan karier Anda
+                    bersama perusahaan yang terus bertumbuh.
                   </p>
                 </div>
                 <div>
                   <Link
                     href="#"
-                    className="text-primary group hover:text-secondary flex items-center gap-3 text-lg font-medium dark:hover:text-white"
+                    className={`${lato.className} text-primary group hover:text-secondary flex items-center gap-3 text-lg font-medium dark:hover:text-white`}
                   >
-                    Send an application
+                    Kirim lamaran Kerja
                     <svg
                       width="23"
                       height="17"
@@ -78,7 +99,7 @@ const Contact = () => {
           </div>
           <div className="pt-11 pb-16 md:pt-28 md:pb-28">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d938779.7831767448!2d71.05098621661072!3d23.20271516446136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e82dd003ff749%3A0x359e803f537cea25!2sGANESH%20GLORY%2C%20Gota%2C%20Ahmedabad%2C%20Gujarat%20382481!5e0!3m2!1sen!2sin!4v1715676641521!5m2!1sen!2sin"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9027.359772204685!2d104.7306695!3d-2.9614983!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b753b624a35ab%3A0x96c7e127bfe9f6cc!2scv.%20pandan%20sembilan!5e1!3m2!1sen!2sid!4v1764122843068!5m2!1sen!2sid"
               width="1114"
               height="477"
               loading="lazy"
@@ -94,7 +115,9 @@ const Contact = () => {
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
             <div className="col-span-6">
-              <h2 className="text-secondary mb-9 max-w-72 text-[40px] leading-[3.4rem] font-bold">
+              <h2
+                className={`${lato.className} text-secondary mb-9 max-w-72 text-[40px] leading-[3.4rem] font-bold`}
+              >
                 Get Online Consultation
               </h2>
               <form className="m-auto flex w-full flex-wrap justify-between">
@@ -102,26 +125,26 @@ const Contact = () => {
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       htmlFor="first-name"
-                      className="text-SlateBlueText inline-block pb-3 text-base"
+                      className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                     >
                       First Name*
                     </label>
                     <input
                       id="first-name"
-                      className="border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white"
+                      className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
                       type="text"
                     />
                   </div>
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       htmlFor="last-name"
-                      className="text-SlateBlueText inline-block pb-3 text-base"
+                      className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                     >
                       Last Name*
                     </label>
                     <input
                       id="last-name"
-                      className="border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white"
+                      className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
                       type="text"
                     />
                   </div>
@@ -130,26 +153,26 @@ const Contact = () => {
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       htmlFor="email"
-                      className="text-SlateBlueText inline-block pb-3 text-base"
+                      className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                     >
                       Email address*
                     </label>
                     <input
                       id="email"
                       type="email"
-                      className="border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white"
+                      className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
                     />
                   </div>
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       htmlFor="Specialist"
-                      className="text-SlateBlueText inline-block pb-3 text-base"
+                      className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                     >
                       Specialist*
                     </label>
                     <select
                       id="Specialist"
-                      className="text-SlateBlueText border-border dark:bg-darkmode focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white"
+                      className={`${lato.className} text-SlateBlueText border-border dark:bg-darkmode focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
                     >
                       <option value="">Choose a specialist</option>
                       <option value="Baking &amp; Pastry">
@@ -167,26 +190,26 @@ const Contact = () => {
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       htmlFor="date"
-                      className="text-SlateBlueText inline-block pb-3 text-base"
+                      className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                     >
                       Date*
                     </label>
                     <input
                       id="date"
-                      className="text-SlateBlueText dark:bg-darkmode border-border focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 outline-none focus:border-solid focus:outline-0 dark:text-white"
+                      className={`${lato.className} text-SlateBlueText dark:bg-darkmode border-border focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 outline-none focus:border-solid focus:outline-0 dark:text-white`}
                       type="date"
                     />
                   </div>
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       htmlFor="time"
-                      className="text-SlateBlueText inline-block pb-3 text-base"
+                      className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                     >
                       Time*
                     </label>
                     <input
                       id="time"
-                      className="border-border dark:bg-darkmode focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 outline-none focus:border-solid focus:outline-0 dark:text-white"
+                      className={`${lato.className} border-border dark:bg-darkmode focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 outline-none focus:border-solid focus:outline-0 dark:text-white`}
                       type="time"
                     />
                   </div>
@@ -194,7 +217,7 @@ const Contact = () => {
                 <div className="mx-0 my-2.5 w-full">
                   <Link
                     href="#"
-                    className="btn btn-1 hover-filled-slide-down mt-4 overflow-hidden rounded-lg"
+                    className={`${lato.className} btn btn-1 hover-filled-slide-down mt-4 overflow-hidden rounded-lg`}
                     type="submit"
                   >
                     <span>Make an appointment</span>
@@ -221,53 +244,63 @@ const Contact = () => {
           <div className="">
             <div className="border-opacity-50 dark:border-dark_border grid grid-cols-1 gap-0 border-b border-solid border-white pb-11 md:grid-cols-6 lg:grid-cols-9 xl:gap-30">
               <div className="col-span-3">
-                <h2 className="text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white">
+                <h2
+                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
+                >
                   Pune Head Office
                 </h2>
               </div>
               <div className="col-span-3">
-                <p className="text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl">
+                <p
+                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
+                >
                   4292 Mapleview Drive Greenfield Zip code 38230
                 </p>
               </div>
               <div className="col-span-3">
                 <Link
                   href="mailto:headoffice@symposium.com"
-                  className="text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
                 >
                   headoffice@symposium.com
                 </Link>
                 <Link
                   href="tel:731-621-5503"
-                  className="text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
                 >
-                  <span className="text-primary">Call</span>731-621-5503
+                  <span className={`${lato.className} text-primary`}>Call</span>
+                  731-621-5503
                 </Link>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-30 pt-12 md:grid-cols-6 lg:grid-cols-9">
               <div className="col-span-3">
-                <h2 className="text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white">
+                <h2
+                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
+                >
                   Bengaluru Office
                 </h2>
               </div>
               <div className="col-span-3">
-                <p className="text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl">
+                <p
+                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
+                >
                   3502 Marcus Street Geraldine Zip code 35974
                 </p>
               </div>
               <div className="col-span-3">
                 <Link
                   href="mailto:Office@symposium.com"
-                  className="text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
                 >
                   Office@symposium.com
                 </Link>
                 <Link
                   href="tel:731-235-7993"
-                  className="text-secondary dark:text-primary flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-primary flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
                 >
-                  <span className="text-primary">Call</span>731-235-7993
+                  <span className={`${lato.className} text-primary`}>Call</span>
+                  731-235-7993
                 </Link>
               </div>
             </div>
@@ -279,53 +312,63 @@ const Contact = () => {
           <div className="">
             <div className="border-opacity-50 dark:border-dark_border grid grid-cols-1 gap-0 border-b border-solid border-white pb-11 md:grid-cols-6 lg:grid-cols-9 xl:gap-30">
               <div className="col-span-3">
-                <h2 className="text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white">
+                <h2
+                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
+                >
                   Pune Head Office
                 </h2>
               </div>
               <div className="col-span-3">
-                <p className="text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl">
+                <p
+                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
+                >
                   4292 Mapleview Drive Greenfield Zip code 38230
                 </p>
               </div>
               <div className="col-span-3">
                 <Link
                   href="mailto:headoffice@symposium.com"
-                  className="text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
                 >
                   headoffice@symposium.com
                 </Link>
                 <Link
                   href="tel:731-621-5503"
-                  className="text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
                 >
-                  <span className="text-primary">Call</span>731-621-5503
+                  <span className={`${lato.className} text-primary`}>Call</span>
+                  731-621-5503
                 </Link>
               </div>
             </div>
             <div className="grid grid-cols-1 gap-30 pt-12 md:grid-cols-6 lg:grid-cols-9">
               <div className="col-span-3">
-                <h2 className="text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white">
+                <h2
+                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
+                >
                   Bengaluru Office
                 </h2>
               </div>
               <div className="col-span-3">
-                <p className="text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl">
+                <p
+                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
+                >
                   3502 Marcus Street Geraldine Zip code 35974
                 </p>
               </div>
               <div className="col-span-3">
                 <Link
                   href="mailto:Office@symposium.com"
-                  className="text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
                 >
                   Office@symposium.com
                 </Link>
                 <Link
                   href="tel:731-235-7993"
-                  className="text-secondary dark:text-primary flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white"
+                  className={`${lato.className} text-secondary dark:text-primary flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
                 >
-                  <span className="text-primary">Call</span>731-235-7993
+                  <span className={`${lato.className} text-primary`}>Call</span>
+                  731-235-7993
                 </Link>
               </div>
             </div>

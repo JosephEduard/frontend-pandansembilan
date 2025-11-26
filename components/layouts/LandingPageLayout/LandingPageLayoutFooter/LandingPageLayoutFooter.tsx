@@ -8,6 +8,12 @@ import {
   FaGoogle,
   FaFacebookF,
 } from "react-icons/fa";
+import { Lato } from "next/font/google";
+
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "700", "900"],
+});
 
 const LandingPageLayoutFooter = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,8 +58,12 @@ const LandingPageLayoutFooter = () => {
       <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
-            <h4 className="mb-4 text-base font-bold">About Us</h4>
-            <p className="text-sm leading-relaxed opacity-90">
+            <h4 className={`${lato.className} mb-4 text-base font-bold`}>
+              About Us
+            </h4>
+            <p
+              className={`${lato.className} text-sm leading-relaxed opacity-90`}
+            >
               CV Pandan Sembilan Menyediakan jasa perencanaan pembangunan,
               renovasi dan pemeliharaan gedung, perumahan, vila, kost, sekolah,
               mekanikal elektrikal plumbing, ACP (Aluminium Composite Panel),
@@ -61,31 +71,31 @@ const LandingPageLayoutFooter = () => {
             </p>
             <div className="mt-6 flex items-center gap-4">
               <NextLink
-                href="#"
+                href="https://web.whatsapp.com"
                 className="transition-transform hover:scale-110 hover:text-white/90"
               >
                 <FaWhatsapp size={20} />
               </NextLink>
               <NextLink
-                href="#"
+                href="https://instagram.com"
                 className="transition-transform hover:scale-110 hover:text-white/90"
               >
                 <FaInstagram size={20} />
               </NextLink>
               <NextLink
-                href="#"
+                href="https://linkedin.com"
                 className="transition-transform hover:scale-110 hover:text-white/90"
               >
                 <FaLinkedinIn size={20} />
               </NextLink>
               <NextLink
-                href="#"
+                href="https://www.google.com/maps/place/cv.+pandan+sembilan/@-2.9614983,104.7306695,1140m/data=!3m1!1e3!4m15!1m8!3m7!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!2scv.+pandan+sembilan!8m2!3d-2.9614983!4d104.7332444!10e1!16s%2Fg%2F11sqnngp5n!3m5!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!8m2!3d-2.9614983!4d104.7332444!16s%2Fg%2F11sqnngp5n?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
                 className="transition-transform hover:scale-110 hover:text-white/90"
               >
                 <FaGoogle size={20} />
               </NextLink>
               <NextLink
-                href="#"
+                href="https://facebook.com"
                 className="transition-transform hover:scale-110 hover:text-white/90"
               >
                 <FaFacebookF size={20} />
@@ -94,14 +104,16 @@ const LandingPageLayoutFooter = () => {
           </div>
 
           <div>
-            <h4 className="mb-4 text-base font-bold">Quick Links</h4>
+            <h4 className={`${lato.className} mb-4 text-base font-bold`}>
+              Quick Links
+            </h4>
             <ul className="space-y-3 text-sm">
               <li>
                 <NextLink
-                  href="/about"
+                  href="/company-profile"
                   className="opacity-90 transition-all hover:translate-x-1 hover:underline hover:opacity-100"
                 >
-                  → About Us
+                  → Tentang Kami
                 </NextLink>
               </li>
               <li>
@@ -109,7 +121,7 @@ const LandingPageLayoutFooter = () => {
                   href="/services"
                   className="opacity-90 transition-all hover:translate-x-1 hover:underline hover:opacity-100"
                 >
-                  → Our Services
+                  → Layanan Kami
                 </NextLink>
               </li>
               <li>
@@ -117,25 +129,31 @@ const LandingPageLayoutFooter = () => {
                   href="/contact"
                   className="opacity-90 transition-all hover:translate-x-1 hover:underline hover:opacity-100"
                 >
-                  → Contact
+                  → Kontak Perusahaan
                 </NextLink>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-4 text-base font-bold">Website</h4>
+            <h4 className={`${lato.className} mb-4 text-base font-bold`}>
+              Website
+            </h4>
             <a
               href="https://cvpandansembilan.com"
-              className="text-sm underline opacity-90 transition-opacity hover:opacity-100"
+              className={`${lato.className} text-sm underline opacity-90 transition-opacity hover:opacity-100`}
             >
               https://cvpandansembilan.com
             </a>
           </div>
 
           <div>
-            <h4 className="mb-4 text-base font-bold">Contact Us</h4>
-            <p className="mb-4 text-sm opacity-90">Phone: 0898-1234-1231</p>
+            <h4 className={`${lato.className} mb-4 text-base font-bold`}>
+              Kontak Kami
+            </h4>
+            <p className={`${lato.className} mb-4 text-sm opacity-90`}>
+              Phone: 0898-1234-1231
+            </p>
             <div className="flex items-center gap-2">
               <Input
                 type="text"
