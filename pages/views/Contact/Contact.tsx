@@ -84,6 +84,7 @@ const Contact = () => {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="w-full rounded-lg"
+              title="Google Map"
             ></iframe>
           </div>
         </div>

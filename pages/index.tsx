@@ -1,9 +1,12 @@
+import { ScrollShadow } from "@heroui/react";
+
+import { useState, useEffect } from "react";
+
 import LandingPageLayout from "@/components/layouts/LandingPageLayout/LandingPageLayout";
+
 import Home from "./views/Home";
 import Loading from "@/components/commons/Loading";
 // import DefaultLayout from "@/layouts/default";
-import { ScrollShadow } from "@heroui/react";
-import { useState, useEffect } from "react";
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);

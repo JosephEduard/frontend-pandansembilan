@@ -48,7 +48,7 @@ const Profile = () => {
               </h3>
               <p className="leading-relaxed text-gray-600">
                 With numerous successful projects across Palembang and South
-                Sumatra, we've delivered transformative construction solutions
+                Sumatra, we have delivered transformative construction solutions
                 that meet the highest standards. Our dedicated team works
                 tirelessly to exceed client expectations and deliver excellence
                 in every project.
