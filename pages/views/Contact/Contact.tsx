@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <main>
       <section className="dark:bg-darkmode pt-16 pb-10 lg:pt-20 lg:pb-24">
-        <div className="container mx-auto md:max-w-screen-md lg:max-w-screen-xl">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="flex flex-col items-start justify-center gap-8 md:flex-row md:gap-28 lg:items-center">
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:gap-8">
               <div className="bg-primary/20 flex h-14 w-14 items-center justify-center rounded-full">
@@ -90,7 +90,7 @@ const Contact = () => {
         <div className="dark:border-dark_border border-b border-solid"></div>
       </section>
       <section className="dark:bg-darkmode pt-0 pb-16 lg:pb-24">
-        <div className="container mx-auto md:max-w-screen-md lg:max-w-screen-xl">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
             <div className="col-span-6">
               <h2 className="text-secondary mb-9 max-w-72 text-[40px] leading-[3.4rem] font-bold">
@@ -216,7 +216,7 @@ const Contact = () => {
         </div>
       </section>
       <section className="dark:bg-darkmode py-10 md:py-24">
-        <div className="container">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="">
             <div className="border-opacity-50 dark:border-dark_border grid grid-cols-1 gap-0 border-b border-solid border-white pb-11 md:grid-cols-6 lg:grid-cols-9 xl:gap-30">
               <div className="col-span-3">
@@ -274,7 +274,7 @@ const Contact = () => {
         </div>
       </section>
       <section className="dark:bg-darkmode py-10 md:py-24">
-        <div className="container">
+        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="">
             <div className="border-opacity-50 dark:border-dark_border grid grid-cols-1 gap-0 border-b border-solid border-white pb-11 md:grid-cols-6 lg:grid-cols-9 xl:gap-30">
               <div className="col-span-3">
