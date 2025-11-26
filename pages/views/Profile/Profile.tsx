@@ -123,7 +123,7 @@ const Profile = () => {
       </section>
 
       {/* Vision & Mission Section */}
-      <section id="vision" className="relative bg-gray-50 px-6 py-20">
+      <section id="vision" className="relative bg-gray-50 px-6 py-20 pt-40">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
             <h2
@@ -226,7 +226,7 @@ const Profile = () => {
       </section>
 
       {/* Legality Section */}
-      <section id="certifications" className="relative px-6 py-20">
+      <section id="certifications" className="relative px-6 py-20 pt-40">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
             <h2
