@@ -9,7 +9,7 @@ import Portofolio from "@/pages/views/Portofolio";
 const PortfolioPage = () => {
   return (
     <>
-      <LandingPageLayout title="Profil Perusahaan">
+      <LandingPageLayout title="Portofolio Perusahaan">
         <ScrollShadow className="min-h-screen w-full">
           <Portofolio />
         </ScrollShadow>

@@ -89,7 +89,7 @@ const LandingPageLayoutNavbar = () => {
         <NavbarBrand
           as={NextLink}
           href="/"
-          className="sm:-flex-auto sm:ml-0 sm:justify-start md:ml-0 md:flex-none lg:ml-5 xl:ml-15 2xl:ml-40"
+          className="sm:-flex-auto sm:ml-0 sm:justify-start md:ml-0 md:flex-none lg:mr-8 lg:ml-0 xl:mr-0 xl:ml-15 2xl:ml-40"
         >
           <Image
             src="/images/general/logo2.svg"
@@ -108,7 +108,7 @@ const LandingPageLayoutNavbar = () => {
         </NavbarBrand>
         <Spacer x={32} className="lg:x={0} lg:hidden" />
         <NavbarContent
-          className={`${cn(lato.className)} hidden flex-1 justify-center font-bold sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-15`}
+          className={`${cn(lato.className)} hidden flex-1 justify-center font-bold sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:ml-32 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-15`}
           justify="center"
         >
           {NAV_ITEMS.map((item, index) => {

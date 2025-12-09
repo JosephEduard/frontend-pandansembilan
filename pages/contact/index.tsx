@@ -9,7 +9,7 @@ import Contact from "@/pages/views/Contact";
 const ContactPage = () => {
   return (
     <>
-      <LandingPageLayout title="Profil Perusahaan">
+      <LandingPageLayout title="Kontak Perusahaan">
         <ScrollShadow className="min-h-screen w-full">
           <Contact />
         </ScrollShadow>

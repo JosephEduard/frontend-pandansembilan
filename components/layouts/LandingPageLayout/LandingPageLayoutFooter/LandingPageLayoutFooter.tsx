@@ -71,13 +71,13 @@ const LandingPageLayoutFooter = () => {
             </p>
             <div className="mt-6 flex items-center gap-4">
               <NextLink
-                href="https://web.whatsapp.com"
+                href="https://wa.me/+6285102498419"
                 className="transition-transform hover:scale-110 hover:text-white/90"
               >
                 <FaWhatsapp size={20} />
               </NextLink>
               <NextLink
-                href="https://instagram.com"
+                href="https://www.instagram.com/p9build.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 className="transition-transform hover:scale-110 hover:text-white/90"
               >
                 <FaInstagram size={20} />
@@ -152,7 +152,7 @@ const LandingPageLayoutFooter = () => {
               Kontak Kami
             </h4>
             <p className={`${lato.className} mb-4 text-sm opacity-90`}>
-              Phone: 0898-1234-1231
+              Phone: 0851-0249-8419
             </p>
             <div className="flex items-center gap-2">
               <Input

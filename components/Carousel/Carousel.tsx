@@ -59,7 +59,7 @@ export default function Carousel(
 
   return (
     <div id="hero-carousel" className="relative w-full">
-      <div className="relative min-h-[100vh] overflow-hidden max-sm:min-h-[115vh] sm:min-h-[108vh] md:min-h-[100vh] lg:min-h-screen">
+      <div className="relative min-h-[110vh] overflow-hidden">
         {slides.map((s, i) => (
           <div
             key={i}
@@ -78,95 +78,70 @@ export default function Carousel(
             {s.overlay && <div className={`absolute inset-0 ${s.overlay}`} />}
             {/* Dark layer for consistent contrast */}
             <div className="absolute inset-0 bg-black/30" />
-            {/* Centered content (responsive alignment) */}
+
+            {/* Edge arrows (all breakpoints) */}
+            <button
+              aria-label="Previous slide"
+              onClick={goPrev}
+              className="absolute top-0 left-0 z-20 flex h-full w-12 items-center justify-center bg-gradient-to-r from-black/25 via-black/10 to-black/0 text-white transition hover:from-black/35 hover:via-black/15 sm:w-14 lg:w-16"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 sm:h-6 sm:w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              aria-label="Next slide"
+              onClick={goNext}
+              className="absolute top-0 right-0 z-20 flex h-full w-12 items-center justify-center bg-gradient-to-l from-black/25 via-black/10 to-black/0 text-white transition hover:from-black/35 hover:via-black/15 sm:w-14 lg:w-16"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 sm:h-6 sm:w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            {/* Centered content with edge arrows and text shadow */}
             <div className="relative z-10 w-full px-4">
               <div className="mx-auto max-w-[1450px]">
-                <div className="mx-auto max-w-3xl text-white sm:p-20 sm:text-left md:p-20">
-                  {/* Mobile: arrows flanking text; Desktop: normal stack */}
-                  <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:block">
-                    {/* Left arrow (mobile only) */}
-                    <div className="flex justify-center sm:hidden">
-                      <button
-                        aria-label="Previous slide"
-                        onClick={goPrev}
-                        className="p-3 text-white transition"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          aria-hidden="true"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 19l-7-7 7-7"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-
-                    {/* Text block */}
-                    <div
-                      className={`${lato.className} text-center sm:text-left`}
+                <div className="relative mx-auto max-w-3xl text-white sm:p-20 sm:text-left md:p-20">
+                  {/* Text block with per-letter shadow (no box) */}
+                  <div className={`${lato.className} text-center sm:text-left`}>
+                    <h2
+                      className={`${lato.className} text-xl font-bold drop-shadow-[0_3px_8px_rgba(0,0,0,0.55)] max-sm:leading-snug sm:text-3xl md:text-5xl lg:text-6xl`}
                     >
-                      <h2
-                        className={`${lato.className} text-xl font-bold drop-shadow-md max-sm:leading-snug sm:text-3xl md:text-5xl lg:text-6xl`}
+                      {s.title}
+                    </h2>
+                    {s.subtitle && (
+                      <p
+                        className={`${lato.className} mt-2 ml-1 text-xs font-medium opacity-95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)] max-sm:leading-relaxed sm:mt-2 sm:text-base md:text-lg lg:text-xl`}
                       >
-                        {s.title}
-                      </h2>
-                      {s.subtitle && (
-                        <p
-                          className={`${lato.className} mt-3 text-xs font-medium opacity-95 max-sm:leading-relaxed sm:mt-4 sm:text-base md:text-lg lg:text-xl`}
-                        >
-                          {s.subtitle}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Right arrow (mobile only) */}
-                    <div className="flex justify-center sm:hidden">
-                      <button
-                        aria-label="Next slide"
-                        onClick={goNext}
-                        className="p-3 text-white transition"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          aria-hidden="true"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Desktop/tablet inline buttons */}
-                  <div className="mt-8 hidden gap-4 sm:flex">
-                    <button
-                      onClick={goPrev}
-                      className={`${lato.className} rounded-full bg-white/90 px-6 py-3 text-sm font-semibold text-gray-800 shadow-lg backdrop-blur-sm transition hover:bg-white`}
-                    >
-                      Prev
-                    </button>
-                    <button
-                      onClick={goNext}
-                      className={`${lato.className} rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-500`}
-                    >
-                      Next
-                    </button>
+                        {s.subtitle}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

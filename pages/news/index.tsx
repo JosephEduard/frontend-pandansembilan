@@ -9,7 +9,7 @@ import News from "@/pages/views/News";
 const NewsPage = () => {
   return (
     <>
-      <LandingPageLayout title="Profil Perusahaan">
+      <LandingPageLayout title="Berita Terbaru Perusahaan">
         <ScrollShadow className="min-h-screen w-full">
           <News />
         </ScrollShadow>

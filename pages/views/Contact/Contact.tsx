@@ -11,7 +11,7 @@ const lato = Lato({
 const Contact = () => {
   return (
     <main>
-      <section className="dark:bg-darkmode pt-16 pb-10 lg:pt-20 lg:pb-24">
+      <section className="dark:bg-darkmode pt-16 pb-0 lg:pt-20 lg:pb-0">
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="flex flex-col items-start justify-center gap-8 md:flex-row md:gap-28 lg:items-center">
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:gap-8">
@@ -37,7 +37,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <Link
-                    href="#"
+                    href="#form-contact"
                     className={`${lato.className} text-primary group hover:text-secondary flex items-center gap-3 text-lg font-medium dark:hover:text-white`}
                   >
                     Tinggalkan Pesan
@@ -67,21 +67,21 @@ const Contact = () => {
                   <span
                     className={`${lato.className} text-secondary text-xl font-bold dark:text-white`}
                   >
-                    Karir
+                    Whatsapp Kami
                   </span>
                   <p
                     className={`${lato.className} text-SlateBlueText dark:text-opacity-80 max-w-80 pt-3 pb-7 text-xl font-normal`}
                   >
-                    Bergabunglah dengan tim kami dan kembangkan karier Anda
-                    bersama perusahaan yang terus bertumbuh.
+                    Segera hubungi kami langsung melalui WhatsApp untuk respon
+                    cepat.
                   </p>
                 </div>
                 <div>
                   <Link
-                    href="#"
+                    href="https://wa.me/+6285102498419"
                     className={`${lato.className} text-primary group hover:text-secondary flex items-center gap-3 text-lg font-medium dark:hover:text-white`}
                   >
-                    Kirim lamaran Kerja
+                    Kontak Whatsapp
                     <svg
                       width="23"
                       height="17"
@@ -109,9 +109,11 @@ const Contact = () => {
             ></iframe>
           </div>
         </div>
-        <div className="dark:border-dark_border border-b border-solid"></div>
       </section>
-      <section className="dark:bg-darkmode pt-0 pb-16 lg:pb-24">
+      <section
+        id="form-contact"
+        className="dark:bg-darkmode bg-gray-50 pt-20 pb-16 lg:pb-24"
+      >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
             <div className="col-span-6">
@@ -227,150 +229,14 @@ const Contact = () => {
             </div>
             <div className="col-span-6">
               <Image
-                src="/images/contact-page/contact.jpg"
+                src="/images/general/construction.jpg"
                 alt="Contact"
-                width={1300}
+                width={1400}
                 height={0}
                 quality={100}
                 style={{ width: "100%", height: "auto" }}
                 className="rounded-lg bg-contain bg-no-repeat"
               />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="dark:bg-darkmode py-10 md:py-24">
-        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
-          <div className="">
-            <div className="border-opacity-50 dark:border-dark_border grid grid-cols-1 gap-0 border-b border-solid border-white pb-11 md:grid-cols-6 lg:grid-cols-9 xl:gap-30">
-              <div className="col-span-3">
-                <h2
-                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
-                >
-                  Pune Head Office
-                </h2>
-              </div>
-              <div className="col-span-3">
-                <p
-                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
-                >
-                  4292 Mapleview Drive Greenfield Zip code 38230
-                </p>
-              </div>
-              <div className="col-span-3">
-                <Link
-                  href="mailto:headoffice@symposium.com"
-                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
-                >
-                  headoffice@symposium.com
-                </Link>
-                <Link
-                  href="tel:731-621-5503"
-                  className={`${lato.className} text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
-                >
-                  <span className={`${lato.className} text-primary`}>Call</span>
-                  731-621-5503
-                </Link>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 gap-30 pt-12 md:grid-cols-6 lg:grid-cols-9">
-              <div className="col-span-3">
-                <h2
-                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
-                >
-                  Bengaluru Office
-                </h2>
-              </div>
-              <div className="col-span-3">
-                <p
-                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
-                >
-                  3502 Marcus Street Geraldine Zip code 35974
-                </p>
-              </div>
-              <div className="col-span-3">
-                <Link
-                  href="mailto:Office@symposium.com"
-                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
-                >
-                  Office@symposium.com
-                </Link>
-                <Link
-                  href="tel:731-235-7993"
-                  className={`${lato.className} text-secondary dark:text-primary flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
-                >
-                  <span className={`${lato.className} text-primary`}>Call</span>
-                  731-235-7993
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="dark:bg-darkmode py-10 md:py-24">
-        <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
-          <div className="">
-            <div className="border-opacity-50 dark:border-dark_border grid grid-cols-1 gap-0 border-b border-solid border-white pb-11 md:grid-cols-6 lg:grid-cols-9 xl:gap-30">
-              <div className="col-span-3">
-                <h2
-                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
-                >
-                  Pune Head Office
-                </h2>
-              </div>
-              <div className="col-span-3">
-                <p
-                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
-                >
-                  4292 Mapleview Drive Greenfield Zip code 38230
-                </p>
-              </div>
-              <div className="col-span-3">
-                <Link
-                  href="mailto:headoffice@symposium.com"
-                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
-                >
-                  headoffice@symposium.com
-                </Link>
-                <Link
-                  href="tel:731-621-5503"
-                  className={`${lato.className} text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
-                >
-                  <span className={`${lato.className} text-primary`}>Call</span>
-                  731-621-5503
-                </Link>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 gap-30 pt-12 md:grid-cols-6 lg:grid-cols-9">
-              <div className="col-span-3">
-                <h2
-                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
-                >
-                  Bengaluru Office
-                </h2>
-              </div>
-              <div className="col-span-3">
-                <p
-                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
-                >
-                  3502 Marcus Street Geraldine Zip code 35974
-                </p>
-              </div>
-              <div className="col-span-3">
-                <Link
-                  href="mailto:Office@symposium.com"
-                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
-                >
-                  Office@symposium.com
-                </Link>
-                <Link
-                  href="tel:731-235-7993"
-                  className={`${lato.className} text-secondary dark:text-primary flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
-                >
-                  <span className={`${lato.className} text-primary`}>Call</span>
-                  731-235-7993
-                </Link>
-              </div>
             </div>
           </div>
         </div>

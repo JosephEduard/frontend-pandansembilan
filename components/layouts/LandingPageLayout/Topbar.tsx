@@ -52,13 +52,13 @@ export default function Topbar() {
             >
               <div className="ml-47 hidden items-center gap-3 lg:ml-10 lg:flex xl:ml-22">
                 <NextLink
-                  href="https://web.whatsapp.com"
+                  href="https://wa.me/+6285102498419"
                   className="hover:opacity-90"
                 >
                   <FaWhatsapp />
                 </NextLink>
                 <NextLink
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/p9build.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                   className="hover:opacity-90"
                 >
                   <FaInstagram />
@@ -97,7 +97,7 @@ export default function Topbar() {
                   <span
                     className={`${lato.className} text-sm whitespace-nowrap`}
                   >
-                    0898-1234-1231
+                    0851-0249-8419
                   </span>
                 </div>
                 <div className="flex items-center gap-2">

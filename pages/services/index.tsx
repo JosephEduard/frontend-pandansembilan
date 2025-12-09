@@ -8,7 +8,7 @@ import Services from "@/pages/views/Services";
 const CompanyPage = () => {
   return (
     <>
-      <LandingPageLayout title="Profil Perusahaan">
+      <LandingPageLayout title="Layanan Perusahaan">
         <ScrollShadow className="min-h-screen w-full">
           <Services />
         </ScrollShadow>
