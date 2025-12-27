@@ -71,4 +71,4 @@ const useLogin = () => {
   };
 };
 
-export { useLogin };
+export default useLogin;
