@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button, button, Card, CardBody, Input, Spinner } from "@heroui/react";
 import Link from "next/link";
-import useLogin from "./useLogin";
+import { useLogin } from "@/views/Admin/Login/useLogin";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Controller } from "react-hook-form";
 import { cn } from "@/utils/cn";
