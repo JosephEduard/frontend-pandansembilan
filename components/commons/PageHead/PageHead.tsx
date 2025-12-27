@@ -6,13 +6,15 @@ interface PropTypes {
 
 const PageHead = (props: PropTypes) => {
   const { title = "PandanSembilan" } = props;
+
   return (
     <Head>
       <title>{title}</title>
       <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta content="width=device-width, initial-scale=1.0" name="viewport" />
       <link href="/images/general/logo2.svg" rel="icon" />
     </Head>
   );
 };
+
 export default PageHead;

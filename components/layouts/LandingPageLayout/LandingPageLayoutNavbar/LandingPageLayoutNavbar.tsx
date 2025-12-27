@@ -195,7 +195,7 @@ const LandingPageLayoutNavbar = () => {
         <NavbarMenuToggle className="sm:flex-auto md:flex-none lg:hidden" />
       </NavbarContent>
 
-      <NavbarMenu>
+      <NavbarMenu className="pt-6 sm:pt-8 lg:pt-0">
         {NAV_ITEMS.map((item, index) => {
           if (item.label === "COMPANY") {
             return (

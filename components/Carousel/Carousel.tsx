@@ -49,6 +49,7 @@ export default function Carousel(
     timerRef.current = window.setInterval(() => {
       setIndex((i) => (i + 1) % slides.length);
     }, interval);
+
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current);
     };
@@ -58,7 +59,7 @@ export default function Carousel(
   const goNext = () => setIndex((i) => (i + 1) % slides.length);
 
   return (
-    <div id="hero-carousel" className="relative w-full">
+    <div className="relative w-full" id="hero-carousel">
       <div className="relative min-h-[110vh] overflow-hidden">
         {slides.map((s, i) => (
           <div
@@ -67,12 +68,12 @@ export default function Carousel(
           >
             {/* Background image */}
             <Image
-              src={s.image}
-              alt={s.title}
               fill
+              alt={s.title}
+              className="object-cover"
               priority={i === 0}
               sizes="100vw"
-              className="object-cover"
+              src={s.image}
             />
             {/* Overlay gradient for legibility */}
             {s.overlay && <div className={`absolute inset-0 ${s.overlay}`} />}
@@ -82,44 +83,44 @@ export default function Carousel(
             {/* Edge arrows (all breakpoints) */}
             <button
               aria-label="Previous slide"
-              onClick={goPrev}
               className="absolute top-0 left-0 z-20 flex h-full w-12 items-center justify-center bg-gradient-to-r from-black/25 via-black/10 to-black/0 text-white transition hover:from-black/35 hover:via-black/15 sm:w-14 lg:w-16"
+              onClick={goPrev}
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
                 className="h-5 w-5 sm:h-6 sm:w-6"
                 fill="none"
-                viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
-                aria-hidden="true"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
+                  d="M15 19l-7-7 7-7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15 19l-7-7 7-7"
                 />
               </svg>
             </button>
 
             <button
               aria-label="Next slide"
-              onClick={goNext}
               className="absolute top-0 right-0 z-20 flex h-full w-12 items-center justify-center bg-gradient-to-l from-black/25 via-black/10 to-black/0 text-white transition hover:from-black/35 hover:via-black/15 sm:w-14 lg:w-16"
+              onClick={goNext}
             >
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
                 className="h-5 w-5 sm:h-6 sm:w-6"
                 fill="none"
-                viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
-                aria-hidden="true"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path
+                  d="M9 5l7 7-7 7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M9 5l7 7-7 7"
                 />
               </svg>
             </button>
@@ -155,10 +156,10 @@ export default function Carousel(
             <button
               key={i}
               aria-label={`Go to slide ${i + 1}`}
-              onClick={() => setIndex(i)}
               className={`h-2 w-8 rounded-full transition-all duration-300 ${
                 i === index ? "bg-white" : "bg-white/40"
               }`}
+              onClick={() => setIndex(i)}
             />
           ))}
         </div>

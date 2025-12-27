@@ -3,13 +3,11 @@ import {
   Target,
   Eye,
   FileCheck,
-  Award,
   Users,
   TrendingUp,
   Shield,
-  Building2,
-  Link,
 } from "lucide-react";
+import Link from "next/link";
 import { Lato } from "next/font/google";
 
 const lato = Lato({
@@ -17,11 +15,40 @@ const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
 });
 
+// Swagger fetch template (GET /service untuk statistik, GET /certification untuk legal)
+// const fetchCompanyProfile = async () => {
+//   try {
+//     const [servicesRes, certRes] = await Promise.all([
+//       fetch("https://backend-cvps.vercel.app/api/service", {
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
+//         },
+//       }),
+//       fetch("https://backend-cvps.vercel.app/api/certification", {
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
+//         },
+//       }),
+//     ]);
+//     if (!servicesRes.ok || !certRes.ok) {
+//       throw new Error("Failed to fetch profile data");
+//     }
+//     const servicesPayload = await servicesRes.json();
+//     const certificationPayload = await certRes.json();
+//     // setStats(servicesPayload.data);
+//     // setCertifications(certificationPayload.data);
+//   } catch (error) {
+//     console.error("[ProfileView] fetchCompanyProfile", error);
+//   }
+// };
+
 const Profile = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Company Profile Section */}
-      <section id="profile" className="relative px-6 py-20">
+      <section className="relative px-6 py-20" id="profile">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
             <h2
@@ -32,7 +59,7 @@ const Profile = () => {
             <div className="mx-auto h-1 w-20 rounded-full bg-blue-600" />
           </div>
 
-          <div className="mb-16 grid gap-8 md:grid-cols-2">
+          <div className="mb-16 flex flex-col gap-8">
             <div className="rounded-lg border border-gray-200 bg-white p-8 transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
                 <Users className="h-7 w-7 text-white" />
@@ -43,7 +70,7 @@ const Profile = () => {
                 Identitas Perusahaan
               </h3>
               <p
-                className={`${lato.className} text-justify leading-relaxed text-gray-600`}
+                className={`${lato.className} text-justify text-base leading-relaxed text-gray-600 sm:text-lg`}
               >
                 CV Pandan Sembilan adalah perusahaan konstruksi yang berkembang
                 pesat dan berkomitmen menghadirkan solusi pembangunan yang
@@ -85,7 +112,9 @@ const Profile = () => {
               >
                 Dampak Kami
               </h3>
-              <p className={`${lato.className} leading-relaxed text-gray-600`}>
+              <p
+                className={`${lato.className} text-base leading-relaxed text-gray-600 sm:text-lg`}
+              >
                 With numerous successful projects across Palembang and South
                 Sumatra, we have delivered transformative construction solutions
                 that meet the highest standards. Our dedicated team works
@@ -96,7 +125,7 @@ const Profile = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
               { number: "100+", label: "Projects Completed" },
               { number: "50+", label: "Team Members" },
@@ -113,7 +142,7 @@ const Profile = () => {
                   {stat.number}
                 </div>
                 <div
-                  className={`${lato.className} text-sm font-medium text-gray-600`}
+                  className={`${lato.className} text-base font-medium text-gray-600 sm:text-lg`}
                 >
                   {stat.label}
                 </div>
@@ -124,7 +153,7 @@ const Profile = () => {
       </section>
 
       {/* Vision & Mission Section */}
-      <section id="vision" className="relative bg-gray-50 px-6 py-20 pt-40">
+      <section className="relative bg-gray-50 px-6 py-20 pt-40" id="vision">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
             <h2
@@ -135,7 +164,7 @@ const Profile = () => {
             <div className="mx-auto h-1 w-20 rounded-full bg-blue-600" />
           </div>
 
-          <div className="mb-12 grid gap-8 md:grid-cols-2">
+          <div className="mb-12 flex flex-col gap-8">
             <div className="rounded-lg border border-gray-200 bg-white p-10 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-xl">
               <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-lg bg-blue-600">
                 <Eye className="h-9 w-9 text-white" />
@@ -146,7 +175,7 @@ const Profile = () => {
                 Visi
               </h3>
               <p
-                className={`${lato.className} text-justify text-lg leading-relaxed text-gray-600`}
+                className={`${lato.className} text-justify text-base leading-relaxed text-gray-600 sm:text-lg`}
               >
                 Menjadi Perusahaan Konstruksi terbaik di Indonesia yang
                 menekankan pada Perkembangan Kepuasan konsumen & kesejahteraan
@@ -165,7 +194,9 @@ const Profile = () => {
               >
                 Misi
               </h3>
-              <ol className="list-decimal pl-6 text-justify text-lg leading-relaxed text-gray-600">
+              <ol
+                className={`${lato.className} list-decimal pl-6 text-justify text-base leading-relaxed text-gray-600 sm:text-lg`}
+              >
                 <li>
                   Menyeragamkan pandangan antar pihak manajemen dengan karyawan
                   dalam mempertahankan nilai perusahaan guna mencapai tujuan
@@ -192,7 +223,7 @@ const Profile = () => {
             >
               Nilai Inti Kami
             </h3>
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {[
                 {
                   title: "Quality",
@@ -216,7 +247,9 @@ const Profile = () => {
                   >
                     {value.title}
                   </h4>
-                  <p className={`${lato.className} text-gray-600`}>
+                  <p
+                    className={`${lato.className} text-base text-gray-600 sm:text-lg`}
+                  >
                     {value.desc}
                   </p>
                 </div>
@@ -227,7 +260,7 @@ const Profile = () => {
       </section>
 
       {/* Legality Section */}
-      <section id="certifications" className="relative px-6 py-20 pt-40">
+      <section className="relative px-6 py-20 pt-40" id="certifications">
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 text-center">
             <h2
@@ -238,7 +271,7 @@ const Profile = () => {
             <div className="mx-auto h-1 w-20 rounded-full bg-blue-600" />
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="flex flex-col gap-8">
             <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
               <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
                 <FileCheck className={`${lato.className} h-7 w-7 text-white`} />
@@ -248,7 +281,9 @@ const Profile = () => {
               >
                 Company Registration
               </h3>
-              <div className="space-y-3 text-gray-600">
+              <div
+                className={`${lato.className} space-y-3 text-base text-gray-600 sm:text-lg`}
+              >
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
@@ -293,7 +328,9 @@ const Profile = () => {
               >
                 Certifications & Compliance
               </h3>
-              <div className="space-y-3 text-gray-600">
+              <div
+                className={`${lato.className} space-y-3 text-base text-gray-600 sm:text-lg`}
+              >
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
@@ -328,60 +365,6 @@ const Profile = () => {
                 </p>
               </div>
             </div>
-
-            <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
-                <Award className={`${lato.className} h-7 w-7 text-white`} />
-              </div>
-              <h3
-                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
-              >
-                Tax Information
-              </h3>
-              <div className="space-y-3 text-gray-600">
-                <p>
-                  <span
-                    className={`${lato.className} font-semibold text-blue-600`}
-                  >
-                    NPWP:
-                  </span>{" "}
-                  [Your Tax Number]
-                </p>
-                <p>
-                  <span
-                    className={`${lato.className} font-semibold text-blue-600`}
-                  >
-                    Tax Status:
-                  </span>{" "}
-                  Registered & Compliant
-                </p>
-                <p>
-                  <span
-                    className={`${lato.className} font-semibold text-blue-600`}
-                  >
-                    VAT Registered:
-                  </span>{" "}
-                  Yes
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-lg border border-gray-200 bg-white p-8 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-lg">
-              <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-blue-600">
-                <Building2 className={`${lato.className} h-7 w-7 text-white`} />
-              </div>
-              <h3
-                className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
-              >
-                Corporate Address
-              </h3>
-              <div className="space-y-2 text-gray-600">
-                <p className={`${lato.className}`}>CV Pandan Sembilan</p>
-                <p className={`${lato.className}`}>[Your Street Address]</p>
-                <p className={`${lato.className}`}>Palembang, South Sumatra</p>
-                <p className={`${lato.className}`}>Indonesia</p>
-              </div>
-            </div>
           </div>
 
           <div className="mt-12 rounded-lg border border-gray-200 bg-white p-8 shadow-md">
@@ -396,7 +379,6 @@ const Profile = () => {
               {[
                 "Business License",
                 "Company Certificate",
-                "Tax Documents",
                 "Safety Certification",
               ].map((doc, index) => (
                 <button
@@ -410,68 +392,53 @@ const Profile = () => {
           </div>
         </div>
       </section>
+
       <section className="dark:bg-darkmode bg-gray-50 py-20 pt-40 md:py-24">
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
-          <div className="">
+          <div className="space-y-12">
+            <div className="text-center">
+              <p
+                className={`${lato.className} text-sm tracking-[0.3em] text-blue-500 uppercase`}
+              >
+                Contact
+              </p>
+              <h2
+                className={`${lato.className} text-secondary mt-3 text-[32px] leading-[2.5rem] font-bold sm:text-[46px] sm:leading-[3.7rem] dark:text-white`}
+              >
+                Corporate Address
+              </h2>
+            </div>
+
             <div className="border-opacity-50 dark:border-dark_border grid grid-cols-1 gap-0 border-b border-solid border-white pb-11 md:grid-cols-6 lg:grid-cols-9 xl:gap-30">
               <div className="col-span-3">
-                <h2
+                <h3
                   className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
                 >
-                  Pune Head Office
-                </h2>
+                  CV Pandan Sembilan
+                </h3>
               </div>
               <div className="col-span-3">
                 <p
                   className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
                 >
-                  4292 Mapleview Drive Greenfield Zip code 38230
+                  [Your Street Address]
+                  <br /> Palembang, South Sumatra
+                  <br /> Indonesia
                 </p>
               </div>
               <div className="col-span-3">
                 <Link
-                  href="mailto:headoffice@symposium.com"
+                  href="mailto:headoffice@cvpandansembilan.com"
                   className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
                 >
-                  headoffice@symposium.com
+                  headoffice@cvpandansembilan.com
                 </Link>
                 <Link
-                  href="tel:731-621-5503"
+                  href="tel:+62"
                   className={`${lato.className} text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
                 >
                   <span className={`${lato.className} text-primary`}>Call</span>
-                  731-621-5503
-                </Link>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 gap-30 pt-12 md:grid-cols-6 lg:grid-cols-9">
-              <div className="col-span-3">
-                <h2
-                  className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
-                >
-                  Bengaluru Office
-                </h2>
-              </div>
-              <div className="col-span-3">
-                <p
-                  className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
-                >
-                  3502 Marcus Street Geraldine Zip code 35974
-                </p>
-              </div>
-              <div className="col-span-3">
-                <Link
-                  href="mailto:Office@symposium.com"
-                  className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
-                >
-                  Office@symposium.com
-                </Link>
-                <Link
-                  href="tel:731-235-7993"
-                  className={`${lato.className} text-secondary dark:text-primary flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
-                >
-                  <span className={`${lato.className} text-primary`}>Call</span>
-                  731-235-7993
+                  +62 [Your Phone]
                 </Link>
               </div>
             </div>
@@ -481,4 +448,5 @@ const Profile = () => {
     </div>
   );
 };
+
 export default Profile;

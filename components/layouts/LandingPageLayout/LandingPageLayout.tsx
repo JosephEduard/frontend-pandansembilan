@@ -1,10 +1,11 @@
-import PageHead from "@/components/commons/PageHead/PageHead";
-import { title } from "@/components/primitives";
 import { Fragment, ReactNode } from "react";
+import { useRouter } from "next/router";
+
 import Topbar from "./Topbar";
 import LandingPageLayoutNavbar from "./LandingPageLayoutNavbar";
+
+import PageHead from "@/components/commons/PageHead/PageHead";
 import LandingPageLayoutFooter from "@/components/layouts/LandingPageLayout/LandingPageLayoutFooter/LandingPageLayoutFooter";
-import { useRouter } from "next/router";
 import { cn } from "@/utils/cn";
 
 interface PropTypes {
@@ -16,6 +17,7 @@ const LandingPageLayout = (props: PropTypes) => {
   const { title, children } = props;
   const router = useRouter();
   const isHome = router.pathname === "/";
+
   return (
     <Fragment>
       <PageHead title={title} />

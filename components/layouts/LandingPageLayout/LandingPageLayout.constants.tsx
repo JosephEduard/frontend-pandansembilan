@@ -7,9 +7,4 @@ const NAV_ITEMS = [
   { label: "NEWS", href: "/news" },
 ];
 
-const BUTTON_ITEMS = [
-  { label: "ADMIN", href: "/login" },
-  { label: "Sign Up", href: "/signup" },
-];
-
 export default NAV_ITEMS;

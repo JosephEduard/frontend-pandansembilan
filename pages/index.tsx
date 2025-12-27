@@ -1,10 +1,9 @@
 import { ScrollShadow } from "@heroui/react";
-
 import { useState, useEffect } from "react";
 
-import LandingPageLayout from "@/components/layouts/LandingPageLayout/LandingPageLayout";
-
 import Home from "./views/Home";
+
+import LandingPageLayout from "@/components/layouts/LandingPageLayout/LandingPageLayout";
 import Loading from "@/components/commons/Loading";
 // import DefaultLayout from "@/layouts/default";
 
@@ -19,8 +18,10 @@ const HomePage = () => {
         if (prev >= 100) {
           clearInterval(interval);
           setTimeout(() => setIsLoading(false), 300);
+
           return 100;
         }
+
         // Random increment for realistic feel
         return prev + Math.random() * 20;
       });
@@ -33,11 +34,10 @@ const HomePage = () => {
     <>
       <Loading isLoading={isLoading} progress={progress} />
       <LandingPageLayout title="CV Pandan Sembilan">
-        <ScrollShadow className="min-h-screen w-full">
-          <Home />
-        </ScrollShadow>
+        <Home />
       </LandingPageLayout>
     </>
   );
 };
+
 export default HomePage;
