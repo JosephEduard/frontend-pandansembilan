@@ -18,8 +18,7 @@ const useLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toogleVisibility = () => setIsVisible(!isVisible);
 
-  const callbackUrl: string =
-    (router.query.callbackUrl as string) || "/admin/dashboard";
+  const callbackUrl: string = (router.query.callbackUrl as string) || "/admin";
 
   const {
     control,

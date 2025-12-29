@@ -1,10 +1,10 @@
 import AuthLayout from "@/components/layouts/AuthLayout";
-import Register from "@/pages/views/Admin/Register/RegisterP";
+import RegisterSuccess from "@/pages/views/Admin/RegisterSuccess";
 
 const AdminRegisterSuccessPage = () => {
   return (
     <AuthLayout title="CV Pandan Sembilan | Admin Register Success">
-      <h1>Register success</h1>
+      <RegisterSuccess />
     </AuthLayout>
   );
 };
