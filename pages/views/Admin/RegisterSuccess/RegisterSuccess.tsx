@@ -13,10 +13,10 @@ const RegisterSuccess = () => {
           height={250}
         />
         <Image
-          src="/images/general/success.svg"
+          src="/images/general/success.png"
           alt="success"
-          className="-mt-16 mb-0 sm:-mt-22 md:-mt-20 lg:-mt-30 lg:w-full"
-          width={300}
+          className="-mt-40 mb-0 w-full sm:-mt-30 md:-mt-20 lg:-mt-30 lg:w-full"
+          width={1080}
           height={300}
         />
       </div>
