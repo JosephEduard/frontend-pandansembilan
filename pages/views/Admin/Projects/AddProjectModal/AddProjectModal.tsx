@@ -56,6 +56,7 @@ const AddProjectModal = (props: PropTypes) => {
 
   return (
     <Modal
+      isDismissable={false}
       isOpen={isOpen}
       onClose={() => handleOnClose(onClose)}
       onOpenChange={onOpenChange}

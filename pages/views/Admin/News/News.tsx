@@ -12,6 +12,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import Image from "next/image";
 
 import { COLUMN_LIST_NEWS } from "../../../../constants/News.constants";
+
 import AddNewsModal from "./AddNewsModal";
 import DeleteNewsModal from "./DeleteNewsModal";
 
