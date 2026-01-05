@@ -2,7 +2,7 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 
 import Projects from "@/pages/views/Admin/Projects";
 
-const DashboardAdminPage = () => {
+const ProjectAdminPage = () => {
   return (
     <DashboardLayout title="Projects - CV Pandan Sembilan">
       <Projects />
@@ -10,4 +10,4 @@ const DashboardAdminPage = () => {
   );
 };
 
-export default DashboardAdminPage;
+export default ProjectAdminPage;

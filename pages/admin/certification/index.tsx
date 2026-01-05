@@ -2,7 +2,7 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 
 import Certifications from "@/pages/views/Admin/Certifications";
 
-const DashboardAdminPage = () => {
+const CertificationAdminPage = () => {
   return (
     <DashboardLayout title="Certifications - CV Pandan Sembilan">
       <Certifications />
@@ -10,4 +10,4 @@ const DashboardAdminPage = () => {
   );
 };
 
-export default DashboardAdminPage;
+export default CertificationAdminPage;

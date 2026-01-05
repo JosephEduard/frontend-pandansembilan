@@ -36,16 +36,9 @@ const Login = () => {
       </div>
       <Card className="w-80 md:w-100 lg:w-100">
         <CardBody className="p-4 md:p-7 lg:p-7">
-          <h2 className="text-danger text-xl font-bold">Admin Login</h2>
-          <p className="text-small mb-4">
-            Belum punya akses sebagai admin?&nbsp;
-            <Link
-              href="/auth/admin/register"
-              className="text-danger-400 font-semibold"
-            >
-              Register di sini
-            </Link>
-          </p>
+          <h2 className="text-danger mb-4 text-center text-2xl font-bold">
+            Admin Login
+          </h2>
           {errors.root && (
             <p className="text-danger-600 mb-2 font-medium">
               {errors?.root?.message}

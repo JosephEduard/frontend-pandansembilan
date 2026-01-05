@@ -88,7 +88,7 @@ const DashboardLayoutNavbar = () => {
       >
         <NavbarBrand
           as={NextLink}
-          href="/"
+          href="/admin"
           className="sm:-flex-auto sm:ml-0 sm:justify-start md:ml-0 md:flex-none lg:mr-8 lg:ml-0 xl:mr-0 xl:ml-15 2xl:ml-40"
         >
           <Image

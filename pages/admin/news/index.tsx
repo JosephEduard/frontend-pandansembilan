@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import News from "@/pages/views/Admin/News";
 
-const DashboardAdminPage = () => {
+const NewsAdminPage = () => {
   return (
     <DashboardLayout title="News - CV Pandan Sembilan">
       <News />
@@ -9,4 +9,4 @@ const DashboardAdminPage = () => {
   );
 };
 
-export default DashboardAdminPage;
+export default NewsAdminPage;

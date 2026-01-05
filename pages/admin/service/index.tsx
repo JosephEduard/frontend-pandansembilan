@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import Services from "@/pages/views/Admin/Services";
 
-const DashboardAdminPage = () => {
+const ServiceAdminPage = () => {
   return (
     <DashboardLayout title="Services - CV Pandan Sembilan">
       <Services />
@@ -9,4 +9,4 @@ const DashboardAdminPage = () => {
   );
 };
 
-export default DashboardAdminPage;
+export default ServiceAdminPage;

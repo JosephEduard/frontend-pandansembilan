@@ -23,18 +23,6 @@ const items: DashboardItem[] = [
     Icon: MdWork,
   },
   {
-    title: "Profile",
-    href: "/admin/profile",
-    imgSrc: "/images/admin-dashboard/profile.png",
-    Icon: MdPerson,
-  },
-  {
-    title: "News",
-    href: "/admin/news",
-    imgSrc: "/images/admin-dashboard/news.png",
-    Icon: MdNewspaper,
-  },
-  {
     title: "Services",
     href: "/admin/service",
     imgSrc: "/images/admin-dashboard/services.png",
@@ -45,6 +33,12 @@ const items: DashboardItem[] = [
     href: "/admin/certification",
     imgSrc: "/images/admin-dashboard/certification.png",
     Icon: MdWorkspacePremium,
+  },
+  {
+    title: "News",
+    href: "/admin/news",
+    imgSrc: "/images/admin-dashboard/news.png",
+    Icon: MdNewspaper,
   },
 ];
 

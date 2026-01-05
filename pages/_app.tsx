@@ -3,14 +3,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HeroUIProvider } from "@heroui/react";
 import "@/styles/globals.css";
 import { onErrorHander } from "@/libs/axios/responseHandler";
-import { Lato } from "next/font/google";
-import { cn } from "@/utils/cn";
 import { SessionProvider } from "next-auth/react";
+import AppShell from "@/components/commons/AppShell";
+import { ToasterProvider } from "@/contexts/ToasterContext";
 
-const lato = Lato({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "700", "900"],
-});
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -35,9 +31,11 @@ export default function App({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <HeroUIProvider>
-          <main className={cn(lato.className)}>
-            <Component {...pageProps} />
-          </main>
+          <ToasterProvider>
+            <AppShell>
+              <Component {...pageProps} />
+            </AppShell>
+          </ToasterProvider>
         </HeroUIProvider>
       </QueryClientProvider>
     </SessionProvider>
