@@ -11,7 +11,7 @@ import { Key, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { useRouter } from "next/router";
 
-import { COLUMN_LIST_PROJECT } from "./Project.constants";
+import { COLUMN_LIST_PROJECT } from "../../../../constants/Project.constants";
 import AddProjectModal from "./AddProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 
