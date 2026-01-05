@@ -7,14 +7,16 @@ import DashboardLayoutNavbar from "./DashboardLayoutNavbar";
 import PageHead from "@/components/commons/PageHead/PageHead";
 import LandingPageLayoutFooter from "@/components/layouts/LandingPageLayout/LandingPageLayoutFooter/LandingPageLayoutFooter";
 import { cn } from "@/utils/cn";
+import TableHead from "@/components/commons/TableHead/TableHead";
 
 interface PropTypes {
   title: string;
+  name?: string;
   children: ReactNode;
 }
 
 const DashboardLayout = (props: PropTypes) => {
-  const { children, title } = props;
+  const { children, name, title } = props;
   const router = useRouter();
   const isHome = router.pathname === "/";
 
@@ -23,6 +25,7 @@ const DashboardLayout = (props: PropTypes) => {
       <PageHead title={title} />
       <DashboardLayoutTopbar />
       <DashboardLayoutNavbar />
+      <TableHead name={name} />
       <div
         className={cn(
           "max-w-screen-3xl 3xl:container mb-0 pt-0 pb-0",

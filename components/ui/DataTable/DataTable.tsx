@@ -115,7 +115,7 @@ const DataTable = (props: PropTypes) => {
       bottomContent={BottomContent}
       bottomContentPlacement="outside"
       classNames={{
-        base: "max-w-full",
+        base: "max-w-full p-4",
         wrapper: cn({ "overflow-x-hidden": isLoading }),
       }}
       topContent={TopContent}

@@ -3,7 +3,10 @@ import Certifications from "@/pages/views/Admin/Certifications";
 
 const CertificationAdminPage = () => {
   return (
-    <DashboardLayout title="Certifications - CV Pandan Sembilan">
+    <DashboardLayout
+      title="Certifications - CV Pandan Sembilan"
+      name="Manage Certifications"
+    >
       <Certifications />
     </DashboardLayout>
   );
