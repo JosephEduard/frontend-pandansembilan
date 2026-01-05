@@ -74,7 +74,6 @@ const AddProjectModal = (props: PropTypes) => {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    autoFocus
                     className="mb-2"
                     errorMessage={errors.title?.message}
                     isInvalid={errors.title !== undefined}
@@ -105,7 +104,6 @@ const AddProjectModal = (props: PropTypes) => {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    autoFocus
                     className="mb-2"
                     errorMessage={errors.address?.message}
                     isInvalid={errors.address !== undefined}
@@ -121,7 +119,6 @@ const AddProjectModal = (props: PropTypes) => {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    autoFocus
                     className="mb-2"
                     errorMessage={errors.year?.message}
                     isInvalid={errors.year !== undefined}

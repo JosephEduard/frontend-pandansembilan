@@ -71,7 +71,6 @@ const AddServiceModal = (props: PropTypes) => {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    autoFocus
                     className="mb-2"
                     errorMessage={errors.name?.message}
                     isInvalid={errors.name !== undefined}

@@ -96,7 +96,6 @@ const InfoTab = (props: PropTypes) => {
               render={({ field }) => (
                 <Input
                   {...field}
-                  autoFocus
                   className="mb-2"
                   errorMessage={errorsUpdateInfo.title?.message}
                   isInvalid={errorsUpdateInfo.title !== undefined}
@@ -131,7 +130,6 @@ const InfoTab = (props: PropTypes) => {
               render={({ field }) => (
                 <Input
                   {...field}
-                  autoFocus
                   className="mb-2"
                   errorMessage={errorsUpdateInfo.year?.message}
                   isInvalid={errorsUpdateInfo.year !== undefined}

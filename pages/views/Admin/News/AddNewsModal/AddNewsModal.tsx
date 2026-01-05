@@ -70,7 +70,6 @@ const AddNewsModal = (props: PropTypes) => {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    autoFocus
                     className="mb-2"
                     errorMessage={errors.title?.message}
                     isInvalid={errors.title !== undefined}
@@ -101,7 +100,6 @@ const AddNewsModal = (props: PropTypes) => {
                 render={({ field }) => (
                   <Input
                     {...field}
-                    autoFocus
                     className="mb-2"
                     errorMessage={errors.date?.message}
                     isInvalid={errors.date !== undefined}
