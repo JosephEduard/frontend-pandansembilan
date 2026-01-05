@@ -3,21 +3,22 @@ import { useRouter } from "next/router";
 
 const RegisterSuccess = () => {
   const router = useRouter();
+
   return (
     <div className="flex min-h-screen w-screen flex-col items-center justify-center gap-10 p-4">
       <div className="flex flex-col items-center justify-center gap-10">
         <Image
-          src="/images/general/logo2.svg"
           alt="logo"
-          width={250}
           height={250}
+          src="/images/general/logo2.svg"
+          width={250}
         />
         <Image
-          src="/images/general/success.png"
           alt="success"
           className="-mt-40 mb-0 w-full sm:-mt-30 md:-mt-20 lg:-mt-30 lg:w-full"
-          width={1080}
           height={300}
+          src="/images/general/success.png"
+          width={1080}
         />
       </div>
       <div className="-mt-20 flex flex-col items-center gap-2 text-center">
@@ -26,9 +27,9 @@ const RegisterSuccess = () => {
         </h1>
         <Button
           className="mt-4 w-fit"
-          variant="bordered"
           color="danger"
           onPress={() => router.push("/auth/admin/login")}
+          variant="bordered"
         >
           Login Disini
         </Button>

@@ -6,6 +6,7 @@ import _import from "eslint-plugin-import";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import jsxA11Y from "eslint-plugin-jsx-a11y";
 import prettier from "eslint-plugin-prettier";
+import sortDestructureKeys from "eslint-plugin-sort-destructure-keys";
 import globals from "globals";
 import tsParser from "@typescript-eslint/parser";
 import path from "node:path";
@@ -61,6 +62,7 @@ export default defineConfig([
       "@typescript-eslint": typescriptEslint,
       "jsx-a11y": fixupPluginRules(jsxA11Y),
       prettier: fixupPluginRules(prettier),
+      "sort-destructure-keys": fixupPluginRules(sortDestructureKeys),
     },
 
     languageOptions: {
@@ -143,10 +145,19 @@ export default defineConfig([
       "react/jsx-sort-props": [
         "warn",
         {
-          callbacksLast: true,
-          shorthandFirst: true,
+          callbacksLast: false,
+          shorthandFirst: false,
+          reservedFirst: false,
+          ignoreCase: true,
           noSortAlphabetically: false,
-          reservedFirst: true,
+        },
+      ],
+
+      // Alphabetize object destructuring keys (e.g., const { a, b, c } = obj)
+      "sort-destructure-keys/sort-destructure-keys": [
+        "warn",
+        {
+          caseSensitive: false,
         },
       ],
 

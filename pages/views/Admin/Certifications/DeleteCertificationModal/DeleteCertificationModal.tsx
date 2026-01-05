@@ -1,5 +1,3 @@
-import useDeleteCertificationModal from "@/views/Admin/Certification/DeleteServiceModal/useDeleteCertificationModal";
-import useDeleteProjectModal from "@/views/Admin/Project/DeleteProjectModal/useDeleteProjectModal";
 import {
   Button,
   Modal,
@@ -10,6 +8,8 @@ import {
   Spinner,
 } from "@heroui/react";
 import { Dispatch, SetStateAction, useEffect } from "react";
+
+import useDeleteCertificationModal from "@/views/Admin/Certification/DeleteServiceModal/useDeleteCertificationModal";
 
 interface PropTypes {
   isOpen: boolean;
@@ -31,9 +31,9 @@ const DeleteCertificationModal = (props: PropTypes) => {
   } = props;
 
   const {
-    mutateDeleteCertification,
     isPendingMutateDeleteCertification,
     isSuccessMutateDeleteCertification,
+    mutateDeleteCertification,
   } = useDeleteCertificationModal();
 
   useEffect(() => {
@@ -42,11 +42,12 @@ const DeleteCertificationModal = (props: PropTypes) => {
       refetchCertification();
     }
   }, [isSuccessMutateDeleteCertification]);
+
   return (
     <Modal
+      isOpen={isOpen}
       onClose={onClose}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -60,23 +61,23 @@ const DeleteCertificationModal = (props: PropTypes) => {
         <ModalFooter>
           <Button
             color="danger"
-            variant="flat"
+            disabled={isPendingMutateDeleteCertification}
             onPress={() => {
               onClose();
               setSelectedId("");
             }}
-            disabled={isPendingMutateDeleteCertification}
+            variant="flat"
           >
             Cancel
           </Button>
           <Button
             color="danger"
-            type="submit"
             disabled={isPendingMutateDeleteCertification}
             onPress={() => mutateDeleteCertification(selectedId)}
+            type="submit"
           >
             {isPendingMutateDeleteCertification ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Delete"
             )}
@@ -86,4 +87,5 @@ const DeleteCertificationModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default DeleteCertificationModal;

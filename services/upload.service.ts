@@ -1,5 +1,6 @@
-import instance from "@/libs/axios/instance";
 import endpoint from "./endpoint.constant";
+
+import instance from "@/libs/axios/instance";
 import { IFileURL } from "@/types/File";
 
 const formdataHeader = {

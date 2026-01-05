@@ -1,6 +1,3 @@
-import InputFile from "@/components/ui/InputFile";
-import { INews } from "@/types/News";
-import useImageTab from "@/views/Admin/DetailNews/ImageTab/useImageTab";
 import {
   Button,
   Card,
@@ -13,6 +10,10 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useImageTab from "@/views/Admin/DetailNews/ImageTab/useImageTab";
+import { INews } from "@/types/News";
+import InputFile from "@/components/ui/InputFile";
+
 interface PropTypes {
   currentImage: string;
   onUpdate: (data: INews) => void;
@@ -21,18 +22,18 @@ interface PropTypes {
 }
 
 const ImageTab = (props: PropTypes) => {
-  const { currentImage, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+  const { currentImage, isPendingUpdate, isSuccessUpdate, onUpdate } = props;
   const {
+    controlUpdateImage,
+    errorsUpdateImage,
     handleDeleteImage,
+    handleSubmitUpdateImage,
+
     handleUploadImage,
+
     isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
-
     preview,
-
-    controlUpdateImage,
-    handleSubmitUpdateImage,
-    errorsUpdateImage,
     resetUpdateImage,
   } = useImageTab();
 
@@ -41,6 +42,7 @@ const ImageTab = (props: PropTypes) => {
       resetUpdateImage();
     }
   }, [isSuccessUpdate]);
+
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
@@ -59,42 +61,42 @@ const ImageTab = (props: PropTypes) => {
               Image saat ini
             </p>
             <Skeleton
-              isLoaded={!!currentImage}
               className="aspect-square rounded-lg"
+              isLoaded={!!currentImage}
             >
-              <Image src={currentImage} alt="image" fill className="relative" />
+              <Image alt="image" className="relative" fill src={currentImage} />
             </Skeleton>
           </div>
           <Controller
-            name="image"
             control={controlUpdateImage}
+            name="image"
             render={({ field: { onChange, value, ...field } }) => (
               <InputFile
                 {...field}
-                onUpload={(files) => handleUploadImage(files, onChange)}
-                onDelete={() => handleDeleteImage(onChange)}
-                isUploading={isPendingMutateUploadFile}
-                isDeleting={isPendingMutateDeleteFile}
-                isInvalid={errorsUpdateImage.image !== undefined}
                 errorMessage={errorsUpdateImage.image?.message}
+                isDeleting={isPendingMutateDeleteFile}
                 isDropable
+                isInvalid={errorsUpdateImage.image !== undefined}
+                isUploading={isPendingMutateUploadFile}
                 label={
                   <p className="text-default-700 mb-2 text-sm font-medium">
                     Upload Image Baru
                   </p>
                 }
+                onDelete={() => handleDeleteImage(onChange)}
+                onUpload={(files) => handleUploadImage(files, onChange)}
                 preview={typeof preview === "string" ? preview : ""}
               />
             )}
           />
           <Button
-            color="danger"
             className="disabled:bg-default-500 mt-2"
-            type="submit"
+            color="danger"
             disabled={isPendingMutateUploadFile || isPendingUpdate}
+            type="submit"
           >
             {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Simpan Perubahan"
             )}

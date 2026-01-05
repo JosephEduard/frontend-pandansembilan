@@ -1,6 +1,3 @@
-import serviceServices from "@/services/service";
-import { IProject } from "@/types/Project";
-import useInfoTab from "@/views/Admin/DetailProject/InfoTab/useInfoTab";
 import {
   Button,
   Card,
@@ -17,6 +14,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useInfoTab from "@/views/Admin/DetailProject/InfoTab/useInfoTab";
+import { IProject } from "@/types/Project";
+import serviceServices from "@/services/service";
+
 interface PropTypes {
   dataProject: IProject;
 
@@ -29,15 +30,15 @@ interface PropTypes {
 const InfoTab = (props: PropTypes) => {
   const {
     dataProject,
-    onUpdate,
+    isFetchingProject,
     isPendingUpdate,
     isSuccessUpdate,
-    isFetchingProject,
+    onUpdate,
   } = props;
   const {
     controlUpdateInfo,
-    handleSubmitUpdateInfo,
     errorsUpdateInfo,
+    handleSubmitUpdateInfo,
     resetUpdateInfo,
     setValueUpdateInfo,
   } = useInfoTab();
@@ -46,6 +47,7 @@ const InfoTab = (props: PropTypes) => {
     queryKey: ["ServiceSelectOptions"],
     queryFn: async () => {
       const res = await serviceServices.getServices("page=1&limit=999");
+
       return res.data;
     },
   });
@@ -84,6 +86,7 @@ const InfoTab = (props: PropTypes) => {
       });
     }
   }, [isSuccessUpdate, dataProject]);
+
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
@@ -97,94 +100,95 @@ const InfoTab = (props: PropTypes) => {
           className="flex flex-col gap-4"
           onSubmit={handleSubmitUpdateInfo(onUpdate)}
         >
-          <Skeleton isLoaded={!isFetchingProject} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingProject}>
             <Controller
-              name="title"
               control={controlUpdateInfo}
+              name="title"
               render={({ field }) => (
                 <Input
                   {...field}
+                  className="mt-2"
+                  errorMessage={errorsUpdateInfo.title?.message}
+                  isInvalid={errorsUpdateInfo.title !== undefined}
                   label="Project Title"
                   labelPlacement="outside"
-                  variant="bordered"
                   type="text"
-                  isInvalid={errorsUpdateInfo.title !== undefined}
-                  errorMessage={errorsUpdateInfo.title?.message}
-                  className="mt-2"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingProject} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingProject}>
             <Controller
-              name="description"
               control={controlUpdateInfo}
+              name="description"
               render={({ field }) => (
                 <Textarea
                   {...field}
+                  className="mb-2"
+                  errorMessage={errorsUpdateInfo.description?.message}
+                  isInvalid={errorsUpdateInfo.description !== undefined}
                   label="Description"
                   labelPlacement="outside"
-                  variant="bordered"
                   type="text"
-                  isInvalid={errorsUpdateInfo.description !== undefined}
-                  errorMessage={errorsUpdateInfo.description?.message}
-                  className="mb-2"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingProject} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingProject}>
             <Controller
-              name="address"
               control={controlUpdateInfo}
+              name="address"
               render={({ field }) => (
                 <Input
                   {...field}
+                  className="mt-2"
+                  errorMessage={errorsUpdateInfo.address?.message}
+                  isInvalid={errorsUpdateInfo.address !== undefined}
                   label="Address"
                   labelPlacement="outside"
-                  variant="bordered"
                   type="text"
-                  isInvalid={errorsUpdateInfo.address !== undefined}
-                  errorMessage={errorsUpdateInfo.address?.message}
-                  className="mt-2"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingProject} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingProject}>
             <Controller
-              name="year"
               control={controlUpdateInfo}
+              name="year"
               render={({ field }) => (
                 <Input
                   {...field}
                   autoFocus
-                  label="Year"
-                  variant="bordered"
-                  type="number"
-                  isInvalid={errorsUpdateInfo.year !== undefined}
-                  errorMessage={errorsUpdateInfo.year?.message}
                   className="mb-2"
+                  errorMessage={errorsUpdateInfo.year?.message}
+                  isInvalid={errorsUpdateInfo.year !== undefined}
+                  label="Year"
+                  type="number"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingProject} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingProject}>
             <Controller
-              name="serviceId"
               control={controlUpdateInfo}
+              name="serviceId"
               render={({ field }) => (
                 <Select
-                  label="Select Service"
-                  variant="bordered"
                   className="mb-2"
-                  isInvalid={errorsUpdateInfo.serviceId !== undefined}
                   errorMessage={errorsUpdateInfo.serviceId?.message}
-                  selectedKeys={field.value ? [field.value] : []}
+                  isInvalid={errorsUpdateInfo.serviceId !== undefined}
+                  label="Select Service"
                   onSelectionChange={(keys) => {
                     const selected = Array.from(keys as Set<string>).join("");
+
                     field.onChange(selected);
                   }}
+                  selectedKeys={field.value ? [field.value] : []}
+                  variant="bordered"
                 >
                   {(servicesData?.data || []).map((svc: any) => (
                     <SelectItem key={svc._id}>{svc.name}</SelectItem>
@@ -193,22 +197,23 @@ const InfoTab = (props: PropTypes) => {
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingProject} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingProject}>
             <Controller
-              name="status"
               control={controlUpdateInfo}
+              name="status"
               render={({ field }) => (
                 <Select
-                  label="Status"
-                  variant="bordered"
                   className="mb-2"
-                  isInvalid={errorsUpdateInfo.status !== undefined}
                   errorMessage={errorsUpdateInfo.status?.message}
-                  selectedKeys={field.value ? [field.value] : []}
+                  isInvalid={errorsUpdateInfo.status !== undefined}
+                  label="Status"
                   onSelectionChange={(keys) => {
                     const selected = Array.from(keys as Set<string>).join("");
+
                     field.onChange(selected);
                   }}
+                  selectedKeys={field.value ? [field.value] : []}
+                  variant="bordered"
                 >
                   <SelectItem key="true">true</SelectItem>
                 </Select>
@@ -217,13 +222,13 @@ const InfoTab = (props: PropTypes) => {
           </Skeleton>
 
           <Button
-            color="danger"
             className="disabled:bg-default-500 mt-2"
-            type="submit"
+            color="danger"
             disabled={isPendingUpdate || !dataProject?._id}
+            type="submit"
           >
             {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Simpan Perubahan"
             )}

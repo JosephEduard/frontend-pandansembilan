@@ -1,27 +1,28 @@
 import { Button, Tab, Tabs } from "@heroui/react";
+
 import InfoTab from "./InfoTab";
+import FileTab from "./FileTab";
 
 import useDetailCertification from "@/views/Admin/DetailCertification/useDetailCertification";
-import FileTab from "./FileTab";
 
 const DetailCertification = () => {
   const {
     dataCertification,
     handleUpdateCertification,
+    isFetchingCertification,
     isPendingMutateUpdateCertification,
     isSuccessMutateUpdateCertification,
     refetchCertification,
-    isFetchingCertification,
   } = useDetailCertification();
 
   return (
     <div className="p-6">
       <div className="mb-4 flex items-center justify-end">
         <Button
-          color="primary"
-          onPress={() => {}}
           className="w-full text-xl font-bold"
+          color="primary"
           disabled
+          onPress={() => {}}
         >
           Detail Certification
         </Button>
@@ -33,27 +34,27 @@ const DetailCertification = () => {
         <Tab key="file" title="File">
           <FileTab
             currentFile={dataCertification?.file}
-            onUpdate={handleUpdateCertification}
             isPendingUpdate={isPendingMutateUpdateCertification}
             isSuccessUpdate={isSuccessMutateUpdateCertification}
+            onUpdate={handleUpdateCertification}
           />
         </Tab>
         <Tab key="info" title="Info">
           <InfoTab
             dataCertification={dataCertification}
-            onUpdate={handleUpdateCertification}
+            isFetchingCertification={isFetchingCertification}
             isPendingUpdate={isPendingMutateUpdateCertification}
             isSuccessUpdate={isSuccessMutateUpdateCertification}
-            isFetchingCertification={isFetchingCertification}
+            onUpdate={handleUpdateCertification}
           />
         </Tab>
       </Tabs>
       <div className="mt-4 flex items-center justify-end">
         <Button
+          className="w-full"
           color="danger"
           onPress={() => window.history.back()}
           variant="flat"
-          className="w-full"
         >
           Kembali
         </Button>
@@ -61,4 +62,5 @@ const DetailCertification = () => {
     </div>
   );
 };
+
 export default DetailCertification;

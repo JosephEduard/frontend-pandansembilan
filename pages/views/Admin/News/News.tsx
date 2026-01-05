@@ -1,4 +1,3 @@
-import DataTable from "@/components/ui/DataTable";
 import {
   Button,
   Dropdown,
@@ -8,30 +7,33 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { useRouter } from "next/router";
-import { Key, ReactNode, use, useCallback, useEffect } from "react";
+import { Key, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import { COLUMN_LIST_NEWS } from "./News.constants";
 import Image from "next/image";
-import useNews from "@/views/Admin/News/useNews";
+
+import { COLUMN_LIST_NEWS } from "./News.constants";
 import AddNewsModal from "./AddNewsModal";
 import DeleteNewsModal from "./DeleteNewsModal";
 
+import useNews from "@/views/Admin/News/useNews";
+import DataTable from "@/components/ui/DataTable";
+
 const News = () => {
-  const { push, isReady, query } = useRouter();
+  const { isReady, push, query } = useRouter();
   const {
     currentLimit,
     currentPage,
-    setURL,
     dataNews,
+    handleChangeLimit,
+    handleChangePage,
+    handleClearSearch,
+    handleSearch,
     isLoadingNews,
     isRefetchingNews,
     refetchNews,
-    handleChangeLimit,
-    handleChangePage,
-    handleSearch,
-    handleClearSearch,
     selectedId,
     setSelectedId,
+    setURL,
   } = useNews();
 
   const addNewsModal = useDisclosure();
@@ -50,9 +52,12 @@ const News = () => {
       switch (columnKey) {
         case "date": {
           const v = cellValue as unknown as string | Date | undefined;
+
           if (!v) return "";
           const d = typeof v === "string" ? new Date(v) : (v as Date);
+
           if (isNaN(d.getTime())) return String(v);
+
           return d.toLocaleString("id-ID", {
             timeZone: "Asia/Jakarta",
             year: "numeric",
@@ -65,7 +70,7 @@ const News = () => {
         }
         case "image":
           return (
-            <Image src={`${cellValue}`} alt="image" width={100} height={200} />
+            <Image alt="image" height={200} src={`${cellValue}`} width={100} />
           );
         case "actions":
           return (
@@ -83,8 +88,8 @@ const News = () => {
                   Detail News
                 </DropdownItem>
                 <DropdownItem
-                  key="delete-news"
                   className="text-danger-500"
+                  key="delete-news"
                   onPress={() => {
                     setSelectedId(`${news._id}`);
                     deleteNewsModal.onOpen();
@@ -98,7 +103,9 @@ const News = () => {
         default:
           if (cellValue === null || cellValue === undefined) return "";
           const t = typeof cellValue;
+
           if (t === "object") return "";
+
           return String(cellValue);
       }
     },
@@ -128,11 +135,12 @@ const News = () => {
       <AddNewsModal {...addNewsModal} refetchNews={refetchNews} />
       <DeleteNewsModal
         {...deleteNewsModal}
+        refetchNews={refetchNews}
         selectedId={selectedId}
         setSelectedId={setSelectedId}
-        refetchNews={refetchNews}
       />
     </section>
   );
 };
+
 export default News;

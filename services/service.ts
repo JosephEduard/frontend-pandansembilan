@@ -1,5 +1,6 @@
-import instance from "@/libs/axios/instance";
 import endpoint from "./endpoint.constant";
+
+import instance from "@/libs/axios/instance";
 import { IService } from "@/types/Service";
 
 const serviceServices = {
@@ -11,4 +12,5 @@ const serviceServices = {
   updateService: (id: string, payload: IService) =>
     instance.put(`${endpoint.SERVICE}/${id}`, payload),
 };
+
 export default serviceServices;

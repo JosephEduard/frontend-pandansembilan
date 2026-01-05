@@ -1,4 +1,3 @@
-import { ScrollShadow } from "@heroui/react";
 import { useState, useEffect } from "react";
 
 import Home from "./views/Home";

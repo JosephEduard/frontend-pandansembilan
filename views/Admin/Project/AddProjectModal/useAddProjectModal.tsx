@@ -1,11 +1,12 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import serviceProjects from "@/services/project.service";
-import { IProject } from "@/types/Project";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+
+import { IProject } from "@/types/Project";
+import serviceProjects from "@/services/project.service";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 const schema = yup.object({
   title: yup.string().required("Please enter project title"),
@@ -20,8 +21,8 @@ const useAddProjectModal = () => {
   const { setToaster } = useContext(ToasterContext);
   const {
     control,
-    handleSubmit: handleSubmitFormProject,
     formState: { errors },
+    handleSubmit: handleSubmitFormProject,
     reset,
   } = useForm({
     resolver: yupResolver(schema),
@@ -34,13 +35,14 @@ const useAddProjectModal = () => {
 
   const addProject = async (payload: IProject) => {
     const res = await serviceProjects.addProjects(payload);
+
     return res;
   };
 
   const {
-    mutate: mutateAddProject,
     isPending: isPendingMutateAddProject,
     isSuccess: isSuccessMutateAddProject,
+    mutate: mutateAddProject,
   } = useMutation({
     mutationFn: addProject,
     onError: (error) => {

@@ -1,9 +1,9 @@
+import { Lato } from "next/font/google";
+import { ReactNode, useContext, useEffect } from "react";
+
 import Toaster from "@/components/ui/Toaster";
 import { defaultToaster, ToasterContext } from "@/contexts/ToasterContext";
 import { cn } from "@/utils/cn";
-import { Lato } from "next/font/google";
-import { ReactNode, useContext, useEffect } from "react";
-import { set } from "react-hook-form";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -16,12 +16,13 @@ interface PropTypes {
 
 const AppShell = (props: PropTypes) => {
   const { children } = props;
-  const { toaster, setToaster } = useContext(ToasterContext);
+  const { setToaster, toaster } = useContext(ToasterContext);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setToaster(defaultToaster);
     }, 3000);
+
     return () => {
       clearTimeout(timeout);
     };
@@ -31,7 +32,7 @@ const AppShell = (props: PropTypes) => {
     <main className={cn(lato.className)}>
       {children}
       {toaster.type !== "" && (
-        <Toaster type={toaster.type} message={toaster.message} />
+        <Toaster message={toaster.message} type={toaster.type} />
       )}
     </main>
   );

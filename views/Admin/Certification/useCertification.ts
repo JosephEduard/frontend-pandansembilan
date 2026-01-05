@@ -1,9 +1,10 @@
-import { DELAY, LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/list.constants";
-import useDebounce from "@/hooks/useDebounce";
-import serviceCertifications from "@/services/certification.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
+
+import { DELAY, LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/list.constants";
+import useDebounce from "@/hooks/useDebounce";
+import serviceCertifications from "@/services/certification.service";
 
 const useCertification = () => {
   const router = useRouter();
@@ -25,11 +26,13 @@ const useCertification = () => {
 
   const getCertification = async () => {
     let params = `page=${currentPage}&limit=${currentLimit}`;
+
     if (currentSearch) {
       params += `&search=${currentSearch}`;
     }
     const res = await serviceCertifications.getCertifications(params);
     const { data } = res;
+
     return data;
   };
 
@@ -55,6 +58,7 @@ const useCertification = () => {
 
   const handleChangeLimit = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedLimit = e.target.value;
+
     router.push({
       query: {
         ...router.query,
@@ -67,6 +71,7 @@ const useCertification = () => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     debounce(() => {
       const search = e.target.value;
+
       router.push({
         query: {
           ...router.query,

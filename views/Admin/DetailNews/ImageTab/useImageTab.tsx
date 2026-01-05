@@ -1,8 +1,8 @@
-import useMediaHandling from "@/hooks/useMediaHandling";
-import { IService } from "@/types/Service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+
+import useMediaHandling from "@/hooks/useMediaHandling";
 
 const schemaUpdateImage = yup.object().shape({
   image: yup.mixed<FileList | string>().required("Please upload News image"),
@@ -10,20 +10,20 @@ const schemaUpdateImage = yup.object().shape({
 
 const useImageTab = () => {
   const {
-    mutateUploadFile,
+    isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
     mutateDeleteFile,
-    isPendingMutateDeleteFile,
+    mutateUploadFile,
   } = useMediaHandling();
 
   const {
     control: controlUpdateImage,
-    handleSubmit: handleSubmitUpdateImage,
     formState: { errors: errorsUpdateImage },
-    reset: resetUpdateImage,
-    watch: watchUpdateImage,
     getValues: getValuesUpdateImage,
+    handleSubmit: handleSubmitUpdateImage,
+    reset: resetUpdateImage,
     setValue: setValueUpdateImage,
+    watch: watchUpdateImage,
   } = useForm({
     resolver: yupResolver(schemaUpdateImage),
   });
@@ -49,6 +49,7 @@ const useImageTab = () => {
     onChange: (files: FileList | undefined) => void,
   ) => {
     const fileUrl = getValuesUpdateImage("image");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
     }

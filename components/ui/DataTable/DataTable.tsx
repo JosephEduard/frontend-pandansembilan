@@ -1,8 +1,5 @@
-import { LIMIT_LISTS } from "@/constants/list.constants";
-import { cn } from "@/utils/cn";
 import {
   Button,
-  button,
   Input,
   Pagination,
   Select,
@@ -17,6 +14,9 @@ import {
 } from "@heroui/react";
 import { ChangeEvent, Key, ReactNode, useMemo } from "react";
 import { CiSearch } from "react-icons/ci";
+
+import { cn } from "@/utils/cn";
+import { LIMIT_LISTS } from "@/constants/list.constants";
 
 interface PropTypes {
   buttonTopContentLabel?: String;
@@ -44,10 +44,10 @@ const DataTable = (props: PropTypes) => {
     emptyContent,
     isLoading,
     limit,
-    onClearSearch,
-    onChangeSearch,
-    onChangePage,
     onChangeLimit,
+    onChangePage,
+    onChangeSearch,
+    onClearSearch,
     onClickButtonTopContent,
     renderCell,
     totalPages,
@@ -57,12 +57,12 @@ const DataTable = (props: PropTypes) => {
     return (
       <div className="mb-7 flex flex-col-reverse items-start justify-between gap-y-4 lg:flex-row lg:items-center">
         <Input
-          isClearable
           className="w-full sm:max-w-[24%]"
+          isClearable
+          onChange={onChangeSearch}
+          onClear={onClearSearch}
           placeholder="Search by name"
           startContent={<CiSearch />}
-          onClear={onClearSearch}
-          onChange={onChangeSearch}
         />
         {buttonTopContentLabel && (
           <Button color="danger" onPress={onClickButtonTopContent}>
@@ -83,12 +83,12 @@ const DataTable = (props: PropTypes) => {
       <div className="lg: flex items-center justify-center lg:justify-between">
         <Select
           className="hidden max-w-36 lg:block"
-          size="md"
+          disallowEmptySelection
+          onChange={onChangeLimit}
           selectedKeys={[limit]}
           selectionMode="single"
-          onChange={onChangeLimit}
+          size="md"
           startContent={<p className="text-small">Show:</p>}
-          disallowEmptySelection
         >
           {LIMIT_LISTS.map((item) => (
             <SelectItem key={item.value} textValue={item.value}>
@@ -98,12 +98,12 @@ const DataTable = (props: PropTypes) => {
         </Select>
         {totalPages > 1 && (
           <Pagination
-            isCompact
-            showControls
             color="danger"
-            page={currentPage}
-            total={totalPages}
+            isCompact
             onChange={onChangePage}
+            page={currentPage}
+            showControls
+            total={totalPages}
           />
         )}
       </div>
@@ -112,14 +112,14 @@ const DataTable = (props: PropTypes) => {
 
   return (
     <Table
-      topContent={TopContent}
-      topContentPlacement="outside"
+      bottomContent={BottomContent}
+      bottomContentPlacement="outside"
       classNames={{
         base: "max-w-full",
         wrapper: cn({ "overflow-x-hidden": isLoading }),
       }}
-      bottomContent={BottomContent}
-      bottomContentPlacement="outside"
+      topContent={TopContent}
+      topContentPlacement="outside"
     >
       <TableHeader columns={columns}>
         {(column) => (
@@ -129,9 +129,9 @@ const DataTable = (props: PropTypes) => {
         )}
       </TableHeader>
       <TableBody
-        items={data}
         emptyContent={emptyContent}
         isLoading={isLoading}
+        items={data}
         loadingContent={
           <div className="bg-foreground-700/30 flex h-full w-full items-center justify-center backdrop-blur-sm">
             <Spinner color="danger" />

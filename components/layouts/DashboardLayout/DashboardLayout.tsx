@@ -14,7 +14,7 @@ interface PropTypes {
 }
 
 const DashboardLayout = (props: PropTypes) => {
-  const { title, children } = props;
+  const { children, title } = props;
   const router = useRouter();
   const isHome = router.pathname === "/";
 

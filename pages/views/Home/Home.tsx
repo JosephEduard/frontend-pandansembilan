@@ -222,10 +222,10 @@ const Home = () => {
 
       {/* About Us */}
       <motion.section
-        ref={aboutRef}
         animate={sectionAnimate(aboutEntered, aboutAlpha)}
         className="w-full"
         initial={{ opacity: 0, y: 40 }}
+        ref={aboutRef}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
@@ -303,8 +303,8 @@ const Home = () => {
                     { number: "3+", label: "Tahun" },
                   ].map((stat, i) => (
                     <motion.div
-                      key={i}
                       className="rounded-lg bg-gradient-to-br from-blue-50 to-gray-50 p-4 text-center"
+                      key={i}
                       whileHover={{ scale: 1.05 }}
                     >
                       <div
@@ -351,10 +351,10 @@ const Home = () => {
 
       {/* Our Best Services */}
       <motion.section
-        ref={servicesRef}
         animate={sectionAnimate(servicesEntered, servicesAlpha)}
         className="w-full"
         initial={{ opacity: 0, y: 40 }}
+        ref={servicesRef}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
@@ -382,10 +382,10 @@ const Home = () => {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             {services.map((s, index) => (
               <motion.div
-                key={s.title}
                 animate={{ opacity: 1, y: 0 }}
                 className="group relative overflow-hidden rounded-2xl bg-white shadow-lg"
                 initial={{ opacity: 0, y: 40 }}
+                key={s.title}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
@@ -432,10 +432,10 @@ const Home = () => {
 
       {/* Our Portfolio */}
       <motion.section
-        ref={portfolioRef}
         animate={sectionAnimate(portfolioEntered, portfolioAlpha)}
         className="w-full"
         initial={{ opacity: 0, y: 40 }}
+        ref={portfolioRef}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="mx-auto max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
@@ -468,9 +468,9 @@ const Home = () => {
           >
             {["All", "Project 1", "Project 2", "Project 3"].map((filter, i) => (
               <motion.div
-                key={filter}
                 animate={{ opacity: 1, scale: 1 }}
                 initial={{ opacity: 0, scale: 0.8 }}
+                key={filter}
                 transition={{ duration: 0.3, delay: 0.4 + i * 0.1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -481,10 +481,10 @@ const Home = () => {
                       ? "bg-blue-600 text-white shadow-lg shadow-blue-600/40"
                       : "border border-blue-200 bg-white text-blue-600 hover:border-blue-500 hover:bg-blue-50"
                   }`}
+                  onClick={() => setActiveFilter(filter)}
                   radius="full"
                   size="sm"
                   variant={activeFilter === filter ? "solid" : "flat"}
-                  onClick={() => setActiveFilter(filter)}
                 >
                   {filter}
                 </Button>
@@ -496,10 +496,10 @@ const Home = () => {
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
               {filteredProjects.map((p, i) => (
                 <motion.div
-                  key={p.category}
                   animate={{ opacity: 1, scale: 1 }}
                   className="group relative overflow-hidden rounded-2xl shadow-lg"
                   initial={{ opacity: 0, scale: 0.9 }}
+                  key={p.category}
                   transition={{ duration: 0.5, delay: 0.5 + i * 0.05 }}
                   whileHover={{ y: -8, transition: { duration: 0.3 } }}
                 >
@@ -555,8 +555,8 @@ const Home = () => {
             >
               {filteredProjects.map((p) => (
                 <div
-                  key={p.category}
                   className="overflow-hidden rounded-3xl bg-white shadow-2xl"
+                  key={p.category}
                 >
                   <div
                     className="h-[420px] bg-cover bg-center sm:h-[500px] md:h-[560px] lg:h-[600px]"
@@ -590,10 +590,10 @@ const Home = () => {
 
       {/* CTA / Info box */}
       <motion.section
-        ref={ctaRef}
         animate={sectionAnimate(ctaEntered, ctaAlpha)}
         className="w-full"
         initial={{ opacity: 0, y: 40 }}
+        ref={ctaRef}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <div className="mx-auto mb-8 max-w-full px-4 py-14 sm:px-6 md:px-8 lg:max-w-[1100px] xl:max-w-[1320px] 2xl:max-w-[1536px]">
@@ -612,12 +612,12 @@ const Home = () => {
             {/* Floating dots */}
             {[...Array(6)].map((_, i) => (
               <motion.div
-                key={i}
                 animate={{
                   y: [0, -20, 0],
                   opacity: [0.3, 0.8, 0.3],
                 }}
                 className="absolute h-2 w-2 rounded-full bg-white/30"
+                key={i}
                 style={{
                   top: `${20 + i * 15}%`,
                   right: `${10 + i * 10}%`,

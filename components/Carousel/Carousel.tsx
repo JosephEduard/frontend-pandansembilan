@@ -63,14 +63,14 @@ export default function Carousel(
       <div className="relative min-h-[110vh] overflow-hidden">
         {slides.map((s, i) => (
           <div
-            key={i}
             className={`absolute inset-0 flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out ${i === index ? "opacity-100" : "opacity-0"}`}
+            key={i}
           >
             {/* Background image */}
             <Image
-              fill
               alt={s.title}
               className="object-cover"
+              fill
               priority={i === 0}
               sizes="100vw"
               src={s.image}
@@ -154,11 +154,11 @@ export default function Carousel(
         <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
           {slides.map((_, i) => (
             <button
-              key={i}
               aria-label={`Go to slide ${i + 1}`}
               className={`h-2 w-8 rounded-full transition-all duration-300 ${
                 i === index ? "bg-white" : "bg-white/40"
               }`}
+              key={i}
               onClick={() => setIndex(i)}
             />
           ))}

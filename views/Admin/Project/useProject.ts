@@ -1,9 +1,10 @@
-import { DELAY, LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/list.constants";
-import useDebounce from "@/hooks/useDebounce";
-import serviceProjects from "@/services/project.service";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
+
+import { DELAY, LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/list.constants";
+import useDebounce from "@/hooks/useDebounce";
+import serviceProjects from "@/services/project.service";
 
 const useProject = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const useProject = () => {
 
   const getProjects = async () => {
     let params = `page=${currentPage}&limit=${currentLimit}`;
+
     if (currentSearch) {
       params += `&search=${currentSearch}`;
     }
@@ -36,18 +38,21 @@ const useProject = () => {
       data: Array.isArray(data?.data)
         ? data.data.map((item: any) => {
             const serviceObj = (item as any).service ?? (item as any).serviceId;
+
             if (serviceObj && typeof serviceObj === "object") {
               const id = (serviceObj as any)._id ?? (serviceObj as any).id;
               const name =
                 (serviceObj as any).name ?? (serviceObj as any).title;
               const { service, ...restA } = item as any;
               const { serviceId: serviceIdObj, ...restB } = restA as any;
+
               return {
                 ...restB,
                 serviceId: id ?? String(serviceObj),
                 serviceName: name ?? "",
               };
             }
+
             return {
               ...item,
               serviceId:
@@ -57,6 +62,7 @@ const useProject = () => {
           })
         : data?.data,
     };
+
     return normalized;
   };
 
@@ -82,6 +88,7 @@ const useProject = () => {
 
   const handleChangeLimit = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedLimit = e.target.value;
+
     router.push({
       query: {
         ...router.query,
@@ -94,6 +101,7 @@ const useProject = () => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     debounce(() => {
       const search = e.target.value;
+
       router.push({
         query: {
           ...router.query,

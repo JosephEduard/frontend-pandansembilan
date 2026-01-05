@@ -1,23 +1,25 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import serviceServices from "@/services/service";
-import { IService } from "@/types/Service";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
+import { ToasterContext } from "@/contexts/ToasterContext";
+import serviceServices from "@/services/service";
+import { IService } from "@/types/Service";
+
 const useDetailService = () => {
-  const { query, isReady } = useRouter();
+  const { isReady, query } = useRouter();
   const { setToaster } = useContext(ToasterContext);
 
   const getServiceById = async (id: string) => {
     const { data } = await serviceServices.getServiceById(id);
+
     return data.data;
   };
 
   const {
     data: dataService,
-    refetch: refetchService,
     isFetching: isFetchingService,
+    refetch: refetchService,
   } = useQuery({
     queryKey: ["Service"],
     queryFn: () => getServiceById(`${query.id}`),
@@ -29,13 +31,14 @@ const useDetailService = () => {
       `${query.id}`,
       payload,
     );
+
     return data.data;
   };
 
   const {
-    mutate: mutateUpdateService,
     isPending: isPendingMutateUpdateService,
     isSuccess: isSuccessMutateUpdateService,
+    mutate: mutateUpdateService,
   } = useMutation({
     mutationFn: (payload: IService) => updateService(payload),
     onError: (error) => {
@@ -66,6 +69,7 @@ const useDetailService = () => {
             ? (dataService?.banner as string)
             : undefined,
     };
+
     mutateUpdateService(payload);
   };
 

@@ -1,37 +1,38 @@
 import Image from "next/image";
-import { Button, button, Card, CardBody, Input, Spinner } from "@heroui/react";
+import { Button, Card, CardBody, Input, Spinner } from "@heroui/react";
 import Link from "next/link";
-import { useRegister } from "@/views/Admin/Register/useRegister";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Controller } from "react-hook-form";
+
+import { useRegister } from "@/views/Admin/Register/useRegister";
 import { cn } from "@/utils/cn";
 
 const Register = () => {
   const {
-    visiblePassword,
-    handleVisiblePassword,
     control,
-    handleSubmit,
-    handleRegister,
-    isPendingRegister,
     errors,
+    handleRegister,
+    handleSubmit,
+    handleVisiblePassword,
+    isPendingRegister,
+    visiblePassword,
   } = useRegister();
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center gap-10 lg:flex-row lg:gap-20">
       <div className="flex w-1/2 flex-col items-center justify-center gap-10 lg:w-1/3">
         <Image
-          src="/images/general/logo2.svg"
           alt="logo"
-          width={900}
           height={900}
+          src="/images/general/logo2.svg"
+          width={900}
         />
         <Image
-          src="/images/general/logotext.svg"
           alt="logos"
           className="-mt-16 sm:-mt-22 md:-mt-20 lg:-mt-24 lg:w-full"
-          width={420}
           height={420}
+          src="/images/general/logotext.svg"
+          width={420}
         />
       </div>
       <Card className="w-80 md:w-100 lg:w-100">
@@ -40,8 +41,8 @@ const Register = () => {
           <p className="text-small mb-4">
             Sudah punya akses sebagai admin?&nbsp;
             <Link
-              href="/auth/admin/login"
               className="text-primary-400 font-semibold"
+              href="/auth/admin/login"
             >
               Login di sini
             </Link>
@@ -59,64 +60,61 @@ const Register = () => {
             onSubmit={handleSubmit(handleRegister)}
           >
             <Controller
+              control={control}
               name="fullName"
-              control={control}
               render={({ field }) => (
                 <Input
                   {...field}
-                  type="text"
-                  label="Fullname"
-                  variant="bordered"
                   autoComplete="off"
-                  isInvalid={errors.fullName !== undefined}
                   errorMessage={errors.fullName?.message}
-                />
-              )}
-            />
-            <Controller
-              name="username"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  {...field}
+                  isInvalid={errors.fullName !== undefined}
+                  label="Fullname"
                   type="text"
-                  label="Username"
                   variant="bordered"
-                  autoComplete="off"
-                  isInvalid={errors.username !== undefined}
-                  errorMessage={errors.username?.message}
                 />
               )}
             />
             <Controller
-              name="email"
               control={control}
+              name="username"
               render={({ field }) => (
                 <Input
                   {...field}
-                  type="email"
-                  label="Email"
-                  variant="bordered"
                   autoComplete="off"
+                  errorMessage={errors.username?.message}
+                  isInvalid={errors.username !== undefined}
+                  label="Username"
+                  type="text"
+                  variant="bordered"
                 />
               )}
             />
             <Controller
-              name="password"
               control={control}
+              name="email"
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  autoComplete="off"
+                  label="Email"
+                  type="email"
+                  variant="bordered"
+                />
+              )}
+            />
+            <Controller
+              control={control}
+              name="password"
               render={({ field }) => {
                 return (
                   <Input
                     {...field}
-                    type={visiblePassword.password ? "text" : "password"}
-                    label="Password"
-                    variant="bordered"
                     autoComplete="off"
                     endContent={
                       <button
                         className="focus:outline-none"
-                        type="button"
                         onClick={() => handleVisiblePassword("password")}
+                        type="button"
                       >
                         {visiblePassword.password ? (
                           <FaEye className="text-default-400 pointer-events-none text-xl" />
@@ -125,27 +123,27 @@ const Register = () => {
                         )}
                       </button>
                     }
-                    isInvalid={errors.password !== undefined}
                     errorMessage={errors.password?.message}
+                    isInvalid={errors.password !== undefined}
+                    label="Password"
+                    type={visiblePassword.password ? "text" : "password"}
+                    variant="bordered"
                   />
                 );
               }}
             />
             <Controller
-              name="confirmPassword"
               control={control}
+              name="confirmPassword"
               render={({ field }) => (
                 <Input
                   {...field}
-                  type={visiblePassword.confirmPassword ? "text" : "password"}
-                  label="Confirm Password"
-                  variant="bordered"
                   autoComplete="off"
                   endContent={
                     <button
                       className="focus:outline-none"
-                      type="button"
                       onClick={() => handleVisiblePassword("confirmPassword")}
+                      type="button"
                     >
                       {visiblePassword.confirmPassword ? (
                         <FaEye className="text-default-400 pointer-events-none text-xl" />
@@ -154,8 +152,11 @@ const Register = () => {
                       )}
                     </button>
                   }
-                  isInvalid={errors.confirmPassword !== undefined}
                   errorMessage={errors.confirmPassword?.message}
+                  isInvalid={errors.confirmPassword !== undefined}
+                  label="Confirm Password"
+                  type={visiblePassword.confirmPassword ? "text" : "password"}
+                  variant="bordered"
                 />
               )}
             />

@@ -1,12 +1,13 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import useMediaHandling from "@/hooks/useMediaHandling";
-import serviceNews from "@/services/news.service";
-import { INews } from "@/types/News";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+
+import { INews } from "@/types/News";
+import serviceNews from "@/services/news.service";
+import useMediaHandling from "@/hooks/useMediaHandling";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 const schema = yup.object({
   title: yup.string().required("Please enter news title"),
@@ -19,27 +20,28 @@ const schema = yup.object({
     .test("is-valid-date", "Invalid date", (value) => {
       if (!value) return false;
       const d = new Date(value);
+
       return !isNaN(d.getTime());
     }),
 });
 
 const useAddNewsModal = () => {
   const {
-    mutateUploadFile,
+    isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
     mutateDeleteFile,
-    isPendingMutateDeleteFile,
+    mutateUploadFile,
   } = useMediaHandling();
 
   const { setToaster } = useContext(ToasterContext);
   const {
     control,
-    handleSubmit: handleSubmitFormNews,
     formState: { errors },
-    reset,
-    watch,
     getValues,
+    handleSubmit: handleSubmitFormNews,
+    reset,
     setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -65,6 +67,7 @@ const useAddNewsModal = () => {
     onChange: (files: FileList | undefined) => void,
   ) => {
     const fileUrl = getValues("image");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
     }
@@ -72,6 +75,7 @@ const useAddNewsModal = () => {
 
   const handleOnClose = (onClose: () => void) => {
     const fileUrl = getValues("image");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({
         fileUrl,
@@ -88,13 +92,14 @@ const useAddNewsModal = () => {
 
   const addNews = async (payload: INews) => {
     const res = await serviceNews.addNews(payload);
+
     return res;
   };
 
   const {
-    mutate: mutateAddNews,
     isPending: isPendingMutateAddNews,
     isSuccess: isSuccessMutateAddNews,
+    mutate: mutateAddNews,
   } = useMutation({
     mutationFn: addNews,
     onError: (error) => {
@@ -118,12 +123,14 @@ const useAddNewsModal = () => {
           // Use selected date with device's current time (hours, minutes, seconds)
           const now = new Date();
           const base = new Date(data.date as unknown as string);
+
           base.setHours(
             now.getHours(),
             now.getMinutes(),
             now.getSeconds(),
             now.getMilliseconds(),
           );
+
           return base.toISOString();
         })()
       : undefined;
@@ -131,6 +138,7 @@ const useAddNewsModal = () => {
       ...data,
       date: isoDate,
     };
+
     mutateAddNews(payload);
   };
 

@@ -1,5 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+
 import { JWTExtended } from "./types/Auth";
 import environment from "./config/environment";
 
@@ -20,7 +21,9 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/admin")) {
     if (!token) {
       const url = new URL("/auth/admin/login", request.url);
+
       url.searchParams.set("callbackUrl", encodeURI(request.url));
+
       return NextResponse.redirect(url);
     }
   }

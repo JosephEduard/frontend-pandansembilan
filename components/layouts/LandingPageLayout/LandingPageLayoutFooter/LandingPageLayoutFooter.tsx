@@ -160,19 +160,19 @@ const LandingPageLayoutFooter = () => {
                   input: "bg-white text-black",
                   inputWrapper: "bg-white shadow-sm",
                 }}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
                 placeholder="Search...."
                 radius="full"
                 size="sm"
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={handleKeyPress}
               />
               <Button
                 className="bg-white/20 font-medium text-white hover:bg-white/30"
+                onClick={handleSearch}
                 radius="full"
                 size="sm"
-                onClick={handleSearch}
               >
                 Go
               </Button>

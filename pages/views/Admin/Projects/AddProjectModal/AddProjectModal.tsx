@@ -1,4 +1,3 @@
-import useAddProjectModal from "@/views/Admin/Project/AddProjectModal/useAddProjectModal";
 import {
   Button,
   Input,
@@ -13,9 +12,11 @@ import {
   Textarea,
 } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
-import serviceServices from "@/services/service";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
+
+import serviceServices from "@/services/service";
+import useAddProjectModal from "@/views/Admin/Project/AddProjectModal/useAddProjectModal";
 
 interface PropTypes {
   isOpen: boolean;
@@ -28,18 +29,19 @@ const AddProjectModal = (props: PropTypes) => {
   const {
     control,
     errors,
+    handleAddProject,
     handleOnClose,
     handleSubmitFormProject,
-    handleAddProject,
     isPendingMutateAddProject,
     isSuccessMutateAddProject,
   } = useAddProjectModal();
-  const { isOpen, onClose, refetchProject, onOpenChange } = props;
+  const { isOpen, onClose, onOpenChange, refetchProject } = props;
 
   const { data: servicesData } = useQuery({
     queryKey: ["ServiceSelectOptions"],
     queryFn: async () => {
       const res = await serviceServices.getServices("page=1&limit=999");
+
       return res.data;
     },
   });
@@ -54,9 +56,9 @@ const AddProjectModal = (props: PropTypes) => {
 
   return (
     <Modal
+      isOpen={isOpen}
       onClose={() => handleOnClose(onClose)}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -67,83 +69,84 @@ const AddProjectModal = (props: PropTypes) => {
             <div className="flex flex-col gap-2">
               <p className="text-sm font-bold">Information</p>
               <Controller
-                name="title"
                 control={control}
+                name="title"
                 render={({ field }) => (
                   <Input
                     {...field}
                     autoFocus
-                    label="Title"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.title !== undefined}
-                    errorMessage={errors.title?.message}
                     className="mb-2"
+                    errorMessage={errors.title?.message}
+                    isInvalid={errors.title !== undefined}
+                    label="Title"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="description"
                 control={control}
+                name="description"
                 render={({ field }) => (
                   <Textarea
                     {...field}
-                    label="Description"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.description !== undefined}
+                    className="mb-2"
                     errorMessage={errors.description?.message}
-                    className="mb-2"
-                  />
-                )}
-              />
-              <Controller
-                name="address"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    autoFocus
-                    label="Address"
-                    variant="bordered"
+                    isInvalid={errors.description !== undefined}
+                    label="Description"
                     type="text"
-                    isInvalid={errors.address !== undefined}
-                    errorMessage={errors.address?.message}
-                    className="mb-2"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="year"
                 control={control}
+                name="address"
                 render={({ field }) => (
                   <Input
                     {...field}
                     autoFocus
-                    label="Year"
-                    variant="bordered"
-                    type="number"
-                    isInvalid={errors.year !== undefined}
-                    errorMessage={errors.year?.message}
                     className="mb-2"
+                    errorMessage={errors.address?.message}
+                    isInvalid={errors.address !== undefined}
+                    label="Address"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="serviceId"
                 control={control}
+                name="year"
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    autoFocus
+                    className="mb-2"
+                    errorMessage={errors.year?.message}
+                    isInvalid={errors.year !== undefined}
+                    label="Year"
+                    type="number"
+                    variant="bordered"
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="serviceId"
                 render={({ field }) => (
                   <Select
-                    label="Select Service"
-                    variant="bordered"
                     className="mb-2"
-                    isInvalid={errors.serviceId !== undefined}
                     errorMessage={errors.serviceId?.message}
-                    selectedKeys={field.value ? [field.value] : []}
+                    isInvalid={errors.serviceId !== undefined}
+                    label="Select Service"
                     onSelectionChange={(keys) => {
                       const selected = Array.from(keys as Set<string>).join("");
+
                       field.onChange(selected);
                     }}
+                    selectedKeys={field.value ? [field.value] : []}
+                    variant="bordered"
                   >
                     {(servicesData?.data || []).map((svc: any) => (
                       <SelectItem key={svc._id}>{svc.name}</SelectItem>
@@ -152,20 +155,21 @@ const AddProjectModal = (props: PropTypes) => {
                 )}
               />
               <Controller
-                name="status"
                 control={control}
+                name="status"
                 render={({ field }) => (
                   <Select
-                    label="Status"
-                    variant="bordered"
                     className="mb-2"
-                    isInvalid={errors.status !== undefined}
                     errorMessage={errors.status?.message}
-                    selectedKeys={field.value ? [field.value] : []}
+                    isInvalid={errors.status !== undefined}
+                    label="Status"
                     onSelectionChange={(keys) => {
                       const selected = Array.from(keys as Set<string>).join("");
+
                       field.onChange(selected);
                     }}
+                    selectedKeys={field.value ? [field.value] : []}
+                    variant="bordered"
                   >
                     <SelectItem key="true">true</SelectItem>
                   </Select>
@@ -176,15 +180,15 @@ const AddProjectModal = (props: PropTypes) => {
           <ModalFooter>
             <Button
               color="danger"
-              variant="flat"
-              onPress={() => handleOnClose(onClose)}
               disabled={disabledSubmit}
+              onPress={() => handleOnClose(onClose)}
+              variant="flat"
             >
               Cancel
             </Button>
-            <Button color="danger" type="submit" disabled={disabledSubmit}>
+            <Button color="danger" disabled={disabledSubmit} type="submit">
               {isPendingMutateAddProject ? (
-                <Spinner size="sm" color="white" />
+                <Spinner color="white" size="sm" />
               ) : (
                 "Tambah Project"
               )}
@@ -195,4 +199,5 @@ const AddProjectModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default AddProjectModal;

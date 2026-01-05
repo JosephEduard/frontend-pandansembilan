@@ -1,7 +1,8 @@
-import useMediaHandling from "@/hooks/useMediaHandling";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+
+import useMediaHandling from "@/hooks/useMediaHandling";
 
 const schemaUpdateFile = yup.object().shape({
   file: yup
@@ -11,20 +12,20 @@ const schemaUpdateFile = yup.object().shape({
 
 const useFileTab = () => {
   const {
-    mutateUploadFile,
+    isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
     mutateDeleteFile,
-    isPendingMutateDeleteFile,
+    mutateUploadFile,
   } = useMediaHandling();
 
   const {
     control: controlUpdateFile,
-    handleSubmit: handleSubmitUpdateFile,
     formState: { errors: errorsUpdateFile },
-    reset: resetUpdateFile,
-    watch: watchUpdateFile,
     getValues: getValuesUpdateFile,
+    handleSubmit: handleSubmitUpdateFile,
+    reset: resetUpdateFile,
     setValue: setValueUpdateFile,
+    watch: watchUpdateFile,
   } = useForm({
     resolver: yupResolver(schemaUpdateFile),
   });
@@ -50,6 +51,7 @@ const useFileTab = () => {
     onChange: (files: FileList | undefined) => void,
   ) => {
     const fileUrl = getValuesUpdateFile("file");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
     }

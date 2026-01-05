@@ -1,4 +1,3 @@
-import useDeleteNewsModal from "@/views/Admin/News/DeleteNewsModal/useDeleteNewsModal";
 import {
   Button,
   Modal,
@@ -9,6 +8,8 @@ import {
   Spinner,
 } from "@heroui/react";
 import { Dispatch, SetStateAction, useEffect } from "react";
+
+import useDeleteNewsModal from "@/views/Admin/News/DeleteNewsModal/useDeleteNewsModal";
 
 interface PropTypes {
   isOpen: boolean;
@@ -30,9 +31,9 @@ const DeleteNewsModal = (props: PropTypes) => {
   } = props;
 
   const {
-    mutateDeleteNews,
     isPendingMutateDeleteNews,
     isSuccessMutateDeleteNews,
+    mutateDeleteNews,
   } = useDeleteNewsModal();
 
   useEffect(() => {
@@ -41,11 +42,12 @@ const DeleteNewsModal = (props: PropTypes) => {
       refetchNews();
     }
   }, [isSuccessMutateDeleteNews]);
+
   return (
     <Modal
+      isOpen={isOpen}
       onClose={onClose}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -59,23 +61,23 @@ const DeleteNewsModal = (props: PropTypes) => {
         <ModalFooter>
           <Button
             color="danger"
-            variant="flat"
+            disabled={isPendingMutateDeleteNews}
             onPress={() => {
               onClose();
               setSelectedId("");
             }}
-            disabled={isPendingMutateDeleteNews}
+            variant="flat"
           >
             Cancel
           </Button>
           <Button
             color="danger"
-            type="submit"
             disabled={isPendingMutateDeleteNews}
             onPress={() => mutateDeleteNews(selectedId)}
+            type="submit"
           >
             {isPendingMutateDeleteNews ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Delete"
             )}
@@ -85,4 +87,5 @@ const DeleteNewsModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default DeleteNewsModal;

@@ -1,6 +1,7 @@
-import environment from "@/config/environment";
-import NextAuth, { User } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+import environment from "@/config/environment";
 import { JWTExtended, SessionExtended, UserExtended } from "@/types/Auth";
 import authServices from "@/services/auth";
 
@@ -42,6 +43,7 @@ export default NextAuth({
           me.status === 200
         ) {
           user.accessToken = accessToken;
+
           return user;
         } else {
           return null;
@@ -72,6 +74,7 @@ export default NextAuth({
     }) {
       session.user = token.user;
       session.accessToken = token.user?.accessToken;
+
       return session;
     },
   },

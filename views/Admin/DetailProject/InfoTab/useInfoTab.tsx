@@ -14,13 +14,14 @@ const schemaUpdateInfo = yup.object().shape({
 const useInfoTab = () => {
   const {
     control: controlUpdateInfo,
-    handleSubmit: handleSubmitUpdateInfo,
     formState: { errors: errorsUpdateInfo },
+    handleSubmit: handleSubmitUpdateInfo,
     reset: resetUpdateInfo,
     setValue: setValueUpdateInfo,
   } = useForm({
     resolver: yupResolver(schemaUpdateInfo),
   });
+
   return {
     controlUpdateInfo,
     handleSubmitUpdateInfo,
@@ -29,4 +30,5 @@ const useInfoTab = () => {
     setValueUpdateInfo,
   };
 };
+
 export default useInfoTab;

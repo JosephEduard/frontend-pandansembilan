@@ -1,5 +1,3 @@
-import InputFile from "@/components/ui/InputFile";
-import useAddNewsModal from "@/views/Admin/News/AddNewsModal/useAddNewsModal";
 import {
   Button,
   Input,
@@ -14,6 +12,9 @@ import {
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useAddNewsModal from "@/views/Admin/News/AddNewsModal/useAddNewsModal";
+import InputFile from "@/components/ui/InputFile";
+
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
@@ -25,18 +26,18 @@ const AddNewsModal = (props: PropTypes) => {
   const {
     control,
     errors,
+    handleAddNews,
+    handleDeleteBanner,
     handleOnClose,
     handleSubmitFormNews,
-    handleAddNews,
+    handleUploadBanner,
     isPendingMutateAddNews,
+    isPendingMutateDeleteFile,
+    isPendingMutateUploadFile,
     isSuccessMutateAddNews,
     preview,
-    handleUploadBanner,
-    isPendingMutateUploadFile,
-    handleDeleteBanner,
-    isPendingMutateDeleteFile,
   } = useAddNewsModal();
-  const { isOpen, onClose, refetchNews, onOpenChange } = props;
+  const { isOpen, onClose, onOpenChange, refetchNews } = props;
 
   useEffect(() => {
     if (isSuccessMutateAddNews) {
@@ -51,9 +52,9 @@ const AddNewsModal = (props: PropTypes) => {
 
   return (
     <Modal
+      isOpen={isOpen}
       onClose={() => handleOnClose(onClose)}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -64,66 +65,66 @@ const AddNewsModal = (props: PropTypes) => {
             <div className="flex flex-col gap-2">
               <p className="text-sm font-bold">Information</p>
               <Controller
-                name="title"
                 control={control}
+                name="title"
                 render={({ field }) => (
                   <Input
                     {...field}
                     autoFocus
-                    label=" News Title"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.title !== undefined}
-                    errorMessage={errors.title?.message}
                     className="mb-2"
+                    errorMessage={errors.title?.message}
+                    isInvalid={errors.title !== undefined}
+                    label=" News Title"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="text"
                 control={control}
+                name="text"
                 render={({ field }) => (
                   <Textarea
                     {...field}
-                    label="Text"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.text !== undefined}
-                    errorMessage={errors.text?.message}
                     className="mb-2"
+                    errorMessage={errors.text?.message}
+                    isInvalid={errors.text !== undefined}
+                    label="Text"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="date"
                 control={control}
+                name="date"
                 render={({ field }) => (
                   <Input
                     {...field}
                     autoFocus
-                    label="Date"
-                    variant="bordered"
-                    type="date"
-                    isInvalid={errors.date !== undefined}
-                    errorMessage={errors.date?.message}
                     className="mb-2"
+                    errorMessage={errors.date?.message}
+                    isInvalid={errors.date !== undefined}
+                    label="Date"
+                    type="date"
+                    variant="bordered"
                   />
                 )}
               />
               <p className="text-sm font-bold">Image</p>
               <Controller
-                name="image"
                 control={control}
+                name="image"
                 render={({ field: { onChange, value, ...field } }) => (
                   <InputFile
                     {...field}
-                    onUpload={(files) => handleUploadBanner(files, onChange)}
-                    onDelete={() => handleDeleteBanner(onChange)}
-                    isUploading={isPendingMutateUploadFile}
-                    isDeleting={isPendingMutateDeleteFile}
-                    isInvalid={errors.image !== undefined}
                     errorMessage={errors.image?.message}
+                    isDeleting={isPendingMutateDeleteFile}
                     isDropable
+                    isInvalid={errors.image !== undefined}
+                    isUploading={isPendingMutateUploadFile}
+                    onDelete={() => handleDeleteBanner(onChange)}
+                    onUpload={(files) => handleUploadBanner(files, onChange)}
                     preview={typeof preview === "string" ? preview : ""}
                   />
                 )}
@@ -133,15 +134,15 @@ const AddNewsModal = (props: PropTypes) => {
           <ModalFooter>
             <Button
               color="danger"
-              variant="flat"
-              onPress={() => handleOnClose(onClose)}
               disabled={disabledSubmit}
+              onPress={() => handleOnClose(onClose)}
+              variant="flat"
             >
               Cancel
             </Button>
-            <Button color="danger" type="submit" disabled={disabledSubmit}>
+            <Button color="danger" disabled={disabledSubmit} type="submit">
               {isPendingMutateAddNews ? (
-                <Spinner size="sm" color="white" />
+                <Spinner color="white" size="sm" />
               ) : (
                 "Tambah News"
               )}
@@ -152,4 +153,5 @@ const AddNewsModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default AddNewsModal;

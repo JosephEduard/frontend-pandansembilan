@@ -1,20 +1,22 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import serviceNews from "@/services/news.service";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
+
+import { ToasterContext } from "@/contexts/ToasterContext";
+import serviceNews from "@/services/news.service";
 
 const useDeleteNewsModal = () => {
   const { setToaster } = useContext(ToasterContext);
 
   const deleteNews = async (id: string) => {
     const res = await serviceNews.deleteNews(id);
+
     return res;
   };
 
   const {
-    mutate: mutateDeleteNews,
     isPending: isPendingMutateDeleteNews,
     isSuccess: isSuccessMutateDeleteNews,
+    mutate: mutateDeleteNews,
   } = useMutation({
     mutationFn: deleteNews,
     onError: (error) => {

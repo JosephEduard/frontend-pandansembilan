@@ -1,17 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+
 import axios from "axios";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { url, filename } = req.query;
+  const { filename, url } = req.query;
+
   if (!url || typeof url !== "string") {
     res.status(400).json({ error: "Missing url" });
+
     return;
   }
   try {
     const headers: Record<string, string> = {};
+
     if (req.headers.authorization) {
       headers["Authorization"] = String(req.headers.authorization);
     }
@@ -24,6 +28,7 @@ export default async function handler(
     });
     const data = response.data as Buffer;
     const name = typeof filename === "string" ? filename : "file.pdf";
+
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", `inline; filename="${name}"`);
     res.status(200).send(data);

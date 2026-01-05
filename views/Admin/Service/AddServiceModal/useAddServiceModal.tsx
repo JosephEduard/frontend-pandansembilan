@@ -1,12 +1,13 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import useMediaHandling from "@/hooks/useMediaHandling";
-import serviceServices from "@/services/service";
-import { IService } from "@/types/Service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+
+import { IService } from "@/types/Service";
+import serviceServices from "@/services/service";
+import useMediaHandling from "@/hooks/useMediaHandling";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 const schema = yup.object().shape({
   name: yup.string().required("Please enter service name"),
@@ -18,21 +19,21 @@ const schema = yup.object().shape({
 
 const useAddServiceModal = () => {
   const {
-    mutateUploadFile,
+    isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
     mutateDeleteFile,
-    isPendingMutateDeleteFile,
+    mutateUploadFile,
   } = useMediaHandling();
 
   const { setToaster } = useContext(ToasterContext);
   const {
     control,
-    handleSubmit: handleSubmitFormService,
     formState: { errors },
-    reset,
-    watch,
     getValues,
+    handleSubmit: handleSubmitFormService,
+    reset,
     setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -58,6 +59,7 @@ const useAddServiceModal = () => {
     onChange: (files: FileList | undefined) => void,
   ) => {
     const fileUrl = getValues("banner");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
     }
@@ -65,6 +67,7 @@ const useAddServiceModal = () => {
 
   const handleOnClose = (onClose: () => void) => {
     const fileUrl = getValues("banner");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({
         fileUrl,
@@ -81,13 +84,14 @@ const useAddServiceModal = () => {
 
   const addService = async (payload: IService) => {
     const res = await serviceServices.addService(payload);
+
     return res;
   };
 
   const {
-    mutate: mutateAddService,
     isPending: isPendingMutateAddService,
     isSuccess: isSuccessMutateAddService,
+    mutate: mutateAddService,
   } = useMutation({
     mutationFn: addService,
     onError: (error) => {

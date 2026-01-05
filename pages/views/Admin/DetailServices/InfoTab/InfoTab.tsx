@@ -1,5 +1,3 @@
-import { IService } from "@/types/Service";
-import useInfoTab from "@/views/Admin/DetailService/InfoTab/useInfoTab";
 import {
   Button,
   Card,
@@ -13,6 +11,9 @@ import {
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useInfoTab from "@/views/Admin/DetailService/InfoTab/useInfoTab";
+import { IService } from "@/types/Service";
+
 interface PropTypes {
   dataService: IService;
 
@@ -25,15 +26,15 @@ interface PropTypes {
 const InfoTab = (props: PropTypes) => {
   const {
     dataService,
-    onUpdate,
+    isFetchingService,
     isPendingUpdate,
     isSuccessUpdate,
-    isFetchingService,
+    onUpdate,
   } = props;
   const {
     controlUpdateInfo,
-    handleSubmitUpdateInfo,
     errorsUpdateInfo,
+    handleSubmitUpdateInfo,
     resetUpdateInfo,
     setValueUpdateInfo,
   } = useInfoTab();
@@ -70,50 +71,50 @@ const InfoTab = (props: PropTypes) => {
           className="flex flex-col gap-4"
           onSubmit={handleSubmitUpdateInfo(onUpdate)}
         >
-          <Skeleton isLoaded={!isFetchingService} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingService}>
             <Controller
-              name="name"
               control={controlUpdateInfo}
+              name="name"
               render={({ field }) => (
                 <Input
                   {...field}
+                  className="mt-2"
+                  errorMessage={errorsUpdateInfo.name?.message}
+                  isInvalid={errorsUpdateInfo.name !== undefined}
                   label="Name"
                   labelPlacement="outside"
-                  variant="bordered"
                   type="text"
-                  isInvalid={errorsUpdateInfo.name !== undefined}
-                  errorMessage={errorsUpdateInfo.name?.message}
-                  className="mt-2"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingService} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingService}>
             <Controller
-              name="description"
               control={controlUpdateInfo}
+              name="description"
               render={({ field }) => (
                 <Textarea
                   {...field}
+                  className="mb-2"
+                  errorMessage={errorsUpdateInfo.description?.message}
+                  isInvalid={errorsUpdateInfo.description !== undefined}
                   label="Description"
                   labelPlacement="outside"
-                  variant="bordered"
                   type="text"
-                  isInvalid={errorsUpdateInfo.description !== undefined}
-                  errorMessage={errorsUpdateInfo.description?.message}
-                  className="mb-2"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
           <Button
-            color="danger"
             className="disabled:bg-default-500 mt-2"
-            type="submit"
+            color="danger"
             disabled={isPendingUpdate || !dataService?._id}
+            type="submit"
           >
             {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Simpan Perubahan"
             )}

@@ -161,7 +161,7 @@ const Portofolio = () => {
 
   const stepLightbox = (delta: number) => {
     if (!lightbox) return;
-    const { project, index } = lightbox;
+    const { index, project } = lightbox;
     const total = project.gallery.length;
     const nextIndex = (index + delta + total) % total;
 
@@ -214,8 +214,8 @@ const Portofolio = () => {
             { label: "98%", desc: "On-time delivery" },
           ].map((stat) => (
             <div
-              key={stat.desc}
               className={`${lato.className} relative overflow-hidden rounded-2xl border border-cyan-100 bg-white/85 px-6 py-5 shadow-md`}
+              key={stat.desc}
             >
               <div
                 className={`${lato.className} pointer-events-none absolute inset-0 opacity-50 blur-3xl [background:radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.18),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(34,211,238,0.16),transparent_36%)]`}
@@ -258,12 +258,12 @@ const Portofolio = () => {
             <div className={`${lato.className} flex flex-wrap gap-2`}>
               {categories.map((cat) => (
                 <button
-                  key={cat}
                   className={`${lato.className} rounded-full border px-3 py-1 text-xs font-semibold transition ${
                     activeCategory === cat
                       ? "border-cyan-500 bg-cyan-500 text-white shadow"
                       : "border-cyan-200 bg-white text-cyan-800 hover:border-cyan-400"
                   }`}
+                  key={cat}
                   onClick={() => setActiveCategory(cat)}
                 >
                   {cat}
@@ -277,10 +277,10 @@ const Portofolio = () => {
           >
             {filteredProjects.map((project, idx) => (
               <div
-                key={project.title}
                 className={`${lato.className} group relative overflow-hidden rounded-3xl border border-cyan-100 bg-white/90 p-5 shadow-md transition hover:-translate-y-1 hover:border-cyan-400/80 ${
                   idx % 3 === 0 ? "md:col-span-2" : ""
                 }`}
+                key={project.title}
               >
                 <div
                   className={`${lato.className} pointer-events-none absolute inset-0 opacity-45 blur-2xl [background:radial-gradient(circle_at_25%_15%,rgba(14,165,233,0.14),transparent_38%),radial-gradient(circle_at_80%_80%,rgba(34,211,238,0.12),transparent_36%)]`}
@@ -293,16 +293,16 @@ const Portofolio = () => {
                   >
                     {project.gallery.slice(0, 6).map((img, imageIdx) => (
                       <button
-                        key={`${project.title}-${imageIdx}`}
                         aria-label={`Perbesar foto ${project.title}`}
                         className={`${lato.className} relative overflow-hidden rounded-xl border border-white/60 bg-slate-100 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md`}
+                        key={`${project.title}-${imageIdx}`}
+                        onClick={() => openLightbox(project, imageIdx)}
                         style={{
                           backgroundImage: `url(${img})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
                         type="button"
-                        onClick={() => openLightbox(project, imageIdx)}
                       >
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-cyan-100/20" />
                       </button>
@@ -337,8 +337,8 @@ const Portofolio = () => {
                   >
                     {project.scope.map((tag) => (
                       <span
-                        key={`${project.title}-${tag}`}
                         className={`${lato.className} rounded-full border border-cyan-200 bg-white px-3 py-1 font-semibold shadow-sm`}
+                        key={`${project.title}-${tag}`}
                       >
                         {tag}
                       </span>
@@ -402,8 +402,8 @@ const Portofolio = () => {
                 <button
                   aria-label="Tutup"
                   className={`${lato.className} rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-cyan-400 hover:text-cyan-800`}
-                  type="button"
                   onClick={closeLightbox}
+                  type="button"
                 >
                   ✕
                 </button>
@@ -425,8 +425,8 @@ const Portofolio = () => {
                   <button
                     aria-label="Sebelumnya"
                     className={`${lato.className} rounded-full border border-white/50 bg-white/80 px-3 py-2 text-lg font-semibold text-slate-800 shadow transition hover:-translate-y-0.5 hover:bg-white`}
-                    type="button"
                     onClick={() => stepLightbox(-1)}
+                    type="button"
                   >
                     ‹
                   </button>
@@ -437,8 +437,8 @@ const Portofolio = () => {
                   <button
                     aria-label="Berikutnya"
                     className={`${lato.className} rounded-full border border-white/50 bg-white/80 px-3 py-2 text-lg font-semibold text-slate-800 shadow transition hover:-translate-y-0.5 hover:bg-white`}
-                    type="button"
                     onClick={() => stepLightbox(1)}
+                    type="button"
                   >
                     ›
                   </button>
@@ -451,8 +451,8 @@ const Portofolio = () => {
                 <div className={`${lato.className} flex flex-wrap gap-2`}>
                   {lightbox.project.scope.map((tag) => (
                     <span
-                      key={`${lightbox.project.title}-${tag}`}
                       className={`${lato.className} rounded-full border border-cyan-200 bg-white px-3 py-1 font-semibold text-cyan-800 shadow-sm`}
+                      key={`${lightbox.project.title}-${tag}`}
                     >
                       {tag}
                     </span>

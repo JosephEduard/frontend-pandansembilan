@@ -133,8 +133,8 @@ const Profile = () => {
               { number: "95%", label: "Client Satisfaction" },
             ].map((stat, index) => (
               <div
-                key={index}
                 className="rounded-lg border border-blue-100 bg-blue-50 p-6 text-center transition-all duration-300 hover:border-blue-300"
+                key={index}
               >
                 <div
                   className={`${lato.className} mb-2 text-4xl font-bold text-blue-600 md:text-5xl`}
@@ -239,8 +239,8 @@ const Profile = () => {
                 },
               ].map((value, index) => (
                 <div
-                  key={index}
                   className="rounded-lg border border-blue-100 bg-blue-50 p-6 text-center transition-all duration-300 hover:border-blue-300"
+                  key={index}
                 >
                   <h4
                     className={`${lato.className} mb-3 text-xl font-semibold text-blue-600`}
@@ -382,8 +382,8 @@ const Profile = () => {
                 "Safety Certification",
               ].map((doc, index) => (
                 <button
-                  key={index}
                   className={`${lato.className} rounded bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-blue-700`}
+                  key={index}
                 >
                   {doc}
                 </button>
@@ -428,14 +428,14 @@ const Profile = () => {
               </div>
               <div className="col-span-3">
                 <Link
-                  href="mailto:headoffice@cvpandansembilan.com"
                   className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
+                  href="mailto:headoffice@cvpandansembilan.com"
                 >
                   headoffice@cvpandansembilan.com
                 </Link>
                 <Link
-                  href="tel:+62"
                   className={`${lato.className} text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
+                  href="tel:+62"
                 >
                   <span className={`${lato.className} text-primary`}>Call</span>
                   +62 [Your Phone]

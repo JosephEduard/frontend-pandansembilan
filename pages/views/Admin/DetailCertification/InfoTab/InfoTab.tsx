@@ -1,5 +1,3 @@
-import { ICertification } from "@/types/Certification";
-import useInfoTab from "@/views/Admin/DetailCertification/InfoTab/useInfoTab";
 import {
   Button,
   Card,
@@ -15,6 +13,9 @@ import {
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useInfoTab from "@/views/Admin/DetailCertification/InfoTab/useInfoTab";
+import { ICertification } from "@/types/Certification";
+
 interface PropTypes {
   dataCertification: ICertification;
 
@@ -27,15 +28,15 @@ interface PropTypes {
 const InfoTab = (props: PropTypes) => {
   const {
     dataCertification,
-    onUpdate,
+    isFetchingCertification,
     isPendingUpdate,
     isSuccessUpdate,
-    isFetchingCertification,
+    onUpdate,
   } = props;
   const {
     controlUpdateInfo,
-    handleSubmitUpdateInfo,
     errorsUpdateInfo,
+    handleSubmitUpdateInfo,
     resetUpdateInfo,
     setValueUpdateInfo,
   } = useInfoTab();
@@ -88,75 +89,76 @@ const InfoTab = (props: PropTypes) => {
             });
           })}
         >
-          <Skeleton isLoaded={!isFetchingCertification} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingCertification}>
             <Controller
-              name="title"
               control={controlUpdateInfo}
+              name="title"
               render={({ field }) => (
                 <Input
                   {...field}
                   autoFocus
-                  label=" Certificate Title"
-                  variant="bordered"
-                  type="text"
-                  isInvalid={errorsUpdateInfo.title !== undefined}
-                  errorMessage={errorsUpdateInfo.title?.message}
                   className="mb-2"
+                  errorMessage={errorsUpdateInfo.title?.message}
+                  isInvalid={errorsUpdateInfo.title !== undefined}
+                  label=" Certificate Title"
+                  type="text"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingCertification} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingCertification}>
             <Controller
-              name="description"
               control={controlUpdateInfo}
+              name="description"
               render={({ field }) => (
                 <Textarea
                   {...field}
-                  label="Description"
-                  variant="bordered"
-                  type="text"
-                  isInvalid={errorsUpdateInfo.description !== undefined}
-                  errorMessage={errorsUpdateInfo.description?.message}
                   className="mb-2"
+                  errorMessage={errorsUpdateInfo.description?.message}
+                  isInvalid={errorsUpdateInfo.description !== undefined}
+                  label="Description"
+                  type="text"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingCertification} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingCertification}>
             <Controller
-              name="year"
               control={controlUpdateInfo}
+              name="year"
               render={({ field }) => (
                 <Input
                   {...field}
                   autoFocus
-                  label="Year"
-                  variant="bordered"
-                  type="number"
-                  isInvalid={errorsUpdateInfo.year !== undefined}
-                  errorMessage={errorsUpdateInfo.year?.message}
                   className="mb-2"
+                  errorMessage={errorsUpdateInfo.year?.message}
+                  isInvalid={errorsUpdateInfo.year !== undefined}
+                  label="Year"
+                  type="number"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingCertification} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingCertification}>
             <Controller
-              name="status"
               control={controlUpdateInfo}
+              name="status"
               render={({ field }) => (
                 <Select
-                  label="Status"
-                  variant="bordered"
                   className="mb-2"
-                  isInvalid={errorsUpdateInfo.status !== undefined}
                   errorMessage={errorsUpdateInfo.status?.message}
-                  selectedKeys={field.value ? [field.value] : []}
+                  isInvalid={errorsUpdateInfo.status !== undefined}
+                  label="Status"
                   onSelectionChange={(keys) => {
                     const selected = Array.from(keys as Set<string>).join("");
+
                     field.onChange(selected);
                   }}
+                  selectedKeys={field.value ? [field.value] : []}
+                  variant="bordered"
                 >
                   <SelectItem key="true">true</SelectItem>
                 </Select>
@@ -165,13 +167,13 @@ const InfoTab = (props: PropTypes) => {
           </Skeleton>
 
           <Button
-            color="danger"
             className="disabled:bg-default-500 mt-2"
-            type="submit"
+            color="danger"
             disabled={isPendingUpdate || !dataCertification?._id}
+            type="submit"
           >
             {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Simpan Perubahan"
             )}

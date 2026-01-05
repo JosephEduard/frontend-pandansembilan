@@ -1,4 +1,3 @@
-import DataTable from "@/components/ui/DataTable";
 import {
   Button,
   Dropdown,
@@ -8,31 +7,34 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import Image from "next/image";
-import { isPdfUrl } from "@/utils/fileType";
-import { Key, ReactNode, useCallback, useEffect } from "react";
+import { Key, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { useRouter } from "next/router";
-import useCertification from "@/views/Admin/Certification/useCertification";
+
 import { COLUMN_LIST_CERTIFICATION } from "./Certification.constants";
 import AddCertificationModal from "./AddCertificationModal";
 import DeleteCertificationModal from "./DeleteCertificationModal";
 
+import useCertification from "@/views/Admin/Certification/useCertification";
+import { isPdfUrl } from "@/utils/fileType";
+import DataTable from "@/components/ui/DataTable";
+
 const Certifications = () => {
-  const { push, isReady, query } = useRouter();
+  const { isReady, push, query } = useRouter();
   const {
     currentLimit,
     currentPage,
-    setURL,
     dataCertification,
+    handleChangeLimit,
+    handleChangePage,
+    handleClearSearch,
+    handleSearch,
     isLoadingCertification,
     isRefetchingCertification,
     refetchCertification,
-    handleChangeLimit,
-    handleChangePage,
-    handleSearch,
-    handleClearSearch,
     selectedId,
     setSelectedId,
+    setURL,
   } = useCertification();
 
   const addCertificationModal = useDisclosure();
@@ -53,27 +55,32 @@ const Certifications = () => {
         case "file": {
           const url = String(cellValue ?? "");
           const isPdf = isPdfUrl(url);
+
           if (!url) return "";
           if (isPdf) {
             const proxy = `/api/media/proxy?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(String(certifications.title ?? "certificate.pdf"))}`;
+
             return (
               <a
-                href={proxy}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="text-primary-500 underline"
+                href={proxy}
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 Open PDF
               </a>
             );
           }
-          return <Image src={url} alt="file" width={100} height={200} />;
+
+          return <Image alt="file" height={200} src={url} width={100} />;
         }
         case "year": {
           const v = cellValue as unknown as string | Date | undefined;
+
           if (!v) return "";
           try {
             const d = typeof v === "string" ? new Date(v) : (v as Date);
+
             return isNaN(d.getTime()) ? String(v) : d.toLocaleDateString();
           } catch {
             return String(v);
@@ -97,8 +104,8 @@ const Certifications = () => {
                   Detail Certifications
                 </DropdownItem>
                 <DropdownItem
-                  key="delete-certifications"
                   className="text-danger-500"
+                  key="delete-certifications"
                   onPress={() => {
                     setSelectedId(`${certifications._id}`);
                     deleteCertificationModal.onOpen();
@@ -112,7 +119,9 @@ const Certifications = () => {
         default:
           if (cellValue === null || cellValue === undefined) return "";
           const t = typeof cellValue;
+
           if (t === "object") return "";
+
           return String(cellValue);
       }
     },
@@ -149,11 +158,12 @@ const Certifications = () => {
         isOpen={deleteCertificationModal.isOpen}
         onClose={deleteCertificationModal.onClose}
         onOpenChange={deleteCertificationModal.onOpenChange}
+        refetchCertification={refetchCertification}
         selectedId={selectedId}
         setSelectedId={setSelectedId}
-        refetchCertification={refetchCertification}
       />
     </section>
   );
 };
+
 export default Certifications;

@@ -1,23 +1,24 @@
-import useMediaHandling from "@/hooks/useMediaHandling";
-import serviceProjectImage from "@/services/projectimage.service";
-import { IProjectImage } from "@/types/Projectimage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useRouter } from "next/router";
+
+import useMediaHandling from "@/hooks/useMediaHandling";
+import serviceProjectImage from "@/services/projectimage.service";
+import { IProjectImage } from "@/types/Projectimage";
 
 const schemaUpdateImages = null;
 
 const useImagesTab = () => {
   const {
-    mutateUploadFile,
-    isPendingMutateUploadFile,
-    mutateDeleteFile,
     isPendingMutateDeleteFile,
-    mutateUploadMultipleFiles,
+    isPendingMutateUploadFile,
     isPendingMutateUploadMultipleFiles,
+    mutateDeleteFile,
+    mutateUploadFile,
+    mutateUploadMultipleFiles,
   } = useMediaHandling();
 
-  const { query, isReady } = useRouter();
+  const { isReady, query } = useRouter();
   const projectId = String(query.id || "");
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -27,6 +28,7 @@ const useImagesTab = () => {
       await serviceProjectImage.getProjectImagesProjectByProjectId(
         projectId as unknown as IProjectImage,
       );
+
     return data.data as IProjectImage[];
   };
 
@@ -38,22 +40,24 @@ const useImagesTab = () => {
 
   const addProjectImage = async (payload: IProjectImage) => {
     const { data } = await serviceProjectImage.addProjectImages(payload);
+
     return data.data as IProjectImage;
   };
 
   const {
-    mutateAsync: mutateAddProjectImage,
     isPending: isPendingAddProjectImage,
+    mutateAsync: mutateAddProjectImage,
   } = useMutation({ mutationFn: addProjectImage });
 
   const deleteProjectImage = async (id: string) => {
     await serviceProjectImage.deleteProjectImages(id);
+
     return id;
   };
 
   const {
-    mutate: mutateDeleteProjectImage,
     isPending: isPendingDeleteProjectImage,
+    mutate: mutateDeleteProjectImage,
   } = useMutation({
     mutationFn: deleteProjectImage,
     onSuccess: async () => {
@@ -93,6 +97,7 @@ const useImagesTab = () => {
         });
       }
     };
+
     run();
   };
 

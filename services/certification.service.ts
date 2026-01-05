@@ -1,5 +1,6 @@
-import instance from "@/libs/axios/instance";
 import endpoint from "./endpoint.constant";
+
+import instance from "@/libs/axios/instance";
 import { ICertification } from "@/types/Certification";
 
 const serviceCertifications = {
@@ -14,4 +15,5 @@ const serviceCertifications = {
   updateCertifications: (id: string, payload: ICertification) =>
     instance.put(`${endpoint.CERTIFICATION}/${id}`, payload),
 };
+
 export default serviceCertifications;

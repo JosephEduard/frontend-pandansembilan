@@ -1,7 +1,3 @@
-import { INews } from "@/types/News";
-import { IService } from "@/types/Service";
-import useInfoTab from "@/views/Admin/DetailNews/InfoTab/useInfoTab";
-
 import {
   Button,
   Card,
@@ -15,6 +11,9 @@ import {
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import { INews } from "@/types/News";
+import useInfoTab from "@/views/Admin/DetailNews/InfoTab/useInfoTab";
+
 interface PropTypes {
   dataNews: INews;
 
@@ -27,15 +26,15 @@ interface PropTypes {
 const InfoTab = (props: PropTypes) => {
   const {
     dataNews,
-    onUpdate,
+    isFetchingNews,
     isPendingUpdate,
     isSuccessUpdate,
-    isFetchingNews,
+    onUpdate,
   } = props;
   const {
     controlUpdateInfo,
-    handleSubmitUpdateInfo,
     errorsUpdateInfo,
+    handleSubmitUpdateInfo,
     resetUpdateInfo,
     setValueUpdateInfo,
   } = useInfoTab();
@@ -43,24 +42,29 @@ const InfoTab = (props: PropTypes) => {
   const toDateOnly = (dateStr?: string | Date) => {
     if (!dateStr) return "";
     const d = dateStr instanceof Date ? dateStr : new Date(dateStr);
+
     if (isNaN(d.getTime())) return "";
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, "0");
     const day = String(d.getDate()).padStart(2, "0");
+
     return `${year}-${month}-${day}`;
   };
 
   const combineWithDeviceTimeToISO = (dateOnly?: string) => {
     if (!dateOnly) return undefined;
     const base = new Date(dateOnly as unknown as string);
+
     if (isNaN(base.getTime())) return undefined;
     const now = new Date();
+
     base.setHours(
       now.getHours(),
       now.getMinutes(),
       now.getSeconds(),
       now.getMilliseconds(),
     );
+
     return base.toISOString();
   };
 
@@ -100,6 +104,7 @@ const InfoTab = (props: PropTypes) => {
           className="flex flex-col gap-4"
           onSubmit={handleSubmitUpdateInfo((form) => {
             const finalDate = combineWithDeviceTimeToISO(form.date);
+
             onUpdate({
               ...dataNews,
               title: form.title,
@@ -108,68 +113,68 @@ const InfoTab = (props: PropTypes) => {
             });
           })}
         >
-          <Skeleton isLoaded={!isFetchingNews} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingNews}>
             <Controller
-              name="title"
               control={controlUpdateInfo}
+              name="title"
               render={({ field }) => (
                 <Input
                   {...field}
                   autoFocus
-                  label=" News Title"
-                  variant="bordered"
-                  type="text"
-                  isInvalid={errorsUpdateInfo.title !== undefined}
-                  errorMessage={errorsUpdateInfo.title?.message}
                   className="mb-2"
+                  errorMessage={errorsUpdateInfo.title?.message}
+                  isInvalid={errorsUpdateInfo.title !== undefined}
+                  label=" News Title"
+                  type="text"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingNews} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingNews}>
             <Controller
-              name="text"
               control={controlUpdateInfo}
+              name="text"
               render={({ field }) => (
                 <Textarea
                   {...field}
-                  label="Text"
-                  variant="bordered"
-                  type="text"
-                  isInvalid={errorsUpdateInfo.text !== undefined}
-                  errorMessage={errorsUpdateInfo.text?.message}
                   className="mb-2"
+                  errorMessage={errorsUpdateInfo.text?.message}
+                  isInvalid={errorsUpdateInfo.text !== undefined}
+                  label="Text"
+                  type="text"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
-          <Skeleton isLoaded={!isFetchingNews} className="rounded-lg">
+          <Skeleton className="rounded-lg" isLoaded={!isFetchingNews}>
             <Controller
-              name="date"
               control={controlUpdateInfo}
+              name="date"
               render={({ field }) => (
                 <Input
                   {...field}
                   autoFocus
-                  label="Date"
-                  variant="bordered"
-                  type="date"
-                  isInvalid={errorsUpdateInfo.date !== undefined}
-                  errorMessage={errorsUpdateInfo.date?.message}
                   className="mb-2"
+                  errorMessage={errorsUpdateInfo.date?.message}
+                  isInvalid={errorsUpdateInfo.date !== undefined}
+                  label="Date"
+                  type="date"
+                  variant="bordered"
                 />
               )}
             />
           </Skeleton>
 
           <Button
-            color="danger"
             className="disabled:bg-default-500 mt-2"
-            type="submit"
+            color="danger"
             disabled={isPendingUpdate || !dataNews?._id}
+            type="submit"
           >
             {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Simpan Perubahan"
             )}

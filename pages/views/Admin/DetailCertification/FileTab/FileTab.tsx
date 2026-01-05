@@ -1,7 +1,3 @@
-import InputDocs from "@/components/ui/InputDocs";
-import { ICertification } from "@/types/Certification";
-import useFileTab from "@/views/Admin/DetailCertification/FileTab/useFileTab";
-
 import {
   Button,
   Card,
@@ -14,6 +10,10 @@ import File from "next/image";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useFileTab from "@/views/Admin/DetailCertification/FileTab/useFileTab";
+import { ICertification } from "@/types/Certification";
+import InputDocs from "@/components/ui/InputDocs";
+
 interface PropTypes {
   currentFile: string;
   onUpdate: (data: ICertification) => void;
@@ -22,18 +22,18 @@ interface PropTypes {
 }
 
 const FileTab = (props: PropTypes) => {
-  const { currentFile, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+  const { currentFile, isPendingUpdate, isSuccessUpdate, onUpdate } = props;
   const {
+    controlUpdateFile,
+    errorsUpdateFile,
     handleDeleteFile,
+    handleSubmitUpdateFile,
+
     handleUploadFile,
+
     isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
-
     preview,
-
-    controlUpdateFile,
-    handleSubmitUpdateFile,
-    errorsUpdateFile,
     resetUpdateFile,
   } = useFileTab();
 
@@ -42,6 +42,7 @@ const FileTab = (props: PropTypes) => {
       resetUpdateFile();
     }
   }, [isSuccessUpdate]);
+
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
@@ -60,42 +61,42 @@ const FileTab = (props: PropTypes) => {
               File saat ini
             </p>
             <Skeleton
-              isLoaded={!!currentFile}
               className="aspect-square rounded-lg"
+              isLoaded={!!currentFile}
             >
-              <File src={currentFile} alt="file" fill className="relative" />
+              <File alt="file" className="relative" fill src={currentFile} />
             </Skeleton>
           </div>
           <Controller
-            name="file"
             control={controlUpdateFile}
+            name="file"
             render={({ field: { onChange, value, ...field } }) => (
               <InputDocs
                 {...field}
-                onUpload={(files) => handleUploadFile(files, onChange)}
-                onDelete={() => handleDeleteFile(onChange)}
-                isUploading={isPendingMutateUploadFile}
-                isDeleting={isPendingMutateDeleteFile}
-                isInvalid={errorsUpdateFile.file !== undefined}
                 errorMessage={errorsUpdateFile.file?.message}
+                isDeleting={isPendingMutateDeleteFile}
                 isDropable
+                isInvalid={errorsUpdateFile.file !== undefined}
+                isUploading={isPendingMutateUploadFile}
                 label={
                   <p className="text-default-700 mb-2 text-sm font-medium">
                     Upload File Baru
                   </p>
                 }
+                onDelete={() => handleDeleteFile(onChange)}
+                onUpload={(files) => handleUploadFile(files, onChange)}
                 preview={typeof preview === "string" ? preview : ""}
               />
             )}
           />
           <Button
-            color="danger"
             className="disabled:bg-default-500 mt-2"
-            type="submit"
+            color="danger"
             disabled={isPendingMutateUploadFile || isPendingUpdate}
+            type="submit"
           >
             {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Simpan Perubahan"
             )}

@@ -1,6 +1,8 @@
 import { Button, Tab, Tabs } from "@heroui/react";
+
 import BannerTab from "./BannerTab";
 import InfoTab from "./InfoTab";
+
 import useDetailService from "@/views/Admin/DetailService/useDetailService";
 
 const DetailServices = () => {
@@ -8,20 +10,20 @@ const DetailServices = () => {
     dataService,
 
     handleUpdateService,
+    isFetchingService,
     isPendingMutateUpdateService,
     isSuccessMutateUpdateService,
     refetchService,
-    isFetchingService,
   } = useDetailService();
 
   return (
     <div className="p-6">
       <div className="mb-4 flex items-center justify-end">
         <Button
-          color="primary"
-          onPress={() => {}}
           className="w-full text-xl font-bold"
+          color="primary"
           disabled
+          onPress={() => {}}
         >
           Detail Service
         </Button>
@@ -30,27 +32,27 @@ const DetailServices = () => {
         <Tab key="banner" title="Banner">
           <BannerTab
             currentBanner={dataService?.banner}
-            onUpdate={handleUpdateService}
             isPendingUpdate={isPendingMutateUpdateService}
             isSuccessUpdate={isSuccessMutateUpdateService}
+            onUpdate={handleUpdateService}
           />
         </Tab>
         <Tab key="info" title="Info">
           <InfoTab
             dataService={dataService}
-            onUpdate={handleUpdateService}
+            isFetchingService={isFetchingService}
             isPendingUpdate={isPendingMutateUpdateService}
             isSuccessUpdate={isSuccessMutateUpdateService}
-            isFetchingService={isFetchingService}
+            onUpdate={handleUpdateService}
           />
         </Tab>
       </Tabs>
       <div className="mt-4 flex items-center justify-end">
         <Button
+          className="w-full"
           color="danger"
           onPress={() => window.history.back()}
           variant="flat"
-          className="w-full"
         >
           Kembali
         </Button>
@@ -58,4 +60,5 @@ const DetailServices = () => {
     </div>
   );
 };
+
 export default DetailServices;

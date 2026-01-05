@@ -1,5 +1,3 @@
-import DataTable from "@/components/ui/DataTable";
-import useProject from "@/views/Admin/Project/useProject";
 import {
   Button,
   Dropdown,
@@ -9,29 +7,33 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import Image from "next/image";
-import { Key, ReactNode, useCallback, useEffect } from "react";
+import { Key, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import { COLUMN_LIST_PROJECT } from "./Project.constants";
 import { useRouter } from "next/router";
+
+import { COLUMN_LIST_PROJECT } from "./Project.constants";
 import AddProjectModal from "./AddProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 
+import useProject from "@/views/Admin/Project/useProject";
+import DataTable from "@/components/ui/DataTable";
+
 const Projects = () => {
-  const { push, isReady, query } = useRouter();
+  const { isReady, push, query } = useRouter();
   const {
     currentLimit,
     currentPage,
-    setURL,
     dataProject,
+    handleChangeLimit,
+    handleChangePage,
+    handleClearSearch,
+    handleSearch,
     isLoadingProject,
     isRefetchingProject,
     refetchProject,
-    handleChangeLimit,
-    handleChangePage,
-    handleSearch,
-    handleClearSearch,
     selectedId,
     setSelectedId,
+    setURL,
   } = useProject();
 
   const addProjectModal = useDisclosure();
@@ -50,13 +52,15 @@ const Projects = () => {
       switch (columnKey) {
         case "banner":
           return (
-            <Image src={`${cellValue}`} alt="banner" width={100} height={200} />
+            <Image alt="banner" height={200} src={`${cellValue}`} width={100} />
           );
         case "year": {
           const v = cellValue as unknown as string | Date | undefined;
+
           if (!v) return "";
           try {
             const d = typeof v === "string" ? new Date(v) : (v as Date);
+
             return isNaN(d.getTime()) ? String(v) : d.toLocaleDateString();
           } catch {
             return String(v);
@@ -78,8 +82,8 @@ const Projects = () => {
                   Detail Projects
                 </DropdownItem>
                 <DropdownItem
-                  key="delete-projects"
                   className="text-danger-500"
+                  key="delete-projects"
                   onPress={() => {
                     setSelectedId(`${projects._id}`);
                     deleteProjectModal.onOpen();
@@ -93,7 +97,9 @@ const Projects = () => {
         default:
           if (cellValue === null || cellValue === undefined) return "";
           const t = typeof cellValue;
+
           if (t === "object") return "";
+
           return String(cellValue);
       }
     },
@@ -130,11 +136,12 @@ const Projects = () => {
         isOpen={deleteProjectModal.isOpen}
         onClose={deleteProjectModal.onClose}
         onOpenChange={deleteProjectModal.onOpenChange}
+        refetchProject={refetchProject}
         selectedId={selectedId}
         setSelectedId={setSelectedId}
-        refetchProject={refetchProject}
       />
     </section>
   );
 };
+
 export default Projects;

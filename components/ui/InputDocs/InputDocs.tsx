@@ -1,17 +1,11 @@
-import { cn } from "@/utils/cn";
-import { isPdfUrl } from "@/utils/fileType";
 import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/react";
 import Image from "next/image";
-import {
-  ChangeEvent,
-  ReactNode,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, ReactNode, useEffect, useId, useRef } from "react";
 import { CiSaveUp2, CiTrash, CiFileOn } from "react-icons/ci";
+
+import { isPdfUrl } from "@/utils/fileType";
+import { cn } from "@/utils/cn";
 
 interface PropTypes {
   name: string;
@@ -29,17 +23,17 @@ interface PropTypes {
 
 const InputDocs = (props: PropTypes) => {
   const {
-    name,
     className,
+    errorMessage,
+    isDeleting,
     isDropable = false,
     isInvalid,
-    errorMessage,
-    onUpload,
-    onDelete,
-    isDeleting,
     isUploading,
-    preview,
     label,
+    name,
+    onDelete,
+    onUpload,
+    preview,
   } = props;
   const drop = useRef<HTMLLabelElement>(null);
   const dropzoneId = useId();
@@ -55,6 +49,7 @@ const InputDocs = (props: PropTypes) => {
   const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     const files = e.dataTransfer?.files;
+
     if (files && onUpload) {
       onUpload(files);
     }
@@ -62,6 +57,7 @@ const InputDocs = (props: PropTypes) => {
 
   useEffect(() => {
     const dropCurrent = drop.current;
+
     if (dropCurrent) {
       dropCurrent.addEventListener("dragover", handleDragOver);
       dropCurrent.addEventListener("drop", handleDrop);
@@ -75,6 +71,7 @@ const InputDocs = (props: PropTypes) => {
 
   const handleOnUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
+
     if (files && onUpload) {
       onUpload(files);
     }
@@ -84,13 +81,13 @@ const InputDocs = (props: PropTypes) => {
     <div>
       {label}
       <label
-        ref={drop}
-        htmlFor={`dropzone-file-${dropzoneId}`}
         className={cn(
           "flex min-h-24 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100",
           className,
           { "border-danger-500": isInvalid },
         )}
+        htmlFor={`dropzone-file-${dropzoneId}`}
+        ref={drop}
       >
         {preview && (
           <div className="relative flex flex-col items-center justify-center p-5">
@@ -98,10 +95,10 @@ const InputDocs = (props: PropTypes) => {
               <div className="mb-2 flex flex-col items-center">
                 <CiFileOn className="h-10 w-10 text-gray-400" />
                 <a
-                  href={`/api/media/proxy?url=${encodeURIComponent(preview)}&filename=${encodeURIComponent("document.pdf")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="text-primary-500 mt-2 text-sm underline"
+                  href={`/api/media/proxy?url=${encodeURIComponent(preview)}&filename=${encodeURIComponent("document.pdf")}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Open PDF
                 </a>
@@ -109,21 +106,21 @@ const InputDocs = (props: PropTypes) => {
             ) : (
               <div className="mb-2 w-1/2">
                 <Image
-                  fill
-                  src={preview}
                   alt="image preview"
                   className="!relative"
+                  fill
+                  src={preview}
                 />
               </div>
             )}
             <Button
-              isIconOnly
               className="bg-danger-100 absolute top-2 right-2 flex h-9 w-9 items-center justify-center rounded"
-              onPress={onDelete}
               disabled={isDeleting}
+              isIconOnly
+              onPress={onDelete}
             >
               {isDeleting ? (
-                <Spinner size="sm" color="danger" />
+                <Spinner color="danger" size="sm" />
               ) : (
                 <CiTrash className="text-danger-500 h-5 w-5" />
               )}
@@ -146,17 +143,17 @@ const InputDocs = (props: PropTypes) => {
           </div>
         )}
         <input
-          name={name}
-          type="file"
-          className="hidden"
           accept="image/*,application/pdf"
-          id={`dropzone-file-${dropzoneId}`}
-          onChange={handleOnUpload}
+          className="hidden"
           disabled={preview !== ""}
+          id={`dropzone-file-${dropzoneId}`}
+          name={name}
+          onChange={handleOnUpload}
           onClick={(e) => {
             e.currentTarget.value = "";
             e.target.dispatchEvent(new Event("change", { bubbles: true }));
           }}
+          type="file"
         />
       </label>
       {isInvalid && (
@@ -165,4 +162,5 @@ const InputDocs = (props: PropTypes) => {
     </div>
   );
 };
+
 export default InputDocs;

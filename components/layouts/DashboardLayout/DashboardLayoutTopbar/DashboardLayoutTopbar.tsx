@@ -6,7 +6,7 @@ import {
   FaFacebookF,
 } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
-import { HiPhone, HiLocationMarker, HiOutlineUser } from "react-icons/hi";
+import { HiOutlineUser } from "react-icons/hi";
 import NextLink from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Lato } from "next/font/google";
@@ -99,9 +99,9 @@ const DashboardLayoutTopbar = () => {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
-                      variant="light"
-                      size="sm"
                       className="gap-2 px-0 text-white"
+                      size="sm"
+                      variant="light"
                     >
                       <span className={`${lato.className} text-xs sm:text-sm`}>
                         Hi, Admin
@@ -114,12 +114,12 @@ const DashboardLayoutTopbar = () => {
                   <DropdownMenu aria-label="Admin menu" className="min-w-36">
                     <DropdownItem key="logout">
                       <Button
+                        className="flex justify-start rounded-lg px-2 py-1.5"
                         color="danger"
                         fullWidth
-                        variant="light"
-                        className="flex justify-start rounded-lg px-2 py-1.5"
-                        size="lg"
                         onPress={() => signOut()}
+                        size="lg"
+                        variant="light"
                       >
                         <CiLogout /> Logout
                       </Button>
@@ -135,9 +135,9 @@ const DashboardLayoutTopbar = () => {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
-                      variant="light"
-                      size="sm"
                       className="gap-2 px-0 text-white"
+                      size="sm"
+                      variant="light"
                     >
                       <span className={`${lato.className} text-xs sm:text-sm`}>
                         Hi, Admin
@@ -150,12 +150,12 @@ const DashboardLayoutTopbar = () => {
                   <DropdownMenu aria-label="Admin menu" className="min-w-36">
                     <DropdownItem key="logout">
                       <Button
+                        className="flex justify-start rounded-lg px-2 py-1.5"
                         color="danger"
                         fullWidth
-                        variant="light"
-                        className="flex justify-start rounded-lg px-2 py-1.5"
-                        size="lg"
                         onPress={() => signOut()}
+                        size="lg"
+                        variant="light"
                       >
                         <CiLogout /> Logout
                       </Button>

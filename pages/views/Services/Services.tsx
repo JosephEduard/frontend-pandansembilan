@@ -106,8 +106,8 @@ const Services = () => {
                   "Kelistrikan",
                 ].map((chip) => (
                   <span
-                    key={chip}
                     className={`${lato.className} rounded-full border border-cyan-200 bg-white/90 px-3 py-1 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm`}
+                    key={chip}
                   >
                     {chip}
                   </span>
@@ -137,8 +137,8 @@ const Services = () => {
             { label: "24/7", desc: "Support tersedia" },
           ].map((stat) => (
             <div
-              key={stat.desc}
               className={`${lato.className} relative overflow-hidden rounded-2xl border border-cyan-100 bg-white/85 px-6 py-5 shadow-md`}
+              key={stat.desc}
             >
               <div className="pointer-events-none absolute inset-0 opacity-50 blur-3xl [background:radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.18),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(34,211,238,0.16),transparent_36%)]" />
               <div className="relative">
@@ -177,10 +177,10 @@ const Services = () => {
 
           {services.map((item, idx) => (
             <div
-              key={item.title}
               className={`${lato.className} group relative flex flex-col gap-6 ${
                 idx % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
               } items-center`}
+              key={item.title}
             >
               <div className="pointer-events-none absolute inset-0 -z-10 opacity-30 blur-3xl [background:radial-gradient(circle_at_50%_50%,rgba(14,165,233,0.15),transparent_50%)]" />
 

@@ -191,12 +191,12 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               {[...Array(8)].map((_, i) => (
                 <motion.div
-                  key={i}
                   animate={{
                     y: [0, -30, 0],
                     opacity: [0.3, 1, 0.3],
                   }}
                   className="absolute h-2 w-2 rounded-full bg-blue-500/30"
+                  key={i}
                   style={{
                     left: `${20 + i * 10}%`,
                     top: `${30 + (i % 3) * 20}%`,

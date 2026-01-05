@@ -2,11 +2,12 @@ import { useContext, useState } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IRegister } from "@/types/Auth";
-import authServices from "@/services/auth";
-import { Register, useMutation, useMutationState } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import axios from "axios";
+
+import authServices from "@/services/auth";
+import { IRegister } from "@/types/Auth";
 import { ToasterContext } from "@/contexts/ToasterContext";
 
 const registerSchema = yup.object().shape({
@@ -43,8 +44,8 @@ const useRegister = () => {
 
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
     reset,
     setError,
   } = useForm({
@@ -53,10 +54,11 @@ const useRegister = () => {
 
   const registerService = async (payload: IRegister) => {
     const result = await authServices.register(payload);
+
     return result;
   };
 
-  const { mutate: mutateRegister, isPending: isPendingRegister } = useMutation({
+  const { isPending: isPendingRegister, mutate: mutateRegister } = useMutation({
     mutationFn: registerService,
     onError(error) {
       const msg = axios.isAxiosError(error)
@@ -64,6 +66,7 @@ const useRegister = () => {
           error.response?.data?.error ||
           JSON.stringify(error.response?.data)
         : String(error);
+
       setError("root", { message: msg });
     },
     onSuccess: () => {

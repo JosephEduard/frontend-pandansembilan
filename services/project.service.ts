@@ -1,5 +1,6 @@
-import instance from "@/libs/axios/instance";
 import endpoint from "./endpoint.constant";
+
+import instance from "@/libs/axios/instance";
 import { IProject } from "@/types/Project";
 
 const serviceProjects = {
@@ -13,4 +14,5 @@ const serviceProjects = {
   getProjectsServiceByServiceId: (serviceId: string) =>
     instance.get(`${endpoint.PROJECT}/service/${serviceId}`),
 };
+
 export default serviceProjects;

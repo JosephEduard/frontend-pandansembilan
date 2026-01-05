@@ -1,5 +1,6 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout";
 import Dashboard from "../../views/Admin/Dashboard";
+
+import DashboardLayout from "@/components/layouts/DashboardLayout";
 
 const DashboardAdminPage = () => {
   return (

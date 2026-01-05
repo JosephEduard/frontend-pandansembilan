@@ -1,23 +1,25 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import serviceNews from "@/services/news.service";
-import { INews } from "@/types/News";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
+import { ToasterContext } from "@/contexts/ToasterContext";
+import serviceNews from "@/services/news.service";
+import { INews } from "@/types/News";
+
 const useDetailNews = () => {
-  const { query, isReady } = useRouter();
+  const { isReady, query } = useRouter();
   const { setToaster } = useContext(ToasterContext);
 
   const getNewsById = async (id: string) => {
     const { data } = await serviceNews.getNewsById(id);
+
     return data.data;
   };
 
   const {
     data: dataNews,
-    refetch: refetchNews,
     isFetching: isFetchingNews,
+    refetch: refetchNews,
   } = useQuery({
     queryKey: ["News"],
     queryFn: () => getNewsById(`${query.id}`),
@@ -26,13 +28,14 @@ const useDetailNews = () => {
 
   const updateNews = async (payload: INews) => {
     const { data } = await serviceNews.updateNews(`${query.id}`, payload);
+
     return data.data;
   };
 
   const {
-    mutate: mutateUpdateNews,
     isPending: isPendingMutateUpdateNews,
     isSuccess: isSuccessMutateUpdateNews,
+    mutate: mutateUpdateNews,
   } = useMutation({
     mutationFn: (payload: INews) => updateNews(payload),
     onError: (error) => {
@@ -64,6 +67,7 @@ const useDetailNews = () => {
             : undefined,
       date: data.date ?? dataNews?.date,
     };
+
     mutateUpdateNews(payload);
   };
 

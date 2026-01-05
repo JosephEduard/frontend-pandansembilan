@@ -12,16 +12,17 @@ interface PropTypes {
 }
 
 const Toaster = (props: PropTypes) => {
-  const { type, message } = props;
+  const { message, type } = props;
+
   return (
     <div
-      role="alert"
       aria-labelledby="toaster-label"
       className="fixed top-33 right-50 z-50 max-w-xs rounded-xl border border-gray-200 bg-white shadow-sm"
+      role="alert"
     >
       <div className="flex items-center gap-2 p-4">
         {iconList[type]}
-        <p id="toaster-label" className="text-sm text-gray-700">
+        <p className="text-sm text-gray-700" id="toaster-label">
           {message}
         </p>
       </div>

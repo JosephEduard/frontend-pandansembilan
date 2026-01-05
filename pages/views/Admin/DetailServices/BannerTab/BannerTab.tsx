@@ -1,6 +1,3 @@
-import InputFile from "@/components/ui/InputFile";
-import { IService } from "@/types/Service";
-import useBannerTab from "@/views/Admin/DetailService/BannerTab/useBannerTab";
 import {
   Button,
   Card,
@@ -13,6 +10,10 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useBannerTab from "@/views/Admin/DetailService/BannerTab/useBannerTab";
+import { IService } from "@/types/Service";
+import InputFile from "@/components/ui/InputFile";
+
 interface PropTypes {
   currentBanner: string;
   onUpdate: (data: IService) => void;
@@ -21,18 +22,18 @@ interface PropTypes {
 }
 
 const BannerTab = (props: PropTypes) => {
-  const { currentBanner, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+  const { currentBanner, isPendingUpdate, isSuccessUpdate, onUpdate } = props;
   const {
+    controlUpdateBanner,
+    errorsUpdateBanner,
     handleDeleteBanner,
+    handleSubmitUpdateBanner,
+
     handleUploadBanner,
+
     isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
-
     preview,
-
-    controlUpdateBanner,
-    handleSubmitUpdateBanner,
-    errorsUpdateBanner,
     resetUpdateBanner,
   } = useBannerTab();
 
@@ -41,6 +42,7 @@ const BannerTab = (props: PropTypes) => {
       resetUpdateBanner();
     }
   }, [isSuccessUpdate]);
+
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
@@ -59,47 +61,47 @@ const BannerTab = (props: PropTypes) => {
               Banner saat ini
             </p>
             <Skeleton
-              isLoaded={!!currentBanner}
               className="aspect-square rounded-lg"
+              isLoaded={!!currentBanner}
             >
               <Image
-                src={currentBanner}
                 alt="banner"
-                fill
                 className="relative"
+                fill
+                src={currentBanner}
               />
             </Skeleton>
           </div>
           <Controller
-            name="banner"
             control={controlUpdateBanner}
+            name="banner"
             render={({ field: { onChange, value, ...field } }) => (
               <InputFile
                 {...field}
-                onUpload={(files) => handleUploadBanner(files, onChange)}
-                onDelete={() => handleDeleteBanner(onChange)}
-                isUploading={isPendingMutateUploadFile}
-                isDeleting={isPendingMutateDeleteFile}
-                isInvalid={errorsUpdateBanner.banner !== undefined}
                 errorMessage={errorsUpdateBanner.banner?.message}
+                isDeleting={isPendingMutateDeleteFile}
                 isDropable
+                isInvalid={errorsUpdateBanner.banner !== undefined}
+                isUploading={isPendingMutateUploadFile}
                 label={
                   <p className="text-default-700 mb-2 text-sm font-medium">
                     Upload Banner Baru
                   </p>
                 }
+                onDelete={() => handleDeleteBanner(onChange)}
+                onUpload={(files) => handleUploadBanner(files, onChange)}
                 preview={typeof preview === "string" ? preview : ""}
               />
             )}
           />
           <Button
-            color="danger"
             className="disabled:bg-default-500 mt-2"
-            type="submit"
+            color="danger"
             disabled={isPendingMutateUploadFile || isPendingUpdate}
+            type="submit"
           >
             {isPendingUpdate ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Simpan Perubahan"
             )}

@@ -1,27 +1,29 @@
 import { Button, Tab, Tabs } from "@heroui/react";
+
 import InfoTab from "./InfoTab";
-import useDetailProject from "@/views/Admin/DetailProject/useDetailProject";
 import ImagesTab from "./ImagesTab";
+
+import useDetailProject from "@/views/Admin/DetailProject/useDetailProject";
 
 const DetailProject = () => {
   const {
     dataProject,
 
     handleUpdateProject,
+    isFetchingProject,
     isPendingMutateUpdateProject,
     isSuccessMutateUpdateProject,
     refetchProject,
-    isFetchingProject,
   } = useDetailProject();
 
   return (
     <div className="p-6">
       <div className="mb-4 flex items-center justify-end">
         <Button
-          color="primary"
-          onPress={() => {}}
           className="w-full text-xl font-bold"
+          color="primary"
           disabled
+          onPress={() => {}}
         >
           Detail Project
         </Button>
@@ -30,27 +32,27 @@ const DetailProject = () => {
         <Tab key="images" title="Images">
           <ImagesTab
             currentImages={dataProject?.banner}
-            onUpdate={handleUpdateProject}
             isPendingUpdate={isPendingMutateUpdateProject}
             isSuccessUpdate={isSuccessMutateUpdateProject}
+            onUpdate={handleUpdateProject}
           />
         </Tab>
         <Tab key="info" title="Info">
           <InfoTab
             dataProject={dataProject}
-            onUpdate={handleUpdateProject}
+            isFetchingProject={isFetchingProject}
             isPendingUpdate={isPendingMutateUpdateProject}
             isSuccessUpdate={isSuccessMutateUpdateProject}
-            isFetchingProject={isFetchingProject}
+            onUpdate={handleUpdateProject}
           />
         </Tab>
       </Tabs>
       <div className="mt-4 flex items-center justify-end">
         <Button
+          className="w-full"
           color="danger"
           onPress={() => window.history.back()}
           variant="flat"
-          className="w-full"
         >
           Kembali
         </Button>
@@ -58,4 +60,5 @@ const DetailProject = () => {
     </div>
   );
 };
+
 export default DetailProject;

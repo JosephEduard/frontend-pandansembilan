@@ -1,9 +1,12 @@
 import type { AppProps } from "next/app";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HeroUIProvider } from "@heroui/react";
+
 import "@/styles/globals.css";
-import { onErrorHander } from "@/libs/axios/responseHandler";
 import { SessionProvider } from "next-auth/react";
+
+import { onErrorHander } from "@/libs/axios/responseHandler";
 import AppShell from "@/components/commons/AppShell";
 import { ToasterProvider } from "@/contexts/ToasterContext";
 
@@ -14,6 +17,7 @@ const queryClient = new QueryClient({
       retry: false,
       throwOnError(error) {
         onErrorHander(error);
+
         return false;
       },
     },

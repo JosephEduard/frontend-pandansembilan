@@ -1,7 +1,3 @@
-import InputFile from "@/components/ui/InputFile";
-import { IProject } from "@/types/Project";
-import useImagesTab from "@/views/Admin/DetailProject/ImagesTab/useImagesTab";
-
 import {
   Button,
   Card,
@@ -16,8 +12,11 @@ import {
 } from "@heroui/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Controller } from "react-hook-form";
 import { MdDelete } from "react-icons/md";
+
+import useImagesTab from "@/views/Admin/DetailProject/ImagesTab/useImagesTab";
+import { IProject } from "@/types/Project";
+import InputFile from "@/components/ui/InputFile";
 
 interface PropTypes {
   currentImages?: string;
@@ -27,24 +26,24 @@ interface PropTypes {
 }
 
 const ImagesTab = (props: PropTypes) => {
-  const { currentImages, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+  const { currentImages, isPendingUpdate, isSuccessUpdate, onUpdate } = props;
   const {
+    controlUpdateImages,
+    deletingId,
+    errorsUpdateImages,
+    handleDeleteImage,
     handleDeleteImages,
+    handleSubmitUpdateImages,
     handleUploadImages,
+    isPendingAddProjectImage,
+    isPendingDeleteProjectImage,
     isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
     isPendingMutateUploadMultipleFiles,
-    isPendingAddProjectImage,
-    isPendingDeleteProjectImage,
+
+    preview,
     projectImages,
     refetchProjectImages,
-    preview,
-    handleDeleteImage,
-    deletingId,
-
-    controlUpdateImages,
-    handleSubmitUpdateImages,
-    errorsUpdateImages,
     resetUpdateImages,
   } = useImagesTab();
 
@@ -56,6 +55,7 @@ const ImagesTab = (props: PropTypes) => {
       resetUpdateImages();
     }
   }, [isSuccessUpdate]);
+
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
@@ -70,25 +70,25 @@ const ImagesTab = (props: PropTypes) => {
             <p className="text-default-700 text-sm font-medium">
               Project Images
             </p>
-            <Skeleton isLoaded className="rounded-lg">
+            <Skeleton className="rounded-lg" isLoaded>
               <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {(projectImages || []).map((img) => (
                   <button
+                    className="relative aspect-square overflow-hidden rounded-lg border"
                     key={img._id ?? img.image}
-                    type="button"
                     onClick={() => {
                       setSelectedImage(
                         typeof img.image === "string" ? img.image : null,
                       );
                       previewModal.onOpen();
                     }}
-                    className="relative aspect-square overflow-hidden rounded-lg border"
+                    type="button"
                   >
                     <Image
-                      src={`${img.image}`}
                       alt="image"
-                      fill
                       className="object-cover"
+                      fill
+                      src={`${img.image}`}
                     />
                     <div className="pointer-events-none absolute inset-0">
                       {isPendingDeleteProjectImage &&
@@ -100,18 +100,18 @@ const ImagesTab = (props: PropTypes) => {
                     </div>
                     <div className="absolute top-2 right-2 z-[1]">
                       <Button
-                        isIconOnly
-                        size="sm"
+                        aria-label="Delete image"
                         color="danger"
-                        variant="flat"
+                        isDisabled={
+                          isPendingDeleteProjectImage && deletingId === img._id
+                        }
+                        isIconOnly
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteImage(img._id as string);
                         }}
-                        isDisabled={
-                          isPendingDeleteProjectImage && deletingId === img._id
-                        }
-                        aria-label="Delete image"
+                        size="sm"
+                        variant="flat"
                       >
                         <MdDelete />
                       </Button>
@@ -124,20 +124,20 @@ const ImagesTab = (props: PropTypes) => {
 
           <div>
             <InputFile
-              name="project-images"
-              onUpload={(files) => handleUploadImages(files)}
+              allowMultiple
+              isDropable
               isUploading={
                 isPendingMutateUploadFile ||
                 isPendingMutateUploadMultipleFiles ||
                 isPendingAddProjectImage
               }
-              isDropable
-              allowMultiple
               label={
                 <p className="text-default-700 mb-2 text-sm font-medium">
                   Upload Images Baru
                 </p>
               }
+              name="project-images"
+              onUpload={(files) => handleUploadImages(files)}
               preview=""
             />
           </div>
@@ -145,11 +145,11 @@ const ImagesTab = (props: PropTypes) => {
       </CardBody>
       <Modal
         isOpen={previewModal.isOpen}
-        onOpenChange={previewModal.onOpenChange}
         onClose={() => {
           setSelectedImage(null);
           previewModal.onClose();
         }}
+        onOpenChange={previewModal.onOpenChange}
         placement="center"
         scrollBehavior="inside"
         size="lg"
@@ -159,11 +159,11 @@ const ImagesTab = (props: PropTypes) => {
             <div className="relative mx-auto h-[70vh] w-[85vw] max-w-5xl">
               {selectedImage && (
                 <Image
-                  src={selectedImage}
                   alt="preview"
-                  fill
                   className="object-contain"
+                  fill
                   sizes="(max-width: 768px) 85vw, 1024px"
+                  src={selectedImage}
                 />
               )}
             </div>

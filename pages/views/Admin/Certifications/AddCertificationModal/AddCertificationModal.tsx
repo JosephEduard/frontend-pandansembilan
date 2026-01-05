@@ -11,9 +11,9 @@ import {
   Spinner,
   Textarea,
 } from "@heroui/react";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
+
 import useAddCertificationModal from "@/views/Admin/Certification/AddServiceModal/useAddCertificationModal";
 import InputDocs from "@/components/ui/InputDocs";
 
@@ -28,18 +28,18 @@ const AddCertificationModal = (props: PropTypes) => {
   const {
     control,
     errors,
+    handleAddCertification,
+    handleDeleteFile,
     handleOnClose,
     handleSubmitFormCertification,
-    handleAddCertification,
+    handleUploadFile,
     isPendingMutateAddCertification,
+    isPendingMutateDeleteFile,
+    isPendingMutateUploadFile,
     isSuccessMutateAddCertification,
     preview,
-    handleUploadFile,
-    isPendingMutateUploadFile,
-    handleDeleteFile,
-    isPendingMutateDeleteFile,
   } = useAddCertificationModal();
-  const { isOpen, onClose, refetchCertification, onOpenChange } = props;
+  const { isOpen, onClose, onOpenChange, refetchCertification } = props;
 
   useEffect(() => {
     if (isSuccessMutateAddCertification) {
@@ -51,9 +51,9 @@ const AddCertificationModal = (props: PropTypes) => {
 
   return (
     <Modal
+      isOpen={isOpen}
       onClose={() => handleOnClose(onClose)}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -64,67 +64,68 @@ const AddCertificationModal = (props: PropTypes) => {
             <div className="flex flex-col gap-2">
               <p className="text-sm font-bold">Information</p>
               <Controller
-                name="title"
                 control={control}
+                name="title"
                 render={({ field }) => (
                   <Input
                     {...field}
                     autoFocus
-                    label="Title"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.title !== undefined}
-                    errorMessage={errors.title?.message}
                     className="mb-2"
+                    errorMessage={errors.title?.message}
+                    isInvalid={errors.title !== undefined}
+                    label="Title"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="description"
                 control={control}
+                name="description"
                 render={({ field }) => (
                   <Textarea
                     {...field}
-                    label="Description"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.description !== undefined}
-                    errorMessage={errors.description?.message}
                     className="mb-2"
+                    errorMessage={errors.description?.message}
+                    isInvalid={errors.description !== undefined}
+                    label="Description"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="year"
                 control={control}
+                name="year"
                 render={({ field }) => (
                   <Input
                     {...field}
                     autoFocus
-                    label="Year"
-                    variant="bordered"
-                    type="number"
-                    isInvalid={errors.year !== undefined}
-                    errorMessage={errors.year?.message}
                     className="mb-2"
+                    errorMessage={errors.year?.message}
+                    isInvalid={errors.year !== undefined}
+                    label="Year"
+                    type="number"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="status"
                 control={control}
+                name="status"
                 render={({ field }) => (
                   <Select
-                    label="Status"
-                    variant="bordered"
                     className="mb-2"
-                    isInvalid={errors.status !== undefined}
                     errorMessage={errors.status?.message}
-                    selectedKeys={field.value ? [field.value] : []}
+                    isInvalid={errors.status !== undefined}
+                    label="Status"
                     onSelectionChange={(keys) => {
                       const selected = Array.from(keys as Set<string>).join("");
+
                       field.onChange(selected);
                     }}
+                    selectedKeys={field.value ? [field.value] : []}
+                    variant="bordered"
                   >
                     <SelectItem key="true">true</SelectItem>
                   </Select>
@@ -132,18 +133,18 @@ const AddCertificationModal = (props: PropTypes) => {
               />
               <p className="text-sm font-bold">File</p>
               <Controller
-                name="file"
                 control={control}
+                name="file"
                 render={({ field: { onChange, value, ...field } }) => (
                   <InputDocs
                     {...field}
-                    onUpload={(files) => handleUploadFile(files, onChange)}
-                    onDelete={() => handleDeleteFile(onChange)}
-                    isUploading={isPendingMutateUploadFile}
-                    isDeleting={isPendingMutateDeleteFile}
-                    isInvalid={errors.file !== undefined}
                     errorMessage={errors.file?.message}
+                    isDeleting={isPendingMutateDeleteFile}
                     isDropable
+                    isInvalid={errors.file !== undefined}
+                    isUploading={isPendingMutateUploadFile}
+                    onDelete={() => handleDeleteFile(onChange)}
+                    onUpload={(files) => handleUploadFile(files, onChange)}
                     preview={typeof preview === "string" ? preview : ""}
                   />
                 )}
@@ -153,15 +154,15 @@ const AddCertificationModal = (props: PropTypes) => {
           <ModalFooter>
             <Button
               color="danger"
-              variant="flat"
-              onPress={() => handleOnClose(onClose)}
               disabled={disabledSubmit}
+              onPress={() => handleOnClose(onClose)}
+              variant="flat"
             >
               Cancel
             </Button>
-            <Button color="danger" type="submit" disabled={disabledSubmit}>
+            <Button color="danger" disabled={disabledSubmit} type="submit">
               {isPendingMutateAddCertification ? (
-                <Spinner size="sm" color="white" />
+                <Spinner color="white" size="sm" />
               ) : (
                 "Tambah Certification"
               )}
@@ -172,4 +173,5 @@ const AddCertificationModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default AddCertificationModal;

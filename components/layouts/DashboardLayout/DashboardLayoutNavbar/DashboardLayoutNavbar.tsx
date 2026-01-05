@@ -14,13 +14,15 @@ import {
 } from "@heroui/react";
 import Image from "next/image";
 import NextLink from "next/link";
-import NAV_ITEMS from "../DashboardLayout.constant";
-import { cn } from "@/utils/cn";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Spacer } from "@heroui/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lato } from "next/font/google";
+
+import NAV_ITEMS from "../DashboardLayout.constant";
+
+import { cn } from "@/utils/cn";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -29,19 +31,19 @@ const lato = Lato({
 
 const Chevron = (props: any) => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
     fill="none"
-    width={16}
     height={16}
+    viewBox="0 0 24 24"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
     <path
       d="M6 9l6 6 6-6"
       stroke="currentColor"
-      strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={1.5}
     />
   </svg>
 );
@@ -55,10 +57,12 @@ const DashboardLayoutNavbar = () => {
   useEffect(() => {
     if (!isHome) {
       setTransparent(false);
+
       return;
     }
 
     const hero = document.getElementById("hero-carousel");
+
     if (!hero) return; // fallback: keep existing state
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -67,46 +71,49 @@ const DashboardLayoutNavbar = () => {
       },
       { threshold: 0.1 },
     );
+
     observer.observe(hero);
+
     return () => observer.disconnect();
   }, [isHome]);
+
   return (
     <Navbar
-      maxWidth="full"
-      height={90}
       className={cn(
         "max-w-screen-3xl 3xl:container mb-0 pt-0 pb-0 transition-colors duration-300",
         transparent
           ? "backdrop-blur-0 bg-transparent shadow-none"
           : "bg-white/95 shadow-md backdrop-blur-sm",
       )}
-      isBordered={!transparent}
+      height={90}
       isBlurred={false}
+      isBordered={!transparent}
+      maxWidth="full"
     >
       <div
         className={`${cn(lato.className)} flex w-full items-center justify-between sm:ml-0 sm:justify-start md:justify-between`}
       >
         <NavbarBrand
           as={NextLink}
-          href="/admin"
           className="sm:-flex-auto sm:ml-0 sm:justify-start md:ml-0 md:flex-none lg:mr-8 lg:ml-0 xl:mr-0 xl:ml-15 2xl:ml-40"
+          href="/admin"
         >
           <Image
-            src="/images/general/logo2.svg"
             alt="Logo"
-            width={65}
-            height={65}
             className="cursor-pointer"
+            height={65}
+            src="/images/general/logo2.svg"
+            width={65}
           />
           <Image
-            src={"/images/general/logotext.svg"}
             alt={"LogoText"}
-            height={65}
-            width={300}
             className="sm:inline-flex-auto ml-2 cursor-pointer md:flex-none"
+            height={65}
+            src={"/images/general/logotext.svg"}
+            width={300}
           />
         </NavbarBrand>
-        <Spacer x={32} className="lg:x={0} lg:hidden" />
+        <Spacer className="lg:x={0} lg:hidden" x={32} />
         <NavbarContent
           className={`${cn(lato.className)} hidden flex-1 justify-center font-bold sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:ml-32 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-15`}
           justify="center"
@@ -118,7 +125,6 @@ const DashboardLayoutNavbar = () => {
                   <NavbarItem className="p-0">
                     <DropdownTrigger>
                       <Button
-                        disableRipple
                         className={cn(
                           `${lato.className} hover:text-primary-700 bg-transparent p-0 text-base font-bold data-[hover=true]:bg-transparent`,
                           {
@@ -126,6 +132,7 @@ const DashboardLayoutNavbar = () => {
                               router.pathname === item.href,
                           },
                         )}
+                        disableRipple
                         endContent={<Chevron className="ml-0" />}
                         radius="sm"
                         variant="light"
@@ -142,28 +149,28 @@ const DashboardLayoutNavbar = () => {
                     }}
                   >
                     <DropdownItem
+                      className={`${lato.className} transition-all hover:translate-x-1`}
                       description="Pelajari lebih lanjut tentang kami"
                       key="Company Profile"
                       onClick={() => router.push("/company-profile")}
-                      className={`${lato.className} transition-all hover:translate-x-1`}
                     >
                       Profil Perusahaan
                     </DropdownItem>
                     <DropdownItem
+                      className={`${lato.className} transition-all hover:translate-x-1`}
                       description="Lihat tujuan kami"
                       key="vision-mission"
                       onClick={() => router.push("/company-profile#vision")}
-                      className={`${lato.className} transition-all hover:translate-x-1`}
                     >
                       Visi dan Misi
                     </DropdownItem>
                     <DropdownItem
+                      className={`${lato.className} transition-all hover:translate-x-1`}
                       description="Sertifikasi dan legalitas kami"
                       key="certifications"
                       onClick={() =>
                         router.push("/company-profile#certifications")
                       }
-                      className={`${lato.className} transition-all hover:translate-x-1`}
                     >
                       Legalitas
                     </DropdownItem>
@@ -174,15 +181,15 @@ const DashboardLayoutNavbar = () => {
 
             return (
               <NavbarItem
-                key={`${item.label}-${index}`}
                 as={NextLink}
-                href={item.href}
                 className={cn(
                   `${lato.className} hover:text-primary-600 font-bold`,
                   {
                     "text-danger-500 font-bold": router.pathname === item.href,
                   },
                 )}
+                href={item.href}
+                key={`${item.label}-${index}`}
               >
                 {item.label}
               </NavbarItem>
@@ -202,7 +209,6 @@ const DashboardLayoutNavbar = () => {
               <div key={`mobile-${index}`}>
                 <NavbarMenuItem>
                   <button
-                    onClick={() => setMobileCompanyOpen((s) => !s)}
                     className={cn(
                       `${lato.className} font-bold-700 hover:text-primary-600 w-full text-left text-base font-medium`,
                       {
@@ -210,6 +216,7 @@ const DashboardLayoutNavbar = () => {
                           router.pathname === item.href,
                       },
                     )}
+                    onClick={() => setMobileCompanyOpen((s) => !s)}
                   >
                     <span className="flex w-full items-center justify-between">
                       <span>{item.label}</span>
@@ -224,20 +231,20 @@ const DashboardLayoutNavbar = () => {
                   {mobileCompanyOpen && (
                     <>
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
                       >
                         <NavbarMenuItem>
                           <motion.div
-                            initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, x: -10 }}
                             transition={{ delay: 0.1 }}
                           >
                             <NextLink
-                              href="/company-profile"
                               className={`${lato.className} hover:text-primary-600 block w-full py-2 pl-6 text-base font-bold transition-all hover:translate-x-1`}
+                              href="/company-profile"
                             >
                               Profil Perusahaan
                             </NextLink>
@@ -245,13 +252,13 @@ const DashboardLayoutNavbar = () => {
                         </NavbarMenuItem>
                         <NavbarMenuItem>
                           <motion.div
-                            initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, x: -10 }}
                             transition={{ delay: 0.15 }}
                           >
                             <NextLink
-                              href="/company-profile#vision"
                               className={`${lato.className} hover:text-primary-600 block w-full py-2 pl-6 text-base font-bold transition-all hover:translate-x-1`}
+                              href="/company-profile#vision"
                             >
                               Visi dan Misi
                             </NextLink>
@@ -259,13 +266,13 @@ const DashboardLayoutNavbar = () => {
                         </NavbarMenuItem>
                         <NavbarMenuItem>
                           <motion.div
-                            initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, x: -10 }}
                             transition={{ delay: 0.2 }}
                           >
                             <NextLink
-                              href="/company-profile#certifications"
                               className={`${lato.className} hover:text-primary-700 block w-full py-2 pl-6 text-base font-bold transition-all hover:translate-x-1`}
+                              href="/company-profile#certifications"
                             >
                               Legalitas
                             </NextLink>
@@ -282,13 +289,13 @@ const DashboardLayoutNavbar = () => {
           return (
             <NavbarMenuItem key={`${item.label}-${index}`}>
               <NextLink
-                href={item.href}
                 className={cn(
                   `${lato.className} hover:text-primary-600 w-full text-base font-bold`,
                   {
                     "text-danger-500 font-bold": router.pathname === item.href,
                   },
                 )}
+                href={item.href}
               >
                 {item.label}
               </NextLink>

@@ -1,23 +1,25 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import serviceCertifications from "@/services/certification.service";
-import { ICertification } from "@/types/Certification";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
+import { ToasterContext } from "@/contexts/ToasterContext";
+import serviceCertifications from "@/services/certification.service";
+import { ICertification } from "@/types/Certification";
+
 const useDetailCertification = () => {
-  const { query, isReady } = useRouter();
+  const { isReady, query } = useRouter();
   const { setToaster } = useContext(ToasterContext);
 
   const getCertificationById = async (id: string) => {
     const { data } = await serviceCertifications.getCertificationsById(id);
+
     return data.data;
   };
 
   const {
     data: dataCertification,
-    refetch: refetchCertification,
     isFetching: isFetchingCertification,
+    refetch: refetchCertification,
   } = useQuery({
     queryKey: ["Certification"],
     queryFn: () => getCertificationById(`${query.id}`),
@@ -29,13 +31,14 @@ const useDetailCertification = () => {
       `${query.id}`,
       payload,
     );
+
     return data.data;
   };
 
   const {
-    mutate: mutateUpdateCertification,
     isPending: isPendingMutateUpdateCertification,
     isSuccess: isSuccessMutateUpdateCertification,
+    mutate: mutateUpdateCertification,
   } = useMutation({
     mutationFn: (payload: ICertification) => updateCertification(payload),
     onError: (error) => {
@@ -68,6 +71,7 @@ const useDetailCertification = () => {
             ? (dataCertification?.file as string)
             : undefined,
     };
+
     mutateUpdateCertification(payload);
   };
 

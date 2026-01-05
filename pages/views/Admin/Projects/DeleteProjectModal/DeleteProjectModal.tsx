@@ -1,4 +1,3 @@
-import useDeleteProjectModal from "@/views/Admin/Project/DeleteProjectModal/useDeleteProjectModal";
 import {
   Button,
   Modal,
@@ -9,6 +8,8 @@ import {
   Spinner,
 } from "@heroui/react";
 import { Dispatch, SetStateAction, useEffect } from "react";
+
+import useDeleteProjectModal from "@/views/Admin/Project/DeleteProjectModal/useDeleteProjectModal";
 
 interface PropTypes {
   isOpen: boolean;
@@ -30,9 +31,9 @@ const DeleteProjectModal = (props: PropTypes) => {
   } = props;
 
   const {
-    mutateDeleteProject,
     isPendingMutateDeleteProject,
     isSuccessMutateDeleteProject,
+    mutateDeleteProject,
   } = useDeleteProjectModal();
 
   useEffect(() => {
@@ -41,11 +42,12 @@ const DeleteProjectModal = (props: PropTypes) => {
       refetchProject();
     }
   }, [isSuccessMutateDeleteProject]);
+
   return (
     <Modal
+      isOpen={isOpen}
       onClose={onClose}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -59,23 +61,23 @@ const DeleteProjectModal = (props: PropTypes) => {
         <ModalFooter>
           <Button
             color="danger"
-            variant="flat"
+            disabled={isPendingMutateDeleteProject}
             onPress={() => {
               onClose();
               setSelectedId("");
             }}
-            disabled={isPendingMutateDeleteProject}
+            variant="flat"
           >
             Cancel
           </Button>
           <Button
             color="danger"
-            type="submit"
             disabled={isPendingMutateDeleteProject}
             onPress={() => mutateDeleteProject(selectedId)}
+            type="submit"
           >
             {isPendingMutateDeleteProject ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Delete"
             )}
@@ -85,4 +87,5 @@ const DeleteProjectModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default DeleteProjectModal;

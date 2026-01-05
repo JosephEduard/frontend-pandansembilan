@@ -1,4 +1,3 @@
-import DataTable from "@/components/ui/DataTable";
 import {
   Button,
   Dropdown,
@@ -8,30 +7,33 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { useRouter } from "next/router";
-import { Key, ReactNode, use, useCallback, useEffect } from "react";
+import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import { COLUMN_LIST_SERVICE } from "./Services.constants";
-import useService from "@/views/Admin/Service/useService";
-import AddServiceModal from "./AddServiceModal";
-import DeleteServiceModal from "./DeleteServiceModal";
 import Image from "next/image";
 
+import { COLUMN_LIST_SERVICE } from "./Services.constants";
+import AddServiceModal from "./AddServiceModal";
+import DeleteServiceModal from "./DeleteServiceModal";
+
+import useService from "@/views/Admin/Service/useService";
+import DataTable from "@/components/ui/DataTable";
+
 const Services = () => {
-  const { push, isReady, query } = useRouter();
+  const { isReady, push, query } = useRouter();
   const {
     currentLimit,
     currentPage,
-    setURL,
     dataService,
+    handleChangeLimit,
+    handleChangePage,
+    handleClearSearch,
+    handleSearch,
     isLoadingService,
     isRefetchingService,
     refetchService,
-    handleChangeLimit,
-    handleChangePage,
-    handleSearch,
-    handleClearSearch,
     selectedId,
     setSelectedId,
+    setURL,
   } = useService();
 
   const addServiceModal = useDisclosure();
@@ -50,7 +52,7 @@ const Services = () => {
       switch (columnKey) {
         case "banner":
           return (
-            <Image src={`${cellValue}`} alt="banner" width={100} height={200} />
+            <Image alt="banner" height={200} src={`${cellValue}`} width={100} />
           );
         case "actions":
           return (
@@ -68,8 +70,8 @@ const Services = () => {
                   Detail Services
                 </DropdownItem>
                 <DropdownItem
-                  key="delete-services"
                   className="text-danger-500"
+                  key="delete-services"
                   onPress={() => {
                     setSelectedId(`${services._id}`);
                     deleteServiceModal.onOpen();
@@ -110,11 +112,12 @@ const Services = () => {
       <AddServiceModal {...addServiceModal} refetchService={refetchService} />
       <DeleteServiceModal
         {...deleteServiceModal}
+        refetchService={refetchService}
         selectedId={selectedId}
         setSelectedId={setSelectedId}
-        refetchService={refetchService}
       />
     </section>
   );
 };
+
 export default Services;

@@ -2,7 +2,6 @@ import { Card, CardBody, CardFooter } from "@heroui/react";
 import Link from "next/link";
 import {
   MdWork,
-  MdPerson,
   MdNewspaper,
   MdDesignServices,
   MdWorkspacePremium,
@@ -50,23 +49,23 @@ const Dashboard = () => {
       </h1>
 
       <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {items.map(({ title, href, imgSrc, Icon }) => (
+        {items.map(({ href, Icon, imgSrc, title }) => (
           <Card
-            key={title}
             as={Link}
-            href={href}
-            isPressable
-            shadow="md"
-            radius="lg"
             className="bg-primary group relative overflow-hidden transition-shadow hover:shadow-lg"
             classNames={{ body: "p-0" }}
+            href={href}
+            isPressable
+            key={title}
+            radius="lg"
+            shadow="md"
           >
             <CardBody className="bg-primary relative h-28 overflow-hidden rounded-b-[32px] sm:h-36 lg:h-40">
               <div
                 aria-label={`${title} thumbnail`}
+                className="absolute inset-0 bg-cover bg-center"
                 role="img"
                 style={{ backgroundImage: `url(${imgSrc})` }}
-                className="absolute inset-0 bg-cover bg-center"
               />
             </CardBody>
             <CardFooter className="bg-primary text-primary-foreground flex items-center gap-3 rounded-none px-6 py-4">

@@ -1,4 +1,3 @@
-import useDeleteServiceModal from "@/views/Admin/Service/DeleteServiceModal/useDeleteServiceModal";
 import {
   Button,
   Modal,
@@ -9,7 +8,8 @@ import {
   Spinner,
 } from "@heroui/react";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { set } from "react-hook-form";
+
+import useDeleteServiceModal from "@/views/Admin/Service/DeleteServiceModal/useDeleteServiceModal";
 
 interface PropTypes {
   isOpen: boolean;
@@ -31,9 +31,9 @@ const DeleteServiceModal = (props: PropTypes) => {
   } = props;
 
   const {
-    mutateDeleteService,
     isPendingMutateDeleteService,
     isSuccessMutateDeleteService,
+    mutateDeleteService,
   } = useDeleteServiceModal();
 
   useEffect(() => {
@@ -45,9 +45,9 @@ const DeleteServiceModal = (props: PropTypes) => {
 
   return (
     <Modal
+      isOpen={isOpen}
       onClose={onClose}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -61,23 +61,23 @@ const DeleteServiceModal = (props: PropTypes) => {
         <ModalFooter>
           <Button
             color="danger"
-            variant="flat"
+            disabled={isPendingMutateDeleteService}
             onPress={() => {
               onClose();
               setSelectedId("");
             }}
-            disabled={isPendingMutateDeleteService}
+            variant="flat"
           >
             Cancel
           </Button>
           <Button
             color="danger"
-            type="submit"
             disabled={isPendingMutateDeleteService}
             onPress={() => mutateDeleteService(selectedId)}
+            type="submit"
           >
             {isPendingMutateDeleteService ? (
-              <Spinner size="sm" color="white" />
+              <Spinner color="white" size="sm" />
             ) : (
               "Delete"
             )}
@@ -87,4 +87,5 @@ const DeleteServiceModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default DeleteServiceModal;

@@ -1,23 +1,25 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import serviceProjects from "@/services/project.service";
-import { IProject } from "@/types/Project";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
+import { ToasterContext } from "@/contexts/ToasterContext";
+import serviceProjects from "@/services/project.service";
+import { IProject } from "@/types/Project";
+
 const useDetailProject = () => {
-  const { query, isReady } = useRouter();
+  const { isReady, query } = useRouter();
   const { setToaster } = useContext(ToasterContext);
 
   const getProjectById = async (id: string) => {
     const { data } = await serviceProjects.getProjectsById(id);
+
     return data.data;
   };
 
   const {
     data: dataProject,
-    refetch: refetchProject,
     isFetching: isFetchingProject,
+    refetch: refetchProject,
   } = useQuery({
     queryKey: ["Project"],
     queryFn: () => getProjectById(`${query.id}`),
@@ -29,13 +31,14 @@ const useDetailProject = () => {
       `${query.id}`,
       payload,
     );
+
     return data.data;
   };
 
   const {
-    mutate: mutateUpdateProject,
     isPending: isPendingMutateUpdateProject,
     isSuccess: isSuccessMutateUpdateProject,
+    mutate: mutateUpdateProject,
   } = useMutation({
     mutationFn: (payload: IProject) => updateProject(payload),
     onError: (error) => {
@@ -63,6 +66,7 @@ const useDetailProject = () => {
       serviceId: data.serviceId ?? dataProject?.serviceId,
       status: data.status ?? dataProject?.status,
     };
+
     mutateUpdateProject(payload);
   };
 

@@ -169,12 +169,12 @@ const News = () => {
 
                   return (
                     <button
-                      key={category}
                       className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
                         isActive
                           ? "border-cyan-600 bg-cyan-600 text-white"
                           : "border-cyan-200 bg-white text-slate-800 hover:bg-cyan-100"
                       }`}
+                      key={category}
                       onClick={() => setActiveCategory(category)}
                     >
                       {category}
@@ -251,8 +251,8 @@ const News = () => {
         <section className="grid gap-6 lg:grid-cols-3">
           {filteredFeatured.map((article) => (
             <div
-              key={article.title}
               className={`${lato.className} flex h-full flex-col justify-between rounded-3xl border border-cyan-100 bg-white/80 p-6 shadow-md transition hover:-translate-y-1 hover:border-cyan-400/80`}
+              key={article.title}
             >
               <div
                 aria-label={`Slot gambar untuk ${article.title}`}
@@ -324,8 +324,8 @@ const News = () => {
             >
               {filteredUpdates.map((article) => (
                 <div
-                  key={article.title}
                   className={`${lato.className} grid grid-cols-[120px_1fr] gap-3 py-4 sm:grid-cols-[150px_1fr]`}
+                  key={article.title}
                 >
                   <div
                     aria-label={`Slot gambar untuk ${article.title}`}
@@ -380,8 +380,8 @@ const News = () => {
             <div className="space-y-4">
               {pressKits.map((item) => (
                 <div
-                  key={item.title}
                   className={`${lato.className} rounded-xl border border-cyan-100 bg-white/80 p-4 shadow-sm`}
+                  key={item.title}
                 >
                   <div
                     className={`${lato.className} flex items-center justify-between text-xs tracking-[0.12em] text-slate-600 uppercase`}

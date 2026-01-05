@@ -2,11 +2,12 @@ import { useContext, useState } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ILogin } from "@/types/Auth";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { signIn } from "next-auth/react";
+
+import { ILogin } from "@/types/Auth";
 import { ToasterContext } from "@/contexts/ToasterContext";
 
 const loginSchema = yup.object().shape({
@@ -23,8 +24,8 @@ const useLogin = () => {
 
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
     reset,
     setError,
   } = useForm({
@@ -37,12 +38,13 @@ const useLogin = () => {
       redirect: false,
       callbackUrl,
     });
+
     if (result?.error && result?.status === 401) {
       throw new Error("Invalid username or password incorrect");
     }
   };
 
-  const { mutate: mutateLogin, isPending: isPendingLogin } = useMutation({
+  const { isPending: isPendingLogin, mutate: mutateLogin } = useMutation({
     mutationFn: loginService,
     onError(error) {
       const msg = axios.isAxiosError(error)
@@ -50,6 +52,7 @@ const useLogin = () => {
           error.response?.data?.error ||
           JSON.stringify(error.response?.data)
         : String(error);
+
       // setToaster({ type: "error", message: error.message });
       setError("root", { message: msg });
     },

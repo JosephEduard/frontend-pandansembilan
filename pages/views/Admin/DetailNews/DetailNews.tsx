@@ -1,26 +1,28 @@
 import { Button, Tab, Tabs } from "@heroui/react";
+
 import InfoTab from "./InfoTab";
-import useDetailNews from "@/views/Admin/DetailNews/useDetailNews";
 import ImageTab from "./ImageTab";
+
+import useDetailNews from "@/views/Admin/DetailNews/useDetailNews";
 
 const DetailNews = () => {
   const {
     dataNews,
     handleUpdateNews,
+    isFetchingNews,
     isPendingMutateUpdateNews,
     isSuccessMutateUpdateNews,
     refetchNews,
-    isFetchingNews,
   } = useDetailNews();
 
   return (
     <div className="p-6">
       <div className="mb-4 flex items-center justify-end">
         <Button
-          color="primary"
-          onPress={() => {}}
           className="w-full text-xl font-bold"
+          color="primary"
           disabled
+          onPress={() => {}}
         >
           Detail News
         </Button>
@@ -29,27 +31,27 @@ const DetailNews = () => {
         <Tab key="image" title="Image">
           <ImageTab
             currentImage={dataNews?.image}
-            onUpdate={handleUpdateNews}
             isPendingUpdate={isPendingMutateUpdateNews}
             isSuccessUpdate={isSuccessMutateUpdateNews}
+            onUpdate={handleUpdateNews}
           />
         </Tab>
         <Tab key="info" title="Info">
           <InfoTab
             dataNews={dataNews}
-            onUpdate={handleUpdateNews}
+            isFetchingNews={isFetchingNews}
             isPendingUpdate={isPendingMutateUpdateNews}
             isSuccessUpdate={isSuccessMutateUpdateNews}
-            isFetchingNews={isFetchingNews}
+            onUpdate={handleUpdateNews}
           />
         </Tab>
       </Tabs>
       <div className="mt-4 flex items-center justify-end">
         <Button
+          className="w-full"
           color="danger"
           onPress={() => window.history.back()}
           variant="flat"
-          className="w-full"
         >
           Kembali
         </Button>
@@ -57,4 +59,5 @@ const DetailNews = () => {
     </div>
   );
 };
+
 export default DetailNews;

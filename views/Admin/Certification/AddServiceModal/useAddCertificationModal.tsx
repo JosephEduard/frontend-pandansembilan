@@ -1,12 +1,13 @@
-import { ToasterContext } from "@/contexts/ToasterContext";
-import useMediaHandling from "@/hooks/useMediaHandling";
-import serviceCertifications from "@/services/certification.service";
-import { ICertification } from "@/types/Certification";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+
+import { ICertification } from "@/types/Certification";
+import serviceCertifications from "@/services/certification.service";
+import useMediaHandling from "@/hooks/useMediaHandling";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 const schema = yup.object().shape({
   title: yup.string().required("Please enter certificate title"),
@@ -20,22 +21,22 @@ const schema = yup.object().shape({
 
 const useAddCertificationModal = () => {
   const {
-    mutateUploadFile,
-    isPendingMutateUploadFile,
-    mutateUploadMultipleFiles,
-    mutateDeleteFile,
     isPendingMutateDeleteFile,
+    isPendingMutateUploadFile,
+    mutateDeleteFile,
+    mutateUploadFile,
+    mutateUploadMultipleFiles,
   } = useMediaHandling();
 
   const { setToaster } = useContext(ToasterContext);
   const {
     control,
-    handleSubmit: handleSubmitFormCertification,
     formState: { errors },
-    reset,
-    watch,
     getValues,
+    handleSubmit: handleSubmitFormCertification,
+    reset,
     setValue,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -49,6 +50,7 @@ const useAddCertificationModal = () => {
     if (files.length !== 0) {
       onChange(files);
       const first = files[0];
+
       if (first && first.type === "application/pdf") {
         mutateUploadMultipleFiles({
           files,
@@ -71,6 +73,7 @@ const useAddCertificationModal = () => {
     onChange: (files: FileList | undefined) => void,
   ) => {
     const fileUrl = getValues("file");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
     }
@@ -78,6 +81,7 @@ const useAddCertificationModal = () => {
 
   const handleOnClose = (onClose: () => void) => {
     const fileUrl = getValues("file");
+
     if (typeof fileUrl === "string") {
       mutateDeleteFile({
         fileUrl,
@@ -94,13 +98,14 @@ const useAddCertificationModal = () => {
 
   const addCertification = async (payload: ICertification) => {
     const res = await serviceCertifications.addCertifications(payload);
+
     return res;
   };
 
   const {
-    mutate: mutateAddCertification,
     isPending: isPendingMutateAddCertification,
     isSuccess: isSuccessMutateAddCertification,
+    mutate: mutateAddCertification,
   } = useMutation({
     mutationFn: addCertification,
     onError: (error) => {

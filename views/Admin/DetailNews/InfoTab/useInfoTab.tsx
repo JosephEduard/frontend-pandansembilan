@@ -12,6 +12,7 @@ const schemaUpdateInfo = yup.object().shape({
     .test("is-valid-date", "Invalid date", (value) => {
       if (!value) return false;
       const d = new Date(value);
+
       return !isNaN(d.getTime());
     }),
 });
@@ -19,13 +20,14 @@ const schemaUpdateInfo = yup.object().shape({
 const useInfoTab = () => {
   const {
     control: controlUpdateInfo,
-    handleSubmit: handleSubmitUpdateInfo,
     formState: { errors: errorsUpdateInfo },
+    handleSubmit: handleSubmitUpdateInfo,
     reset: resetUpdateInfo,
     setValue: setValueUpdateInfo,
   } = useForm({
     resolver: yupResolver(schemaUpdateInfo),
   });
+
   return {
     controlUpdateInfo,
     handleSubmitUpdateInfo,
@@ -34,4 +36,5 @@ const useInfoTab = () => {
     setValueUpdateInfo,
   };
 };
+
 export default useInfoTab;

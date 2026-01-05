@@ -1,5 +1,6 @@
-import instance from "@/libs/axios/instance";
 import endpoint from "./endpoint.constant";
+
+import instance from "@/libs/axios/instance";
 import { IProjectImage } from "@/types/Projectimage";
 
 const serviceProjectImage = {
@@ -10,4 +11,5 @@ const serviceProjectImage = {
   getProjectImagesProjectByProjectId: (projectId: IProjectImage) =>
     instance.get(`${endpoint.PROJECT_IMAGE}/project/${projectId}`),
 };
+
 export default serviceProjectImage;

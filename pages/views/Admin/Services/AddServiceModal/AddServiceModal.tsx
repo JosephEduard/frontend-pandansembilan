@@ -1,5 +1,3 @@
-import InputFile from "@/components/ui/InputFile";
-import useAddServiceModal from "@/views/Admin/Service/AddServiceModal/useAddServiceModal";
 import {
   Button,
   Input,
@@ -14,6 +12,9 @@ import {
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 
+import useAddServiceModal from "@/views/Admin/Service/AddServiceModal/useAddServiceModal";
+import InputFile from "@/components/ui/InputFile";
+
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
@@ -25,18 +26,18 @@ const AddServiceModal = (props: PropTypes) => {
   const {
     control,
     errors,
+    handleAddService,
+    handleDeleteBanner,
     handleOnClose,
     handleSubmitFormService,
-    handleAddService,
+    handleUploadBanner,
     isPendingMutateAddService,
+    isPendingMutateDeleteFile,
+    isPendingMutateUploadFile,
     isSuccessMutateAddService,
     preview,
-    handleUploadBanner,
-    isPendingMutateUploadFile,
-    handleDeleteBanner,
-    isPendingMutateDeleteFile,
   } = useAddServiceModal();
-  const { isOpen, onClose, refetchService, onOpenChange } = props;
+  const { isOpen, onClose, onOpenChange, refetchService } = props;
 
   useEffect(() => {
     if (isSuccessMutateAddService) {
@@ -52,9 +53,9 @@ const AddServiceModal = (props: PropTypes) => {
 
   return (
     <Modal
+      isOpen={isOpen}
       onClose={() => handleOnClose(onClose)}
       onOpenChange={onOpenChange}
-      isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
     >
@@ -65,50 +66,50 @@ const AddServiceModal = (props: PropTypes) => {
             <div className="flex flex-col gap-2">
               <p className="text-sm font-bold">Information</p>
               <Controller
-                name="name"
                 control={control}
+                name="name"
                 render={({ field }) => (
                   <Input
                     {...field}
                     autoFocus
-                    label="Name"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.name !== undefined}
-                    errorMessage={errors.name?.message}
                     className="mb-2"
+                    errorMessage={errors.name?.message}
+                    isInvalid={errors.name !== undefined}
+                    label="Name"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <Controller
-                name="description"
                 control={control}
+                name="description"
                 render={({ field }) => (
                   <Textarea
                     {...field}
-                    label="Description"
-                    variant="bordered"
-                    type="text"
-                    isInvalid={errors.description !== undefined}
-                    errorMessage={errors.description?.message}
                     className="mb-2"
+                    errorMessage={errors.description?.message}
+                    isInvalid={errors.description !== undefined}
+                    label="Description"
+                    type="text"
+                    variant="bordered"
                   />
                 )}
               />
               <p className="text-sm font-bold">Banner</p>
               <Controller
-                name="banner"
                 control={control}
+                name="banner"
                 render={({ field: { onChange, value, ...field } }) => (
                   <InputFile
                     {...field}
-                    onUpload={(files) => handleUploadBanner(files, onChange)}
-                    onDelete={() => handleDeleteBanner(onChange)}
-                    isUploading={isPendingMutateUploadFile}
-                    isDeleting={isPendingMutateDeleteFile}
-                    isInvalid={errors.banner !== undefined}
                     errorMessage={errors.banner?.message}
+                    isDeleting={isPendingMutateDeleteFile}
                     isDropable
+                    isInvalid={errors.banner !== undefined}
+                    isUploading={isPendingMutateUploadFile}
+                    onDelete={() => handleDeleteBanner(onChange)}
+                    onUpload={(files) => handleUploadBanner(files, onChange)}
                     preview={typeof preview === "string" ? preview : ""}
                   />
                 )}
@@ -118,15 +119,15 @@ const AddServiceModal = (props: PropTypes) => {
           <ModalFooter>
             <Button
               color="danger"
-              variant="flat"
-              onPress={() => handleOnClose(onClose)}
               disabled={disabledSubmit}
+              onPress={() => handleOnClose(onClose)}
+              variant="flat"
             >
               Cancel
             </Button>
-            <Button color="danger" type="submit" disabled={disabledSubmit}>
+            <Button color="danger" disabled={disabledSubmit} type="submit">
               {isPendingMutateAddService ? (
-                <Spinner size="sm" color="white" />
+                <Spinner color="white" size="sm" />
               ) : (
                 "Tambah Service"
               )}
@@ -137,4 +138,5 @@ const AddServiceModal = (props: PropTypes) => {
     </Modal>
   );
 };
+
 export default AddServiceModal;
