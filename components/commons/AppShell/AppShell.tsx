@@ -1,6 +1,5 @@
 import { Lato } from "next/font/google";
 import { ReactNode, useContext, useEffect } from "react";
-
 import Toaster from "@/components/ui/Toaster";
 import { defaultToaster, ToasterContext } from "@/contexts/ToasterContext";
 import { cn } from "@/utils/cn";

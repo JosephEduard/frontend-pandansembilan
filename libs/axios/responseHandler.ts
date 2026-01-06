@@ -15,7 +15,15 @@ const onErrorHander = (error: Error) => {
     (response && (response.status === 401 || response.status === 403)) ||
     res?.data?.name === "TokenExpiredError"
   ) {
-    signOut({ callbackUrl: "/auth/admin/login" });
+    if (
+      typeof window !== "undefined" &&
+      window.location.pathname.startsWith("/admin")
+    ) {
+      signOut({ callbackUrl: "/auth/admin/login" });
+    } else {
+      // Clear session silently outside admin routes
+      signOut({ redirect: false });
+    }
   }
 };
 

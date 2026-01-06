@@ -7,6 +7,7 @@ import { onErrorHander } from "@/libs/axios/responseHandler";
 import AppShell from "@/components/commons/AppShell";
 import { ToasterProvider } from "@/contexts/ToasterContext";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,25 +27,35 @@ const queryClient = new QueryClient({
 });
 
 function SessionWatcher() {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
+  const router = useRouter();
+  const isAdminRoute = router.pathname.startsWith("/admin");
 
+  // If unauthenticated while on admin, redirect to admin login only
   useEffect(() => {
-    if (sessionData?.expires) {
-      const expiryTime = new Date(sessionData.expires).getTime();
-      const now = Date.now();
-      const timeout = expiryTime - now;
-
-      if (timeout > 0) {
-        const timer = setTimeout(() => {
-          signOut({ callbackUrl: "/auth/login" });
-        }, timeout);
-
-        return () => clearTimeout(timer);
-      } else {
-        signOut({ callbackUrl: "/auth/login" });
-      }
+    if (isAdminRoute && status === "unauthenticated") {
+      router.replace("/auth/admin/login");
     }
-  }, [sessionData]);
+  }, [status, isAdminRoute, router]);
+
+  // Schedule logout only for admin routes; on public pages just clear session without redirect
+  useEffect(() => {
+    if (!isAdminRoute) return;
+
+    const expires = sessionData?.expires;
+    if (!expires) return;
+
+    const expiryTime = new Date(expires).getTime();
+    const now = Date.now();
+    const timeout = Math.max(expiryTime - now, 0);
+
+    const timer = setTimeout(async () => {
+      await signOut({ redirect: false });
+      router.replace("/auth/admin/login");
+    }, timeout);
+
+    return () => clearTimeout(timer);
+  }, [sessionData?.expires, isAdminRoute, router]);
 
   return null; // tidak render apa-apa
 }
