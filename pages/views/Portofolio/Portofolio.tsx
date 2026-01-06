@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import { Spinner, Skeleton } from "@heroui/react";
 import { Lato } from "next/font/google";
+import { useRouter } from "next/router";
 import serviceProjects from "@/services/project.service";
 import serviceProjectImage from "@/services/projectimage.service";
+import { Button } from "@heroui/button";
 
 type Project = {
   title: string;
@@ -24,12 +27,16 @@ const placeholderImg = "/images/general/construction.jpg";
 const emptyProjects: Project[] = [];
 
 const Portofolio = () => {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
   const [projects, setProjects] = useState<Project[]>(emptyProjects);
+  const [isProjectsLoading, setIsProjectsLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const fetchPortfolioProjects = async () => {
       try {
+        setIsProjectsLoading(true);
         const res = await serviceProjects.getProjects("page=1&limit=999");
         const payload = res.data;
         const raw = Array.isArray(payload?.data) ? payload.data : [];
@@ -110,7 +117,7 @@ const Portofolio = () => {
           baseMapped.map(async (p, idx) => {
             const projectId = raw[idx]?._id ?? raw[idx]?.id ?? null;
             if (!projectId) {
-              return { ...p, gallery: Array(6).fill(placeholderImg) };
+              return { ...p, gallery: [] };
             }
             try {
               const gRes =
@@ -125,12 +132,10 @@ const Portofolio = () => {
                 : [];
               return {
                 ...p,
-                gallery: urls.length
-                  ? urls.slice(0, 6)
-                  : Array(6).fill(placeholderImg),
+                gallery: urls,
               };
             } catch {
-              return { ...p, gallery: Array(6).fill(placeholderImg) };
+              return { ...p, gallery: [] };
             }
           }),
         );
@@ -139,6 +144,8 @@ const Portofolio = () => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("[Portofolio] fetchPortfolioProjects", error);
+      } finally {
+        setIsProjectsLoading(false);
       }
     };
 
@@ -149,7 +156,7 @@ const Portofolio = () => {
     if (activeCategory === "Semua") return projects;
 
     return projects.filter((p) => p.category === activeCategory);
-  }, [activeCategory]);
+  }, [activeCategory, projects]);
 
   const categories = useMemo(() => {
     const set = new Set(projects.map((p) => p.category));
@@ -282,100 +289,153 @@ const Portofolio = () => {
           <div
             className={`${lato.className} relative grid gap-5 md:grid-cols-2`}
           >
-            {filteredProjects.map((project, idx) => (
-              <div
-                className={`${lato.className} group relative overflow-hidden rounded-3xl border border-cyan-100 bg-white/90 p-5 shadow-md transition hover:-translate-y-1 hover:border-cyan-400/80 ${
-                  idx % 3 === 0 ? "md:col-span-2" : ""
-                }`}
-                key={project.title}
-              >
-                <div
-                  className={`${lato.className} pointer-events-none absolute inset-0 opacity-45 blur-2xl [background:radial-gradient(circle_at_25%_15%,rgba(14,165,233,0.14),transparent_38%),radial-gradient(circle_at_80%_80%,rgba(34,211,238,0.12),transparent_36%)]`}
-                />
-                <div
-                  className={`${lato.className} relative flex flex-col gap-4`}
-                >
+            {isProjectsLoading
+              ? [0, 1, 2, 3].map((idx) => (
                   <div
-                    className={`${lato.className} grid h-48 grid-cols-3 grid-rows-2 gap-2 rounded-2xl bg-gradient-to-br from-cyan-50 via-white to-sky-50 p-2 shadow-inner`}
+                    className={`${lato.className} relative overflow-hidden rounded-3xl border border-cyan-100 bg-white/90 p-5 shadow-md ${idx % 3 === 0 ? "md:col-span-2" : ""}`}
+                    key={`skeleton-${idx}`}
                   >
-                    {project.gallery.slice(0, 6).map((img, imageIdx) => (
-                      <button
-                        aria-label={`Perbesar foto ${project.title}`}
-                        className={`${lato.className} relative overflow-hidden rounded-xl border border-white/60 bg-slate-100 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md`}
-                        key={`${project.title}-${imageIdx}`}
-                        onClick={() => openLightbox(project, imageIdx)}
-                        style={{
-                          backgroundImage: `url(${img})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                        }}
-                        type="button"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-cyan-100/20" />
-                      </button>
-                    ))}
-                  </div>
-
-                  <div
-                    className={`${lato.className} flex items-start justify-between gap-3`}
-                  >
-                    <div className={`${lato.className} space-y-1`}>
-                      <p
-                        className={`${lato.className} text-xs tracking-[0.14em] text-cyan-700 uppercase`}
-                      >
-                        {project.category}
-                      </p>
-                      <h3
-                        className={`${lato.className} text-xl font-semibold text-slate-900 md:text-2xl`}
-                      >
-                        {project.title}
-                      </h3>
-                      <p className={`${lato.className} text-sm text-slate-700`}>
-                        {project.location} · {project.year} · {project.status}
-                      </p>
+                    <Skeleton isLoaded={false}>
+                      <div className="grid h-48 grid-cols-3 grid-rows-2 gap-2 rounded-2xl bg-gradient-to-br from-cyan-50 via-white to-sky-50 p-2" />
+                    </Skeleton>
+                    <div className="mt-4 space-y-3">
+                      <Skeleton isLoaded={false}>
+                        <div className="h-3 w-24 rounded-full" />
+                      </Skeleton>
+                      <Skeleton isLoaded={false}>
+                        <div className="h-6 w-56 rounded-full" />
+                      </Skeleton>
+                      <Skeleton isLoaded={false}>
+                        <div className="h-4 w-40 rounded-full" />
+                      </Skeleton>
                     </div>
-                    <span className="rounded-full border border-cyan-200 bg-white px-3 py-1 text-xs font-semibold text-cyan-800 shadow-sm">
-                      {project.scope[0]}
-                    </span>
                   </div>
-
+                ))
+              : filteredProjects.map((project, idx) => (
                   <div
-                    className={`${lato.className} flex flex-wrap gap-2 text-xs text-cyan-900`}
+                    className={`${lato.className} group relative overflow-hidden rounded-3xl border border-cyan-100 bg-white/90 p-5 shadow-md transition hover:-translate-y-1 hover:border-cyan-400/80 ${
+                      idx % 3 === 0 ? "md:col-span-2" : ""
+                    }`}
+                    key={project.title}
                   >
-                    {project.scope.map((tag) => (
-                      <span
-                        className={`${lato.className} rounded-full border border-cyan-200 bg-white px-3 py-1 font-semibold shadow-sm`}
-                        key={`${project.title}-${tag}`}
+                    <div
+                      className={`${lato.className} pointer-events-none absolute inset-0 opacity-45 blur-2xl [background:radial-gradient(circle_at_25%_15%,rgba(14,165,233,0.14),transparent_38%),radial-gradient(circle_at_80%_80%,rgba(34,211,238,0.12),transparent_36%)]`}
+                    />
+                    <div
+                      className={`${lato.className} relative flex flex-col gap-4`}
+                    >
+                      <div
+                        className={`${lato.className} grid auto-rows-[12rem] grid-cols-3 gap-2 rounded-2xl bg-gradient-to-br from-cyan-50 via-white to-sky-50 p-2 shadow-inner`}
                       >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                        {project.gallery.length === 0 ? (
+                          <div className="col-span-3 row-span-2 flex h-full w-full items-center justify-center rounded-xl border border-cyan-100 bg-white/70 text-sm font-semibold text-cyan-900">
+                            Galeri Proyek Kosong
+                          </div>
+                        ) : (
+                          project.gallery.map((img, imageIdx) => {
+                            const key = `${project.title}-${imageIdx}`;
+                            const loaded = !!loadedImages[key];
+                            return (
+                              <button
+                                aria-label={`Perbesar foto ${project.title}`}
+                                className={`${lato.className} relative h-48 overflow-hidden rounded-xl border border-white/60 bg-slate-100 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md`}
+                                key={`${project.title}-${imageIdx}`}
+                                onClick={() => openLightbox(project, imageIdx)}
+                                type="button"
+                              >
+                                {!loaded && (
+                                  <div className="absolute inset-0 z-10 flex items-center justify-center">
+                                    <Spinner color="primary" />
+                                  </div>
+                                )}
+                                <img
+                                  alt={project.title}
+                                  src={img}
+                                  className={`h-full w-full object-cover ${loaded ? "opacity-100" : "opacity-0"}`}
+                                  onLoad={() =>
+                                    setLoadedImages((prev) => ({
+                                      ...prev,
+                                      [key]: true,
+                                    }))
+                                  }
+                                  onError={() =>
+                                    setLoadedImages((prev) => ({
+                                      ...prev,
+                                      [key]: true,
+                                    }))
+                                  }
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-cyan-100/20" />
+                              </button>
+                            );
+                          })
+                        )}
+                      </div>
 
-                  <div
-                    className={`${lato.className} flex items-center justify-between text-sm text-cyan-800`}
-                  >
-                    <span
-                      className={`${lato.className} inline-flex items-center gap-2 font-semibold`}
-                    >
-                      <span
-                        className={`${lato.className} h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]`}
-                      />
-                      {project.status?.toLowerCase() === "selesai"
-                        ? "Aktif & siap untuk proyek berikutnya"
-                        : "Mohon menunggu untuk proyek seperti ini"}
-                    </span>
-                    <a
-                      className={`${lato.className} inline-flex items-center gap-2 rounded-full border border-cyan-400 px-3 py-1 font-semibold text-cyan-800 transition hover:bg-cyan-50`}
-                      href="/contact"
-                    >
-                      Diskusikan proyek serupa
-                      <span aria-hidden>→</span>
-                    </a>
+                      <div
+                        className={`${lato.className} flex items-start justify-between gap-3`}
+                      >
+                        <div className={`${lato.className} space-y-1`}>
+                          <p
+                            className={`${lato.className} text-xs tracking-[0.14em] text-cyan-700 uppercase`}
+                          >
+                            {project.category}
+                          </p>
+                          <h3
+                            className={`${lato.className} text-xl font-semibold text-slate-900 md:text-2xl`}
+                          >
+                            {project.title}
+                          </h3>
+                          <p
+                            className={`${lato.className} text-sm text-slate-700`}
+                          >
+                            {project.location} · {project.year} ·{" "}
+                            {project.status}
+                          </p>
+                        </div>
+                        <span className="rounded-full border border-cyan-200 bg-white px-3 py-1 text-xs font-semibold text-cyan-800 shadow-sm">
+                          {project.scope[0]}
+                        </span>
+                      </div>
+
+                      <div
+                        className={`${lato.className} flex flex-wrap gap-2 text-xs text-cyan-900`}
+                      >
+                        {project.scope.map((tag) => (
+                          <span
+                            className={`${lato.className} rounded-full border border-cyan-200 bg-white px-3 py-1 font-semibold shadow-sm`}
+                            key={`${project.title}-${tag}`}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div
+                        className={`${lato.className} flex items-center justify-between text-sm text-cyan-800`}
+                      >
+                        <span
+                          className={`${lato.className} inline-flex items-center gap-2 font-semibold`}
+                        >
+                          <span
+                            className={`${lato.className} h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]`}
+                          />
+                          {project.status?.toLowerCase() === "selesai"
+                            ? "Aktif & siap untuk proyek berikutnya"
+                            : "Mohon menunggu untuk proyek seperti ini"}
+                        </span>
+                        <Button
+                          as="a"
+                          href={"/contact"}
+                          className={`${lato.className} inline-flex items-center gap-2 rounded-full border border-cyan-400 px-3 py-1 font-semibold text-cyan-800 transition hover:bg-cyan-50`}
+                        >
+                          Diskusikan proyek serupa
+                          <span aria-hidden>→</span>
+                        </Button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))}
           </div>
         </section>
       </div>
