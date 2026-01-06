@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -77,6 +78,7 @@ export default function App({
               <SessionWatcher />
               <Component {...pageProps} />
               <Analytics />
+              <SpeedInsights />
             </AppShell>
           </ToasterProvider>
         </HeroUIProvider>
