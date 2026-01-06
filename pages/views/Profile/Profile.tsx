@@ -150,9 +150,8 @@ const Profile = () => {
               </p>
             </div>
           </div>
-
           {/* Stats */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
               { number: "40+", label: "Proyek Selesai" },
               { number: "30+", label: "Anggota Tim" },
@@ -175,6 +174,148 @@ const Profile = () => {
                 </div>
               </div>
             ))}
+          </div>
+          {/* Organization Structure */}
+          <div className="rounded-lg border border-gray-200 bg-white p-10 shadow-md transition-all duration-300 hover:border-blue-500 hover:shadow-xl">
+            <div className="mb-8 text-center">
+              <h3
+                className={`${lato.className} mb-3 text-3xl font-bold text-gray-800`}
+              >
+                Struktur Organisasi
+              </h3>
+              <p className={`${lato.className} text-gray-600`}>
+                Gambaran ringkas peran dan alur koordinasi di CV Pandan
+                Sembilan.
+              </p>
+            </div>
+
+            <div className="relative mx-auto max-w-5xl">
+              {/* Level 1: CEO & Founder */}
+              <div className="mx-auto w-full max-w-xs rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-5 text-center shadow-sm">
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
+                  <Target className="h-6 w-6 text-white" />
+                </div>
+                <p
+                  className={`${lato.className} text-sm tracking-wider text-blue-600 uppercase`}
+                >
+                  Pimpinan
+                </p>
+                <h4
+                  className={`${lato.className} mt-1 text-xl font-bold text-gray-800`}
+                >
+                  CEO & Founder
+                </h4>
+              </div>
+
+              {/* Connector to level 2 */}
+              <div className="mx-auto my-4 h-8 w-0.5 bg-blue-300" />
+              <div className="relative mx-auto mb-6 h-px w-full max-w-3xl bg-gradient-to-r from-blue-200 via-blue-300 to-blue-200" />
+
+              {/* Level 2: Managers */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="rounded-2xl border border-blue-100 bg-white p-5 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
+                    <Users className="h-6 w-6 text-white" />
+                  </div>
+                  <p
+                    className={`${lato.className} text-sm tracking-wider text-blue-600 uppercase`}
+                  >
+                    Manajemen
+                  </p>
+                  <h4
+                    className={`${lato.className} mt-1 text-lg font-bold text-gray-800`}
+                  >
+                    Manager HRD
+                  </h4>
+                </div>
+
+                <div className="rounded-2xl border border-blue-100 bg-white p-5 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
+                    <TrendingUp className="h-6 w-6 text-white" />
+                  </div>
+                  <p
+                    className={`${lato.className} text-sm tracking-wider text-blue-600 uppercase`}
+                  >
+                    Operasional
+                  </p>
+                  <h4
+                    className={`${lato.className} mt-1 text-lg font-bold text-gray-800`}
+                  >
+                    Manager Project
+                  </h4>
+                </div>
+
+                <div className="rounded-2xl border border-blue-100 bg-white p-5 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
+                    <Shield className="h-6 w-6 text-white" />
+                  </div>
+                  <p
+                    className={`${lato.className} text-sm tracking-wider text-blue-600 uppercase`}
+                  >
+                    Keselamatan
+                  </p>
+                  <h4
+                    className={`${lato.className} mt-1 text-lg font-bold text-gray-800`}
+                  >
+                    Manager HSE
+                  </h4>
+                </div>
+              </div>
+
+              {/* Connector down from Manager Project */}
+              <div className="mx-auto my-4 flex w-full items-center justify-center">
+                <div className="h-8 w-0.5 bg-blue-300" />
+              </div>
+
+              {/* Level 3: Under Manager Project */}
+              <div className="mx-auto grid max-w-md grid-cols-1 gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-5 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
+                    <Eye className="h-6 w-6 text-white" />
+                  </div>
+                  <p
+                    className={`${lato.className} text-sm tracking-wider text-blue-600 uppercase`}
+                  >
+                    Tim Teknis
+                  </p>
+                  <h4
+                    className={`${lato.className} mt-1 text-lg font-bold text-gray-800`}
+                  >
+                    Desain
+                  </h4>
+                </div>
+
+                <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-indigo-50 to-white p-5 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600">
+                    <FileCheck className="h-6 w-6 text-white" />
+                  </div>
+                  <p
+                    className={`${lato.className} text-sm tracking-wider text-blue-600 uppercase`}
+                  >
+                    Tim Teknis
+                  </p>
+                  <h4
+                    className={`${lato.className} mt-1 text-lg font-bold text-gray-800`}
+                  >
+                    MEP
+                  </h4>
+                </div>
+              </div>
+
+              <div className="mt-10 rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-6 text-center shadow-sm">
+                <p
+                  className={`${lato.className} mb-4 text-base text-gray-700 sm:text-lg`}
+                >
+                  Tertarik dengan struktur tim kami dan ingin berdiskusi proyek?
+                </p>
+                <Link
+                  className={`${lato.className} inline-block rounded-full border border-blue-500 bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700`}
+                  href="/contact"
+                >
+                  Hubungi Kami
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

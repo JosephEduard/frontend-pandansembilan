@@ -100,7 +100,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                 initial={{ opacity: 0, y: 10 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
               >
-                Building your experience...
+                Membangun pengalaman anda...
               </motion.p>
             </motion.div>
 
@@ -117,7 +117,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                   exit={{ opacity: 0 }}
                   initial={{ opacity: 0 }}
                 >
-                  Preparing workspace...
+                  Sedang menyiapkan...
                 </motion.span>
               )}
               {progress >= 25 && progress < 50 && (
@@ -126,7 +126,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                   exit={{ opacity: 0 }}
                   initial={{ opacity: 0 }}
                 >
-                  Loading resources...
+                  Memuat sumber daya...
                 </motion.span>
               )}
               {progress >= 50 && progress < 75 && (
@@ -135,7 +135,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                   exit={{ opacity: 0 }}
                   initial={{ opacity: 0 }}
                 >
-                  Building components...
+                  Membangun komponen...
                 </motion.span>
               )}
               {progress >= 75 && progress < 95 && (
@@ -144,7 +144,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                   exit={{ opacity: 0 }}
                   initial={{ opacity: 0 }}
                 >
-                  Finalizing...
+                  Finalisasi...
                 </motion.span>
               )}
               {progress >= 95 && (
@@ -153,7 +153,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                   exit={{ opacity: 0 }}
                   initial={{ opacity: 0 }}
                 >
-                  Ready!
+                  Siap!
                 </motion.span>
               )}
             </motion.div>
