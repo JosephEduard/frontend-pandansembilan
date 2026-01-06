@@ -26,30 +26,25 @@ const queryClient = new QueryClient({
 });
 
 function SessionWatcher() {
-  const { data: sessionData, status } = useSession();
+  const { data: sessionData } = useSession();
 
-  // If session is already unauthenticated (expired/cleared), force sign out to redirect
   useEffect(() => {
-    if (status === "unauthenticated") {
-      signOut({ callbackUrl: "/auth/admin/login" });
+    if (sessionData?.expires) {
+      const expiryTime = new Date(sessionData.expires).getTime();
+      const now = Date.now();
+      const timeout = expiryTime - now;
+
+      if (timeout > 0) {
+        const timer = setTimeout(() => {
+          signOut({ callbackUrl: "/auth/login" });
+        }, timeout);
+
+        return () => clearTimeout(timer);
+      } else {
+        signOut({ callbackUrl: "/auth/login" });
+      }
     }
-  }, [status]);
-
-  // Schedule sign out when the current session expiry is reached
-  useEffect(() => {
-    const expires = sessionData?.expires;
-    if (!expires) return;
-
-    const expiryTime = new Date(expires).getTime();
-    const now = Date.now();
-    const timeout = Math.max(expiryTime - now, 0);
-
-    const timer = setTimeout(() => {
-      signOut({ callbackUrl: "/auth/admin/login" });
-    }, timeout);
-
-    return () => clearTimeout(timer);
-  }, [sessionData?.expires]);
+  }, [sessionData]);
 
   return null; // tidak render apa-apa
 }
