@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-sort-props */
 import { useEffect, useMemo, useState } from "react";
-import { Spinner, Skeleton } from "@heroui/react";
 import { Lato } from "next/font/google";
-import { useRouter } from "next/router";
+import { Button } from "@heroui/button";
+import { Spinner, Skeleton } from "@heroui/react";
+
 import serviceProjects from "@/services/project.service";
 import serviceProjectImage from "@/services/projectimage.service";
-import { Button } from "@heroui/button";
 
 type Project = {
   title: string;
@@ -21,13 +22,10 @@ const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
 });
 
-const placeholderImg = "/images/general/construction.jpg";
-
 // Data diisi dari database
 const emptyProjects: Project[] = [];
 
 const Portofolio = () => {
-  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
   const [projects, setProjects] = useState<Project[]>(emptyProjects);
   const [isProjectsLoading, setIsProjectsLoading] = useState(true);
@@ -50,6 +48,7 @@ const Portofolio = () => {
             const direct = item?.serviceName;
             const svcObj = item?.service;
             const svcIdObj = item?.serviceId;
+
             if (typeof direct === "string" && direct) return direct;
             if (svcObj && typeof svcObj === "object") {
               return svcObj?.name ?? svcObj?.title ?? "Umum";
@@ -57,16 +56,19 @@ const Portofolio = () => {
             if (svcIdObj && typeof svcIdObj === "object") {
               return svcIdObj?.name ?? svcIdObj?.title ?? "Umum";
             }
+
             return "Umum";
           })();
 
           const yearVal = item?.year;
           let year = "";
+
           try {
             if (typeof yearVal === "number") {
               year = String(yearVal);
             } else if (typeof yearVal === "string") {
               const d = new Date(yearVal);
+
               year = isNaN(d.getTime())
                 ? String(yearVal ?? "")
                 : d.getFullYear().toString();
@@ -85,10 +87,12 @@ const Portofolio = () => {
           const rawStatus =
             item?.status ?? item?.isDone ?? item?.isCompleted ?? item?.finished;
           let status = "Sedang dalam pengerjaan";
+
           if (typeof rawStatus === "boolean") {
             status = rawStatus ? "Selesai" : "Sedang dalam pengerjaan";
           } else if (typeof rawStatus === "string") {
             const s = rawStatus.toLowerCase();
+
             status = [
               "selesai",
               "done",
@@ -116,6 +120,7 @@ const Portofolio = () => {
         const withGalleries = await Promise.all(
           baseMapped.map(async (p, idx) => {
             const projectId = raw[idx]?._id ?? raw[idx]?.id ?? null;
+
             if (!projectId) {
               return { ...p, gallery: [] };
             }
@@ -130,6 +135,7 @@ const Portofolio = () => {
                     .map((img: any) => img?.url ?? img?.image ?? "")
                     .filter((u: string) => !!u)
                 : [];
+
               return {
                 ...p,
                 gallery: urls,
@@ -160,18 +166,30 @@ const Portofolio = () => {
 
   const categories = useMemo(() => {
     const set = new Set(projects.map((p) => p.category));
+
     return ["Semua", ...Array.from(set)];
   }, [projects]);
   const [lightbox, setLightbox] = useState<{
     project: Project;
     index: number;
   } | null>(null);
+  const [lightboxVisible, setLightboxVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
   const openLightbox = (project: Project, index: number) => {
+    setIsClosing(false);
     setLightbox({ project, index });
   };
 
-  const closeLightbox = () => setLightbox(null);
+  const closeLightbox = () => {
+    // trigger exit animation, then unmount
+    setLightboxVisible(false);
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      setLightbox(null);
+    }, 300);
+  };
 
   const stepLightbox = (delta: number) => {
     if (!lightbox) return;
@@ -181,6 +199,31 @@ const Portofolio = () => {
 
     setLightbox({ project, index: nextIndex });
   };
+
+  useEffect(() => {
+    if (lightbox) {
+      const id = requestAnimationFrame(() => setLightboxVisible(true));
+
+      return () => cancelAnimationFrame(id);
+    }
+
+    return;
+  }, [lightbox]);
+
+  // Close on Escape key when lightbox is open
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeLightbox();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightbox]);
 
   return (
     <div className="w-full px-0 pb-16 text-slate-900">
@@ -335,6 +378,7 @@ const Portofolio = () => {
                           project.gallery.map((img, imageIdx) => {
                             const key = `${project.title}-${imageIdx}`;
                             const loaded = !!loadedImages[key];
+
                             return (
                               <button
                                 aria-label={`Perbesar foto ${project.title}`}
@@ -366,6 +410,13 @@ const Portofolio = () => {
                                   }
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-cyan-100/20" />
+                                <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/10 select-none">
+                                  <span
+                                    className={`${lato.className} text-center text-3xl font-extrabold tracking-widest text-white/10 uppercase sm:text-5xl md:text-6xl lg:text-7xl`}
+                                  >
+                                    CV PANDAN SEMBILAN
+                                  </span>
+                                </div>
                               </button>
                             );
                           })
@@ -427,7 +478,7 @@ const Portofolio = () => {
                         <Button
                           as="a"
                           href={"/contact"}
-                          className={`${lato.className} inline-flex items-center gap-2 rounded-full border border-cyan-400 px-3 py-1 font-semibold text-cyan-800 transition hover:bg-cyan-50`}
+                          className={`${lato.className} inline-flex items-center gap-2 rounded-full border border-cyan-400 bg-white px-3 py-1 font-semibold text-cyan-800 transition hover:bg-cyan-50`}
                         >
                           Diskusikan proyek serupa
                           <span aria-hidden>→</span>
@@ -443,10 +494,19 @@ const Portofolio = () => {
       {lightbox && (
         <div
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 px-4 backdrop-blur-sm"
+          className={`fixed inset-0 z-50 flex items-center justify-center px-4 backdrop-blur-sm transition-opacity duration-300 ${lightboxVisible && !isClosing ? "bg-slate-900/70 opacity-100" : "bg-slate-900/0 opacity-0"}`}
           role="dialog"
         >
-          <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl border border-cyan-100 bg-white/95 shadow-2xl">
+          {/* Backdrop button to allow click-to-close without violating a11y rules */}
+          <button
+            aria-label="Tutup galeri"
+            type="button"
+            className="absolute inset-0 z-10 h-full w-full bg-transparent"
+            onClick={closeLightbox}
+          />
+          <div
+            className={`relative z-20 w-full max-w-4xl transform overflow-hidden rounded-3xl border border-cyan-100 bg-white/95 shadow-2xl transition-all duration-300 ease-out ${lightboxVisible && !isClosing ? "translate-y-0 scale-100 opacity-100" : "translate-y-3 scale-95 opacity-0"}`}
+          >
             <div className="pointer-events-none absolute inset-0 opacity-60 blur-3xl [background:radial-gradient(circle_at_12%_20%,rgba(14,165,233,0.16),transparent_35%),radial-gradient(circle_at_88%_25%,rgba(34,211,238,0.16),transparent_32%),radial-gradient(circle_at_50%_80%,rgba(59,130,246,0.14),transparent_32%)]" />
             <div className="relative flex flex-col gap-4 p-4 md:p-6">
               <div
@@ -487,6 +547,13 @@ const Portofolio = () => {
                   src={lightbox.project.gallery[lightbox.index]}
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-white/10" />
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/10 select-none">
+                  <span
+                    className={`${lato.className} text-center text-3xl font-extrabold tracking-widest text-white/10 uppercase sm:text-5xl md:text-6xl lg:text-7xl`}
+                  >
+                    CV PANDAN SEMBILAN
+                  </span>
+                </div>
 
                 <div
                   className={`${lato.className} absolute inset-y-0 left-0 flex items-center p-4`}

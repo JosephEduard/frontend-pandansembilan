@@ -10,13 +10,21 @@ import useMediaHandling from "@/hooks/useMediaHandling";
 import { ToasterContext } from "@/contexts/ToasterContext";
 
 const schema = yup.object().shape({
-  title: yup.string().required("Please enter certificate title"),
-  description: yup.string().required("Please enter certificate description"),
-  year: yup.string().required("Please enter project year"),
-  status: yup.string().optional(),
+  title: yup.string().required("Mohon masukkan nama sertifikat."),
+  description: yup.string().required("Mohon masukkan deskripsi sertifikat."),
+  year: yup.string().required("Mohon masukkan tahun sertifikat."),
+  status: yup.string().required("Mohon masukkan status sertifikat."),
   file: yup
     .mixed<FileList | string>()
-    .required("Please upload file Certificate"),
+    .required("Mohon unggah file sertifikat.")
+    .test("fileSize", "Ukuran file maksimal 5MB.", (value) => {
+      if (typeof value === "string") return true; // already uploaded, skip size check
+      if (!value || (value as FileList).length === 0) return true; // let required handle empty
+      const files = Array.from(value as FileList);
+      const MAX = 5 * 1024 * 1024;
+
+      return files.every((f) => (f?.size ?? 0) <= MAX);
+    }),
 });
 
 const useAddCertificationModal = () => {
@@ -47,25 +55,41 @@ const useAddCertificationModal = () => {
     files: FileList,
     onChange: (files: FileList | undefined) => void,
   ) => {
-    if (files.length !== 0) {
-      onChange(files);
-      const first = files[0];
+    if (files.length === 0) return;
 
-      if (first && first.type === "application/pdf") {
-        mutateUploadMultipleFiles({
-          files,
-          callback: (urls: string[]) => {
-            setValue("file", urls[0]);
-          },
-        });
-      } else {
-        mutateUploadFile({
-          file: first,
-          callback: (fileUrl: string) => {
-            setValue("file", fileUrl);
-          },
-        });
-      }
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    const fileArray = Array.from(files);
+
+    const oversize = fileArray.find((f) => (f?.size ?? 0) > MAX_FILE_SIZE);
+
+    if (oversize) {
+      setToaster({
+        type: "error",
+        message: "Ukuran file maksimal 5MB.",
+      });
+      onChange(undefined);
+
+      return;
+    }
+
+    onChange(files);
+
+    const first = files[0];
+
+    if (first && first.type === "application/pdf") {
+      mutateUploadMultipleFiles({
+        files,
+        callback: (urls: string[]) => {
+          setValue("file", urls[0]);
+        },
+      });
+    } else {
+      mutateUploadFile({
+        file: first,
+        callback: (fileUrl: string) => {
+          setValue("file", fileUrl);
+        },
+      });
     }
   };
 
@@ -117,7 +141,7 @@ const useAddCertificationModal = () => {
     onSuccess: () => {
       setToaster({
         type: "success",
-        message: "Certificate added successfully",
+        message: "Sertifikat berhasil ditambahkan",
       });
       reset();
     },

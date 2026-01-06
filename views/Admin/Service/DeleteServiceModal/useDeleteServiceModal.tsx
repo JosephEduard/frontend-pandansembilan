@@ -28,7 +28,7 @@ const useDeleteServiceModal = () => {
     onSuccess: () => {
       setToaster({
         type: "success",
-        message: "Service berhasil dihapus",
+        message: "Layanan berhasil dihapus",
       });
     },
   });

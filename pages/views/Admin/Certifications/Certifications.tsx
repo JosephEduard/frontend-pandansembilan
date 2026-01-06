@@ -65,9 +65,11 @@ const Certifications = () => {
         case "file": {
           const url = String(cellValue ?? "");
           const isPdf = isPdfUrl(url);
+
           if (!url) return "";
           if (isPdf) {
             const proxy = `/api/media/proxy?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(String(item.title ?? "certificate.pdf"))}`;
+
             return (
               <a
                 className="text-primary-500 underline"
@@ -79,13 +81,16 @@ const Certifications = () => {
               </a>
             );
           }
+
           return <Image alt="file" height={200} src={url} width={100} />;
         }
         case "year": {
           const v = cellValue as unknown as string | Date | undefined;
+
           if (!v) return "";
           try {
             const d = typeof v === "string" ? new Date(v) : (v as Date);
+
             return isNaN(d.getTime()) ? String(v) : d.toLocaleDateString();
           } catch {
             return String(v);
@@ -151,7 +156,9 @@ const Certifications = () => {
         default: {
           if (cellValue === null || cellValue === undefined) return "";
           const t = typeof cellValue;
+
           if (t === "object") return "";
+
           return String(cellValue);
         }
       }
@@ -178,9 +185,9 @@ const Certifications = () => {
           </div>
           <div className="flex items-center gap-2">
             <Button
+              onPress={() => setIsOpen(!isOpen)}
               size="sm"
               variant="light"
-              onPress={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "Sembunyikan" : "Tampilkan Detail"}
             </Button>
@@ -200,8 +207,8 @@ const Certifications = () => {
                   Lihat Sertifikat
                 </DropdownItem>
                 <DropdownItem
-                  key={`delete-${String(item._id ?? "")}`}
                   className="text-danger-500"
+                  key={`delete-${String(item._id ?? "")}`}
                   onPress={() => {
                     setSelectedId(String(item._id ?? ""));
                     deleteCertificationModal.onOpen();
@@ -233,9 +240,9 @@ const Certifications = () => {
                     <div className="relative h-40 w-full">
                       <Image
                         alt="file"
+                        className="rounded-md object-cover"
                         fill
                         src={fileUrl}
-                        className="rounded-md object-cover"
                       />
                     </div>
                   )}
@@ -245,8 +252,8 @@ const Certifications = () => {
               <div className="space-y-3">
                 {detailColumns.map((column: Record<string, unknown>) => (
                   <div
-                    key={column.uid as string}
                     className="grid grid-cols-2 gap-2"
+                    key={column.uid as string}
                   >
                     <div className="font-medium text-gray-600">
                       {String(column.name)}:
@@ -319,7 +326,7 @@ const Certifications = () => {
             {!isLoadingCertification && dataCertification?.data.length > 0 && (
               <div className="space-y-4 px-8">
                 {dataCertification.data.map((item: any) => (
-                  <MobileCertificationCard key={String(item._id)} item={item} />
+                  <MobileCertificationCard item={item} key={String(item._id)} />
                 ))}
 
                 {MobileBottomContent}

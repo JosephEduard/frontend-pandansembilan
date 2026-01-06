@@ -28,7 +28,7 @@ const useDeleteProjectModal = () => {
     onSuccess: () => {
       setToaster({
         type: "success",
-        message: "Project berhasil dihapus",
+        message: "Proyek berhasil dihapus",
       });
     },
   });

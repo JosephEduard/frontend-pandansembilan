@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const schemaUpdateInfo = yup.object().shape({
-  title: yup.string().required("Please enter news title"),
-  text: yup.string().required("Please enter news description"),
+  title: yup.string().required("Mohon masukkan judul berita."),
+  text: yup.string().required("Mohon masukkan deskripsi berita."),
   // Accept string from input, ensure it's a valid date
   date: yup
     .string()
-    .required("Please enter news date")
+    .required("Mohon masukkan tanggal berita.")
     .test("is-valid-date", "Invalid date", (value) => {
       if (!value) return false;
       const d = new Date(value);

@@ -13,13 +13,15 @@ import {
   Input,
   Pagination,
 } from "@heroui/react";
-import Image from "next/image";
 import { Key, useCallback, useEffect, useState } from "react";
 import { CiMenuKebab, CiSearch } from "react-icons/ci";
 import { useRouter } from "next/router";
+
 import { COLUMN_LIST_PROJECT } from "../../../../constants/Project.constants";
+
 import AddProjectModal from "./AddProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
+
 import useProject from "@/views/Admin/Project/useProject";
 import DataTable from "@/components/ui/DataTable";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -176,9 +178,9 @@ const Projects = () => {
           </div>
           <div className="flex items-center gap-2">
             <Button
+              onPress={() => setIsOpen(!isOpen)}
               size="sm"
               variant="light"
-              onPress={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "Sembunyikan" : "Tampilkan Detail"}
             </Button>
@@ -196,8 +198,8 @@ const Projects = () => {
                   Lihat Proyek
                 </DropdownItem>
                 <DropdownItem
-                  key={`delete-${project._id}`}
                   className="text-danger-500"
+                  key={`delete-${project._id}`}
                   onPress={() => {
                     setSelectedId(`${project._id}`);
                     deleteProjectModal.onOpen();
@@ -232,8 +234,8 @@ const Projects = () => {
               <div className="space-y-3">
                 {detailColumns.map((column: Record<string, unknown>) => (
                   <div
-                    key={column.uid as string}
                     className="grid grid-cols-2 gap-2"
+                    key={column.uid as string}
                   >
                     <div className="font-medium text-gray-600">
                       {String(column.name)}:

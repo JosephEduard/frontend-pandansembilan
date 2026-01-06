@@ -7,7 +7,7 @@ interface ErrorResponseData {
   };
 }
 
-const onErrorHander = (error: Error) => {
+const onErrorHandler = (error: Error) => {
   const { response } = error as AxiosError;
   const res = response?.data as ErrorResponseData;
 
@@ -27,4 +27,4 @@ const onErrorHander = (error: Error) => {
   }
 };
 
-export { onErrorHander };
+export { onErrorHandler };

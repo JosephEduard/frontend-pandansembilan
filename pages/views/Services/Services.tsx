@@ -1,5 +1,6 @@
 import { Lato } from "next/font/google";
 import { useQuery } from "@tanstack/react-query";
+
 import serviceServices from "@/services/service";
 type ServiceItem = {
   title: string;
@@ -15,11 +16,13 @@ const lato = Lato({
 
 const iconForName = (name?: string) => {
   const n = (name || "").toLowerCase();
+
   if (n.includes("rencan")) return "📐"; // Perencanaan
   if (n.includes("bangun")) return "🏗️"; // Pembangunan
   if (n.includes("renov")) return "🪚"; // Renovasi
   if (n.includes("pelihara")) return "🛠️"; // Pemeliharaan
   if (n.includes("listrik")) return "⚡"; // Kelistrikan
+
   return "🏗️";
 };
 
@@ -28,6 +31,7 @@ const Services = () => {
     queryKey: ["ServicesPublicList"],
     queryFn: async () => {
       const res = await serviceServices.getServices("page=1&limit=999");
+
       return res.data;
     },
   });
@@ -109,7 +113,7 @@ const Services = () => {
         <section className={`${lato.className} grid gap-4 md:grid-cols-3`}>
           {[
             { label: "5+", desc: "Layanan spesialisasi" },
-            { label: "100%", desc: "Klien puas" },
+            { label: "95%", desc: "Kepuasan Klien" },
             { label: "24/7", desc: "Dukungan tersedia" },
           ].map((stat) => (
             <div

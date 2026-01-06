@@ -48,7 +48,7 @@ const useDetailNews = () => {
       refetchNews();
       setToaster({
         type: "success",
-        message: "Update News Berhasil",
+        message: "Update berita berhasil",
       });
     },
   });

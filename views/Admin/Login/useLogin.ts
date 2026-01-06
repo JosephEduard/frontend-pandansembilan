@@ -11,8 +11,8 @@ import { ILogin } from "@/types/Auth";
 import { ToasterContext } from "@/contexts/ToasterContext";
 
 const loginSchema = yup.object().shape({
-  identifier: yup.string().required("Please input your username"),
-  password: yup.string().required("Please input your password"),
+  identifier: yup.string().required("Mohon masukkan nama pengguna"),
+  password: yup.string().required("Mohon masukkan kata sandi Anda"),
 });
 
 const useLogin = () => {
@@ -40,7 +40,7 @@ const useLogin = () => {
     });
 
     if (result?.error && result?.status === 401) {
-      throw new Error("Invalid username or password incorrect");
+      throw new Error("nama pengguna atau kata sandi salah.");
     }
   };
 
@@ -57,7 +57,7 @@ const useLogin = () => {
       setError("root", { message: msg });
     },
     onSuccess: () => {
-      setToaster({ type: "success", message: "Login Success" });
+      setToaster({ type: "success", message: "Berhasil Masuk" });
       router.push(callbackUrl);
       reset();
     },

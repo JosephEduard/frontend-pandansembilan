@@ -3,7 +3,7 @@ import Services from "@/pages/views/Admin/Services";
 
 const ServiceAdminPage = () => {
   return (
-    <DashboardLayout title="Layanan - CV Pandan Sembilan" name="Kelola Layanan">
+    <DashboardLayout name="Kelola Layanan" title="Layanan - CV Pandan Sembilan">
       <Services />
     </DashboardLayout>
   );

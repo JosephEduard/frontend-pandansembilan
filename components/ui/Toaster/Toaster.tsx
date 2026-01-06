@@ -17,7 +17,7 @@ const Toaster = (props: PropTypes) => {
   return (
     <div
       aria-labelledby="toaster-label"
-      className="fixed top-33 right-50 z-50 max-w-xs rounded-xl border border-gray-200 bg-white shadow-sm"
+      className="fixed top-33 right-50 z-[9999] max-w-xs rounded-xl border border-gray-200 bg-white shadow-sm"
       role="alert"
     >
       <div className="flex items-center gap-2 p-4">

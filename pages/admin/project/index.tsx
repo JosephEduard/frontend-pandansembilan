@@ -3,7 +3,7 @@ import Projects from "@/pages/views/Admin/Projects";
 
 const ProjectAdminPage = () => {
   return (
-    <DashboardLayout title="Proyek - CV Pandan Sembilan" name="Kelola Proyek">
+    <DashboardLayout name="Kelola Proyek" title="Proyek - CV Pandan Sembilan">
       <Projects />
     </DashboardLayout>
   );

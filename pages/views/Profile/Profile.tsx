@@ -9,6 +9,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Lato } from "next/font/google";
+import Image from "next/image";
+
+import serviceCertifications from "@/services/certification.service";
 
 const lato = Lato({
   subsets: ["latin"],
@@ -16,6 +19,57 @@ const lato = Lato({
 });
 
 const Profile = () => {
+  const [certifications, setCertifications] = React.useState<
+    Array<{
+      _id?: string;
+      title?: string;
+      description?: string;
+      year?: string;
+      status?: string | boolean;
+      file?: string;
+    }>
+  >([]);
+  const [selectedCert, setSelectedCert] = React.useState<{
+    _id?: string;
+    title?: string;
+    description?: string;
+    year?: string;
+    status?: string | boolean;
+    file?: string;
+  } | null>(null);
+
+  const getCertifications = React.useCallback(async () => {
+    try {
+      const { data } =
+        await serviceCertifications.getCertifications("page=1&limit=50");
+      const list = Array.isArray(data?.data) ? data.data : [];
+
+      setCertifications(list);
+    } catch (e) {
+      setCertifications([]);
+    }
+  }, []);
+
+  const getCertificationsById = React.useCallback(
+    async (id: string) => {
+      try {
+        const { data } = await serviceCertifications.getCertificationsById(id);
+        const item = data?.data || data;
+
+        setSelectedCert(item);
+      } catch (e) {
+        const fallback = certifications.find((c) => c._id === id) || null;
+
+        setSelectedCert(fallback);
+      }
+    },
+    [certifications],
+  );
+
+  React.useEffect(() => {
+    getCertifications();
+  }, [getCertifications]);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Company Profile Section */}
@@ -100,9 +154,9 @@ const Profile = () => {
           {/* Stats */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { number: "100+", label: "Proyek Selesai" },
+              { number: "40+", label: "Proyek Selesai" },
               { number: "30+", label: "Anggota Tim" },
-              { number: "15+", label: "Tahun Pengalaman" },
+              { number: "10+", label: "Tahun Pengalaman" },
               { number: "95%", label: "Kepuasan Klien" },
             ].map((stat, index) => (
               <div
@@ -287,7 +341,7 @@ const Profile = () => {
                   >
                     Lokasi:
                   </span>{" "}
-                  Palembang, South Sumatra, Indonesia
+                  Palembang, Sumatera Selatan, Indonesia
                 </p>
               </div>
             </div>
@@ -344,24 +398,146 @@ const Profile = () => {
             <h3
               className={`${lato.className} mb-6 text-center text-2xl font-bold text-gray-800`}
             >
-              Legal Documents
+              Sertifikasi
             </h3>
-            <div
-              className={`${lato.className} flex flex-wrap justify-center gap-4`}
-            >
-              {[
-                "Izin Usaha",
-                "Sertifikat Perusahaan",
-                "Sertifikasi Keselamatan",
-              ].map((doc, index) => (
-                <button
-                  className={`${lato.className} rounded bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-blue-700`}
-                  key={index}
-                >
-                  {doc}
-                </button>
-              ))}
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      className={`${lato.className} px-4 py-3 text-left text-sm font-semibold text-gray-700`}
+                    >
+                      Judul
+                    </th>
+                    <th
+                      className={`${lato.className} px-4 py-3 text-left text-sm font-semibold text-gray-700`}
+                    >
+                      Deskripsi
+                    </th>
+                    <th
+                      className={`${lato.className} px-4 py-3 text-left text-sm font-semibold text-gray-700`}
+                    >
+                      Tahun
+                    </th>
+                    <th
+                      className={`${lato.className} px-4 py-3 text-left text-sm font-semibold text-gray-700`}
+                    >
+                      Status
+                    </th>
+                    <th
+                      className={`${lato.className} px-4 py-3 text-left text-sm font-semibold text-gray-700`}
+                    >
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {certifications.map((c) => {
+                    const isValid =
+                      typeof c.status === "boolean"
+                        ? c.status
+                        : String(c.status).toLowerCase() === "true" ||
+                          String(c.status).toLowerCase() === "valid";
+
+                    return (
+                      <tr
+                        className="hover:bg-gray-50"
+                        key={c._id || `${c.title}-${c.year}`}
+                      >
+                        <td
+                          className={`${lato.className} px-4 py-3 text-sm text-gray-800`}
+                        >
+                          {c.title || "-"}
+                        </td>
+                        <td
+                          className={`${lato.className} px-4 py-3 text-sm text-gray-600`}
+                        >
+                          {c.description || "-"}
+                        </td>
+                        <td
+                          className={`${lato.className} px-4 py-3 text-sm text-gray-600`}
+                        >
+                          {c.year || "-"}
+                        </td>
+                        <td
+                          className={`${lato.className} px-4 py-3 text-sm ${isValid ? "text-green-600" : "text-red-600"}`}
+                        >
+                          {isValid ? "Valid" : "Tidak Valid"}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <button
+                            className={`${lato.className} rounded bg-blue-600 px-3 py-2 text-sm text-white transition-all duration-300 hover:bg-blue-700`}
+                            onClick={() =>
+                              c._id && getCertificationsById(c._id)
+                            }
+                          >
+                            Lihat
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {certifications.length === 0 && (
+                    <tr>
+                      <td
+                        className={`${lato.className} px-4 py-6 text-center text-sm text-gray-500`}
+                        colSpan={5}
+                      >
+                        Tidak ada data sertifikat.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
+
+            {selectedCert && (
+              <div
+                aria-label="Dialog sertifikat"
+                aria-modal="true"
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+                role="dialog"
+              >
+                <div
+                  className="max-h-[90vh] max-w-[90vw] overflow-auto rounded-lg bg-white p-4"
+                  role="document"
+                >
+                  <h4
+                    className={`${lato.className} mb-3 text-lg font-bold text-gray-800`}
+                  >
+                    {selectedCert.title}
+                  </h4>
+                  {selectedCert.file ? (
+                    <div className="relative inline-block">
+                      <img
+                        alt={selectedCert.title || "Certificate"}
+                        className="block h-auto w-auto"
+                        src={selectedCert.file}
+                      />
+                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/10 select-none">
+                        <span
+                          className={`${lato.className} text-center text-3xl font-extrabold tracking-widest text-white/10 uppercase sm:text-5xl md:text-6xl lg:text-7xl`}
+                        >
+                          CV PANDAN SEMBILAN
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className={`${lato.className} text-sm text-gray-600`}>
+                      Gambar sertifikat tidak tersedia.
+                    </p>
+                  )}
+                  <div className="mt-4 text-right">
+                    <button
+                      className={`${lato.className} rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700`}
+                      onClick={() => setSelectedCert(null)}
+                    >
+                      Tutup
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -387,7 +563,12 @@ const Profile = () => {
                 <h3
                   className={`${lato.className} text-secondary max-w-219 text-[28px] leading-[2.25rem] font-bold sm:text-[40px] sm:leading-[3.4rem] dark:text-white`}
                 >
-                  CV Pandan Sembilan
+                  <Image
+                    alt="CV Pandan Sembilan Logo"
+                    height={200}
+                    src="/images/general/logotext.svg"
+                    width={700}
+                  />
                 </h3>
               </div>
               <div className="col-span-3">

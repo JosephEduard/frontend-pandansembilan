@@ -2,9 +2,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
+import { IService } from "@/types/Service";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import serviceServices from "@/services/service";
-import { IService } from "@/types/Service";
 
 const useDetailService = () => {
   const { isReady, query } = useRouter();

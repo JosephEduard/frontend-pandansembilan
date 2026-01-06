@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Lato } from "next/font/google";
+
 import serviceNews from "@/services/news.service";
 import environment from "@/config/environment";
 import endpoint from "@/services/endpoint.constant";
@@ -31,6 +32,7 @@ const lato = Lato({
 const formatJakartaDateShort = (input?: string | Date): string => {
   if (!input) return "";
   const date = typeof input === "string" ? new Date(input) : input;
+
   try {
     const id = new Intl.DateTimeFormat("id-ID", {
       timeZone: "Asia/Jakarta",
@@ -40,6 +42,7 @@ const formatJakartaDateShort = (input?: string | Date): string => {
       hour: "2-digit",
       minute: "2-digit",
     }).format(date);
+
     // Ensure 24h without AM/PM
     return `${id} WIB`;
   } catch {
@@ -51,18 +54,22 @@ const formatJakartaDateShort = (input?: string | Date): string => {
 const inferCategory = (title?: string): string => {
   if (!title) return "Umum";
   const t = title.toLowerCase();
+
   if (t.includes("layanan")) return "Layanan";
   if (t.includes("proyek")) return "Proyek";
   if (t.includes("pers")) return "Pers";
   if (t.includes("acara")) return "Acara";
+
   return "Umum";
 };
 
 const resolveImageUrl = (image?: string): string | undefined => {
   if (!image) return undefined;
   const isAbsolute = /^https?:\/\//i.test(image);
+
   if (isAbsolute) return image;
   if (!environment.API_URL) return undefined;
+
   return `${environment.API_URL}${endpoint.MEDIA}/${image}`;
 };
 
@@ -79,6 +86,7 @@ const News = () => {
       setIsClosing(false);
       // next frame to allow transition
       const id = requestAnimationFrame(() => setAnimateIn(true));
+
       return () => cancelAnimationFrame(id);
     } else {
       setAnimateIn(false);
@@ -98,7 +106,9 @@ const News = () => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
     };
+
     window.addEventListener("keydown", onKey);
+
     return () => window.removeEventListener("keydown", onKey);
   }, [selected]);
 
@@ -126,12 +136,15 @@ const News = () => {
         setArticles([]);
       }
     };
+
     fetchNews();
   }, []);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
+
     articles.forEach((a) => set.add(a.category));
+
     return ["Semua", ...Array.from(set)];
   }, [articles]);
 
@@ -140,6 +153,7 @@ const News = () => {
       activeCategory === "Semua"
         ? articles
         : articles.filter((article) => article.category === activeCategory);
+
     return source.slice(0, 3);
   }, [activeCategory, articles]);
 
@@ -148,6 +162,7 @@ const News = () => {
       activeCategory === "Semua"
         ? articles
         : articles.filter((article) => article.category === activeCategory);
+
     return source.slice(3);
   }, [activeCategory, articles]);
 
@@ -155,10 +170,13 @@ const News = () => {
   const updatesLast3Months = useMemo(() => {
     const now = new Date();
     const threeMonthsAgo = new Date(now);
+
     threeMonthsAgo.setMonth(now.getMonth() - 3);
+
     return articles.filter((a) => {
       const raw = a.rawDate ?? a.date;
       const parsed = new Date(raw as any);
+
       return (
         !isNaN(parsed.getTime()) && parsed >= threeMonthsAgo && parsed <= now
       );
@@ -276,11 +294,9 @@ const News = () => {
         <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredFeatured.map((article) => (
             <div
+              aria-label={`Buka detail berita: ${article.title}`}
               className={`${lato.className} flex cursor-pointer flex-col rounded-3xl border border-cyan-100 bg-white/80 p-3 shadow-md transition hover:-translate-y-1 hover:border-cyan-400/80 sm:p-6`}
               key={article.title}
-              role="button"
-              tabIndex={0}
-              aria-label={`Buka detail berita: ${article.title}`}
               onClick={() => setSelected(article)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -288,6 +304,8 @@ const News = () => {
                   setSelected(article);
                 }
               }}
+              role="button"
+              tabIndex={0}
             >
               <div
                 aria-label={`Slot gambar untuk ${article.title}`}
@@ -295,9 +313,9 @@ const News = () => {
               >
                 {article.image ? (
                   <img
-                    src={article.image}
                     alt={article.title}
                     className="h-full w-full rounded-2xl object-cover"
+                    src={article.image}
                   />
                 ) : (
                   <div
@@ -359,11 +377,9 @@ const News = () => {
             >
               {filteredUpdates.map((article) => (
                 <div
+                  aria-label={`Buka detail pembaruan: ${article.title}`}
                   className={`${lato.className} grid cursor-pointer grid-cols-1 gap-3 py-4 sm:grid-cols-[150px_1fr]`}
                   key={article.title}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Buka detail pembaruan: ${article.title}`}
                   onClick={() => setSelected(article)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
@@ -371,6 +387,8 @@ const News = () => {
                       setSelected(article);
                     }
                   }}
+                  role="button"
+                  tabIndex={0}
                 >
                   <div
                     aria-label={`Slot gambar untuk ${article.title}`}
@@ -378,9 +396,9 @@ const News = () => {
                   >
                     {article.image ? (
                       <img
-                        src={article.image}
                         alt={article.title}
                         className="h-full w-full rounded-xl object-cover"
+                        src={article.image}
                       />
                     ) : (
                       <div
@@ -432,7 +450,7 @@ const News = () => {
                 Untuk Media & Analis
               </h3>
             </div>
-            <div className="space-y-4"></div>
+            <div className="space-y-4" />
             <a
               className={`${lato.className} block w-full rounded-xl border border-cyan-200 bg-white p-4 text-sm text-cyan-900 shadow-sm transition hover:bg-cyan-50`}
               href="/contact"
@@ -452,9 +470,12 @@ const News = () => {
       </div>
       {selected && (
         <div
-          role="button"
-          tabIndex={0}
           aria-label="Tutup dialog berita"
+          className={`fixed inset-0 z-50 flex items-center justify-center px-4 backdrop-blur-sm transition-opacity duration-200 ${
+            animateIn && !isClosing
+              ? "bg-slate-900/70 opacity-100"
+              : "bg-slate-900/70 opacity-0"
+          }`}
           onClick={(e) => {
             // close only when clicking on the backdrop itself
             if (e.target === e.currentTarget) {
@@ -467,21 +488,18 @@ const News = () => {
               closeModal();
             }
           }}
-          className={`fixed inset-0 z-50 flex items-center justify-center px-4 backdrop-blur-sm transition-opacity duration-200 ${
-            animateIn && !isClosing
-              ? "bg-slate-900/70 opacity-100"
-              : "bg-slate-900/70 opacity-0"
-          }`}
+          role="button"
+          tabIndex={0}
         >
           <div
-            role="dialog"
             aria-modal="true"
-            tabIndex={-1}
             className={`relative w-full max-w-3xl transform overflow-hidden rounded-3xl border border-cyan-100 bg-white/95 shadow-2xl transition-all duration-200 ${
               animateIn && !isClosing
                 ? "translate-y-0 scale-100 opacity-100"
                 : "translate-y-2 scale-95 opacity-0"
             }`}
+            role="dialog"
+            tabIndex={-1}
           >
             <div className="relative flex max-h-[85vh] flex-col gap-4 overflow-y-auto p-4 md:p-6">
               <div className="flex items-start justify-between gap-4">
@@ -496,10 +514,10 @@ const News = () => {
                   </p>
                 </div>
                 <button
-                  type="button"
                   aria-label="Tutup"
                   className={`${lato.className} rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-cyan-400 hover:text-cyan-800`}
                   onClick={closeModal}
+                  type="button"
                 >
                   ✕
                 </button>
@@ -507,9 +525,9 @@ const News = () => {
               {selected.image && (
                 <div className="relative h-72 overflow-hidden rounded-2xl border border-cyan-100 bg-slate-100 md:h-96">
                   <img
-                    src={selected.image}
                     alt={selected.title}
                     className="h-full w-full object-cover"
+                    src={selected.image}
                   />
                 </div>
               )}

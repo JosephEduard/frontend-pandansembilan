@@ -28,7 +28,7 @@ const useDeleteNewsModal = () => {
     onSuccess: () => {
       setToaster({
         type: "success",
-        message: "Service berhasil dihapus",
+        message: "Berita berhasil dihapus",
       });
     },
   });

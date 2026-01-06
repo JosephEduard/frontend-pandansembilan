@@ -1,13 +1,15 @@
 import type { AppProps } from "next/app";
+
+import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HeroUIProvider } from "@heroui/react";
 import "@/styles/globals.css";
 import { SessionProvider, signOut, useSession } from "next-auth/react";
-import { onErrorHander } from "@/libs/axios/responseHandler";
+import { useRouter } from "next/router";
+
+import { onErrorHandler } from "@/libs/axios/responseHandler";
 import AppShell from "@/components/commons/AppShell";
 import { ToasterProvider } from "@/contexts/ToasterContext";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,13 +17,13 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retry: false,
       throwOnError(error) {
-        onErrorHander(error);
+        onErrorHandler(error);
 
         return false;
       },
     },
     mutations: {
-      onError: onErrorHander,
+      onError: onErrorHandler,
     },
   },
 });
@@ -43,6 +45,7 @@ function SessionWatcher() {
     if (!isAdminRoute) return;
 
     const expires = sessionData?.expires;
+
     if (!expires) return;
 
     const expiryTime = new Date(expires).getTime();

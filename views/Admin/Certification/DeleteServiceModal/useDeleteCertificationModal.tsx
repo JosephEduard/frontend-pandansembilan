@@ -28,7 +28,7 @@ const useDeleteCertificationModal = () => {
     onSuccess: () => {
       setToaster({
         type: "success",
-        message: "Certificate berhasil dihapus",
+        message: "Sertifikat berhasil dihapus",
       });
     },
   });

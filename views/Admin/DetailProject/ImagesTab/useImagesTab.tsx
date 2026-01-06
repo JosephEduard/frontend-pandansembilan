@@ -1,12 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 
 import useMediaHandling from "@/hooks/useMediaHandling";
 import serviceProjectImage from "@/services/projectimage.service";
 import { IProjectImage } from "@/types/Projectimage";
-
-const schemaUpdateImages = null;
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 const useImagesTab = () => {
   const {
@@ -21,6 +20,7 @@ const useImagesTab = () => {
   const { isReady, query } = useRouter();
   const projectId = String(query.id || "");
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const { setToaster } = useContext(ToasterContext);
 
   const getProjectImages = async () => {
     if (!projectId) return [] as IProjectImage[];
@@ -74,6 +74,40 @@ const useImagesTab = () => {
   ) => {
     if (!projectId) return;
     if (!files || files.length === 0) return;
+
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
+    const MAX_TOTAL_SIZE = 5 * 1024 * 1024; // 5MB total
+    const fileArray = Array.from(files);
+    const allowed = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+    const invalidType = fileArray.find((f) => f && !allowed.includes(f.type));
+
+    if (invalidType) {
+      setToaster({
+        type: "error",
+        message: "Format file harus JPG/PNG/WEBP.",
+      });
+      if (onChange) onChange(undefined);
+
+      return;
+    }
+    const oversize = fileArray.find((f) => (f?.size ?? 0) > MAX_FILE_SIZE);
+
+    if (oversize) {
+      setToaster({ type: "error", message: "Ukuran file maksimal 5MB." });
+      if (onChange) onChange(undefined);
+
+      return;
+    }
+
+    const totalSize = fileArray.reduce((acc, f) => acc + (f?.size ?? 0), 0);
+
+    if (totalSize > MAX_TOTAL_SIZE) {
+      setToaster({ type: "error", message: "Total ukuran file maksimal 5MB." });
+      if (onChange) onChange(undefined);
+
+      return;
+    }
+
     const run = async () => {
       if (files.length > 1) {
         mutateUploadMultipleFiles({
@@ -104,7 +138,6 @@ const useImagesTab = () => {
   const handleDeleteImages = (
     onChange: (files: FileList | undefined) => void,
   ) => {
-    // keeping existing API for symmetry; not used in multi-flow
     onChange(undefined);
   };
 

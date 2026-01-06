@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const schemaUpdateInfo = yup.object().shape({
-  name: yup.string().required("Mohon masukkan nama Service ini"),
-  description: yup.string().required("Mohon masukkan deskripsi Service ini"),
+  name: yup.string().required("Mohon masukkan nama layanan ini"),
+  description: yup.string().required("Mohon masukkan deskripsi layanan ini"),
 });
 
 const useInfoTab = () => {

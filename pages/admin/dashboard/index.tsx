@@ -5,8 +5,8 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 const DashboardAdminPage = () => {
   return (
     <DashboardLayout
-      title="Dashboard Admin CV Pandan Sembilan"
       name="Kelola Semua Konten Perusahaan di Sini"
+      title="Dashboard Admin CV Pandan Sembilan"
     >
       <Dashboard />
     </DashboardLayout>

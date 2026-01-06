@@ -17,12 +17,14 @@ import Image from "next/image";
 import { Key, useCallback, useEffect, useState } from "react";
 import { CiMenuKebab, CiSearch } from "react-icons/ci";
 import { useRouter } from "next/router";
+
+import DeleteServiceModal from "./DeleteServiceModal";
+import AddServiceModal from "./AddServiceModal";
+
 import DataTable from "@/components/ui/DataTable";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import useService from "@/views/Admin/Service/useService";
 import { COLUMN_LIST_SERVICE } from "@/constants/Services.constants";
-import DeleteServiceModal from "./DeleteServiceModal";
-import AddServiceModal from "./AddServiceModal";
 
 interface Service {
   _id?: string;
@@ -75,9 +77,9 @@ const Services = () => {
             <div className="relative h-20 w-32">
               <Image
                 alt="banner"
+                className="rounded-md object-cover"
                 fill
                 src={`${cellValue}`}
-                className="rounded-md object-cover"
               />
             </div>
           );
@@ -160,9 +162,9 @@ const Services = () => {
           </div>
           <div className="flex items-center gap-2">
             <Button
+              onPress={() => setIsOpen(!isOpen)}
               size="sm"
               variant="light"
-              onPress={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "Sembunyikan" : "Tampilkan Detail"}
             </Button>
@@ -180,8 +182,8 @@ const Services = () => {
                   Lihat Layanan
                 </DropdownItem>
                 <DropdownItem
-                  key={`delete-${service._id}`}
                   className="text-danger-500"
+                  key={`delete-${service._id}`}
                   onPress={() => {
                     setSelectedId(`${service._id}`);
                     deleteServiceModal.onOpen();
@@ -204,9 +206,9 @@ const Services = () => {
                   <div className="relative h-40 w-full">
                     <Image
                       alt="banner"
+                      className="rounded-md object-cover"
                       fill
                       src={service.banner}
-                      className="rounded-md object-cover"
                     />
                   </div>
                 </div>
@@ -216,8 +218,8 @@ const Services = () => {
               <div className="space-y-3">
                 {detailColumns.map((column: Record<string, unknown>) => (
                   <div
-                    key={column.uid as string}
                     className="grid grid-cols-2 gap-2"
+                    key={column.uid as string}
                   >
                     <div className="font-medium text-gray-600">
                       {String(column.name)}:

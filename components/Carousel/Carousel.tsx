@@ -17,15 +17,13 @@ const slides: Slide[] = [
   {
     title: "Transformasi Ruang",
     subtitle: "Kualitas & Integritas dalam setiap proyek",
-    image:
-      "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1600&q=60",
+    image: "/images/general/ampera.jpg",
     overlay: "bg-gradient-to-r from-black/60 via-black/40 to-transparent",
   },
   {
     title: "Teknik Unggul",
     subtitle: "Struktur kokoh, desain modern, hasil memuaskan",
-    image:
-      "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=1600&q=60",
+    image: "/images/general/teknik.jpg",
     overlay: "bg-gradient-to-r from-black/50 via-black/30 to-transparent",
   },
   {

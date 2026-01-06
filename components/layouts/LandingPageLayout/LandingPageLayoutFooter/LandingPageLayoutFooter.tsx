@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import NextLink from "next/link";
 import { Input, Button } from "@heroui/react";
-import {
-  FaWhatsapp,
-  FaInstagram,
-  FaLinkedinIn,
-  FaGoogle,
-  FaFacebookF,
-} from "react-icons/fa";
+import { FaWhatsapp, FaInstagram, FaGoogle, FaMapSigns } from "react-icons/fa";
 import { Lato } from "next/font/google";
 
 const lato = Lato({
@@ -83,21 +77,15 @@ const LandingPageLayoutFooter = () => {
               </NextLink>
               <NextLink
                 className="transition-transform hover:scale-110 hover:text-white/90"
-                href="https://linkedin.com"
-              >
-                <FaLinkedinIn size={20} />
-              </NextLink>
-              <NextLink
-                className="transition-transform hover:scale-110 hover:text-white/90"
-                href="https://www.google.com/maps/place/cv.+pandan+sembilan/@-2.9614983,104.7306695,1140m/data=!3m1!1e3!4m15!1m8!3m7!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!2scv.+pandan+sembilan!8m2!3d-2.9614983!4d104.7332444!10e1!16s%2Fg%2F11sqnngp5n!3m5!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!8m2!3d-2.9614983!4d104.7332444!16s%2Fg%2F11sqnngp5n?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
+                href="https://www.google.com/search?q=cv+pandan+sembilan&oq=cv+pandan+sembilan&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgcIARAAGO8FMgcIAhAAGO8FMgcIAxAAGO8FMgcIBBAAGO8FMgYIBRBFGEEyBggGEEUYPDIGCAcQRRhB0gEIMjYxOGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8"
               >
                 <FaGoogle size={20} />
               </NextLink>
               <NextLink
                 className="transition-transform hover:scale-110 hover:text-white/90"
-                href="https://facebook.com"
+                href="https://www.google.com/maps/place/cv.+pandan+sembilan/@-2.9614983,104.7306695,1140m/data=!3m1!1e3!4m15!1m8!3m7!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!2scv.+pandan+sembilan!8m2!3d-2.9614983!4d104.7332444!10e1!16s%2Fg%2F11sqnngp5n!3m5!1s0x2e3b753b624a35ab:0x96c7e127bfe9f6cc!8m2!3d-2.9614983!4d104.7332444!16s%2Fg%2F11sqnngp5n?entry=ttu&g_ep=EgoyMDI1MTExNy4wIKXMDSoASAFQAw%3D%3D"
               >
-                <FaFacebookF size={20} />
+                <FaMapSigns size={20} />
               </NextLink>
             </div>
           </div>

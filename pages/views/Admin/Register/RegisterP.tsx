@@ -3,6 +3,7 @@ import { Button, Card, CardBody, Input, Spinner } from "@heroui/react";
 import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Controller } from "react-hook-form";
+
 import { useRegister } from "@/views/Admin/Register/useRegister";
 import { cn } from "@/utils/cn";
 
@@ -10,7 +11,7 @@ const Register = () => {
   const {
     control,
     errors,
-    handleRegister,
+    handleRegisterWithBreachCheck,
     handleSubmit,
     handleVisiblePassword,
     isPendingRegister,
@@ -56,7 +57,7 @@ const Register = () => {
               "flex w-70 flex-col md:w-85 lg:w-85",
               Object.keys(errors).length > 0 ? "gap-3" : "gap-5",
             )}
-            onSubmit={handleSubmit(handleRegister)}
+            onSubmit={handleSubmit(handleRegisterWithBreachCheck)}
           >
             <Controller
               control={control}

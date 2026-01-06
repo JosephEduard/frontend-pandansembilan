@@ -38,6 +38,27 @@ npm install
 
 ```bash
 npm run dev
+
+## Contact Email Setup
+
+To enable the contact form email sending via the API route at `/api/contact`, configure SMTP credentials in `.env.local`:
+
+```
+
+SMTP_HOST=smtp.yourprovider.com
+SMTP_PORT=465
+SMTP_USER=your_smtp_username
+SMTP_PASS=your_smtp_password
+SMTP_FROM="CV Pandan Sembilan <no-reply@yourdomain.com>"
+TARGET_EMAIL=badakpower10000@gmail.com
+
+```
+
+Notes:
+- Use a trusted provider (SendGrid, Mailgun, Gmail with App Password).
+- Keep `.env.local` out of version control.
+- For Gmail, enable 2FA and create an App Password.
+- If using port `587`, set `SMTP_PORT=587` (TLS) and the API will use `secure: false` automatically.
 ```
 
 ### Setup pnpm (optional)

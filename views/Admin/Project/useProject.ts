@@ -32,7 +32,6 @@ const useProject = () => {
     }
     const res = await serviceProjects.getProjects(params);
     const { data } = res;
-    // Normalize data: include serviceId and serviceName (string), remove nested service object
     const normalized = {
       ...data,
       data: Array.isArray(data?.data)

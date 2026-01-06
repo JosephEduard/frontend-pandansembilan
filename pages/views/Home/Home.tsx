@@ -163,6 +163,7 @@ const Home = () => {
         const items = await Promise.all(
           projects.map(async (proj: any, idx: number) => {
             let imageUrl = "";
+
             try {
               const imgRes =
                 await serviceProjectImage.getProjectImagesProjectByProjectId(
@@ -174,6 +175,7 @@ const Home = () => {
                 Array.isArray(imgsPayload) && imgsPayload.length > 0
                   ? imgsPayload[0]
                   : null;
+
               imageUrl = (imgItem?.image as string) ?? "";
             } catch {
               // ignore image fetch errors; will use fallback
@@ -185,7 +187,7 @@ const Home = () => {
               img:
                 imageUrl && typeof imageUrl === "string"
                   ? imageUrl
-                  : "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=60",
+                  : "images/general/placeholder.jpg",
               description: proj?.description ?? "",
             };
           }),
@@ -629,8 +631,8 @@ const Home = () => {
                     </p>
                     <Button
                       as={Link}
-                      href="/contact"
                       className={`${lato.className} bg-blue-600 text-white shadow-lg hover:bg-blue-500`}
+                      href="/contact"
                       radius="full"
                       size="md"
                     >

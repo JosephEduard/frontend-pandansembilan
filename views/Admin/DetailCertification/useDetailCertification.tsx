@@ -51,7 +51,7 @@ const useDetailCertification = () => {
       refetchCertification();
       setToaster({
         type: "success",
-        message: "Update Certification Berhasil",
+        message: "Update sertifikat berhasil",
       });
     },
   });

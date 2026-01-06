@@ -44,7 +44,7 @@ const items: DashboardItem[] = [
 const Dashboard = () => {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <div className="text-foreground/80 mb-6 text-base font-medium sm:text-lg"></div>
+      <div className="text-foreground/80 mb-6 text-base font-medium sm:text-lg" />
       <section className="-mt-2 grid grid-cols-1 gap-6 max-sm:-mt-6 md:grid-cols-2">
         {items.map(({ href, Icon, imgSrc, title }) => (
           <Card

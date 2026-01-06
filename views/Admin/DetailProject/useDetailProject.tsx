@@ -51,7 +51,7 @@ const useDetailProject = () => {
       refetchProject();
       setToaster({
         type: "success",
-        message: "Update Project Berhasil",
+        message: "Update proyek berhasil",
       });
     },
   });

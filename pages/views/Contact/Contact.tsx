@@ -1,9 +1,9 @@
-import Image from "next/image";
+import { Image } from "@heroui/react";
 import Link from "next/link";
+import { useState } from "react";
 import { Lato } from "next/font/google";
 import { EnvelopeIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import { Textarea } from "@heroui/input";
-import { colorVariants } from "@heroui/theme";
 import { Button } from "@heroui/button";
 
 const lato = Lato({
@@ -12,6 +12,55 @@ const lato = Lato({
 });
 
 const Contact = () => {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    date: "",
+    message: "",
+  });
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(
+    null,
+  );
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus(null);
+    setSending(true);
+    try {
+      const resp = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          date: form.date,
+          message: form.message,
+        }),
+      });
+      const data = await resp.json();
+
+      if (resp.ok && data?.ok) {
+        setStatus({ ok: true, msg: "Pesan berhasil dikirim." });
+        setForm({
+          firstName: "",
+          lastName: "",
+          email: "",
+          date: "",
+          message: "",
+        });
+      } else {
+        setStatus({ ok: false, msg: data?.error || "Gagal mengirim pesan." });
+      }
+    } catch (err) {
+      setStatus({ ok: false, msg: "Terjadi kesalahan jaringan." });
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <main>
       <section className="dark:bg-darkmode pt-16 pb-0 lg:pt-20 lg:pb-0">
@@ -101,15 +150,34 @@ const Contact = () => {
             </div>
           </div>
           <div className="pt-11 pb-16 md:pt-28 md:pb-28">
-            <iframe
-              className="w-full rounded-lg"
-              height="477"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9027.359772204685!2d104.7306695!3d-2.9614983!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b753b624a35ab%3A0x96c7e127bfe9f6cc!2scv.%20pandan%20sembilan!5e1!3m2!1sen!2sid!4v1764122843068!5m2!1sen!2sid"
-              title="Google Map"
-              width="1114"
-            />
+            <div className="flex flex-col gap-6 md:flex-row lg:items-center">
+              <div className="flex w-full flex-col justify-center justify-items-center gap-4 max-md:items-center max-sm:items-center md:flex-none md:basis-[400px] md:items-center md:justify-center">
+                <Image
+                  alt="Gambar lokasi"
+                  className="-mb-4 rounded-lg"
+                  height={500}
+                  src="/images/general/CVPandan.png"
+                  width={400}
+                />
+                <Image
+                  alt="CV Pandan Sembilan"
+                  className="rounded-lg"
+                  height={150}
+                  src="/images/general/logotext.svg"
+                  width={400}
+                />
+              </div>
+              <div className="w-full md:flex-1">
+                <iframe
+                  className="w-full rounded-lg"
+                  height={660}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9027.359772204685!2d104.7306695!3d-2.9614983!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b753b624a35ab%3A0x96c7e127bfe9f6cc!2scv.%20pandan%20sembilan!5e1!3m2!1sen!2sid!4v1764122843068!5m2!1sen!2sid"
+                  title="Google Map CV Pandan Sembilan"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -125,7 +193,10 @@ const Contact = () => {
               >
                 Dapatkan Konsultasi Daring
               </h2>
-              <form className="m-auto flex w-full flex-wrap justify-between">
+              <form
+                className="m-auto flex w-full flex-wrap justify-between"
+                onSubmit={handleSubmit}
+              >
                 <div className="w-full gap-3 sm:flex">
                   <div className="mx-0 my-2.5 flex-1">
                     <label
@@ -137,7 +208,13 @@ const Contact = () => {
                     <input
                       className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
                       id="first-name"
+                      name="firstName"
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, firstName: e.target.value }))
+                      }
+                      required
                       type="text"
+                      value={form.firstName}
                     />
                   </div>
                   <div className="mx-0 my-2.5 flex-1">
@@ -150,7 +227,13 @@ const Contact = () => {
                     <input
                       className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
                       id="last-name"
+                      name="lastName"
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, lastName: e.target.value }))
+                      }
+                      required
                       type="text"
+                      value={form.lastName}
                     />
                   </div>
                 </div>
@@ -165,7 +248,13 @@ const Contact = () => {
                     <input
                       className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
                       id="email"
+                      name="email"
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, email: e.target.value }))
+                      }
+                      required
                       type="email"
+                      value={form.email}
                     />
                   </div>
                   <div className="mx-0 my-2.5 flex-1">
@@ -178,7 +267,13 @@ const Contact = () => {
                     <input
                       className={`${lato.className} text-SlateBlueText dark:bg-darkmode border-border focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 outline-none focus:border-solid focus:outline-0 dark:text-white`}
                       id="date"
+                      name="date"
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, date: e.target.value }))
+                      }
+                      required
                       type="date"
+                      value={form.date}
                     />
                   </div>
                 </div>
@@ -193,7 +288,16 @@ const Contact = () => {
                     <Textarea
                       className={`${lato.className} w-full text-base transition-all duration-500`}
                       id="message"
+                      name="message"
+                      onChange={(e) =>
+                        setForm((f) => ({
+                          ...f,
+                          message: (e as any).target.value,
+                        }))
+                      }
+                      required
                       type="text"
+                      value={form.message}
                       variant="bordered"
                     />
                   </div>
@@ -201,11 +305,18 @@ const Contact = () => {
                 <div className="mx-0 my-2.5 w-full">
                   <Button
                     className={`${lato.className} hover-filled-slide-down bg-primary mt-4 w-1/4 overflow-hidden rounded-lg text-white`}
-                    href="#"
+                    isDisabled={sending}
                     type="submit"
                   >
-                    <span>Kirim Email</span>
+                    <span>{sending ? "Mengirim..." : "Kirim Email"}</span>
                   </Button>
+                  {status && (
+                    <p
+                      className={`${lato.className} mt-3 text-sm ${status.ok ? "text-green-600" : "text-red-600"}`}
+                    >
+                      {status.msg}
+                    </p>
+                  )}
                 </div>
               </form>
             </div>
@@ -213,10 +324,11 @@ const Contact = () => {
               <Image
                 alt="Contact"
                 className="rounded-lg bg-contain bg-no-repeat"
-                height={0}
-                quality={100}
-                src="/images/general/construction.jpg"
-                style={{ width: "100%", height: "auto" }}
+                height={900}
+                isZoomed
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 700px"
+                src="/images/general/logo2.svg"
+                style={{ width: "100%", height: "70%" }}
                 width={1400}
               />
             </div>

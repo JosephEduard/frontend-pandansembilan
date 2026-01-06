@@ -17,12 +17,14 @@ import Image from "next/image";
 import { Key, useCallback, useEffect, useState } from "react";
 import { CiMenuKebab, CiSearch } from "react-icons/ci";
 import { useRouter } from "next/router";
+
+import AddNewsModal from "./AddNewsModal";
+import DeleteNewsModal from "./DeleteNewsModal";
+
 import DataTable from "@/components/ui/DataTable";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import useNews from "@/views/Admin/News/useNews";
 import { COLUMN_LIST_NEWS } from "@/constants/News.constants";
-import AddNewsModal from "./AddNewsModal";
-import DeleteNewsModal from "./DeleteNewsModal";
 
 interface News {
   _id?: string;
@@ -76,9 +78,9 @@ const News = () => {
             <div className="relative h-20 w-32">
               <Image
                 alt="banner"
+                className="rounded-md object-cover"
                 fill
                 src={`${cellValue}`}
-                className="rounded-md object-cover"
               />
             </div>
           );
@@ -108,6 +110,7 @@ const News = () => {
             // Indonesian locale uses a dot between hour and minute (e.g., 14.20).
             // Replace with colon for consistency across UI.
             const normalizedTime = timePart.replace(".", ":");
+
             return `${datePart} ${normalizedTime} WIB`;
           } catch {
             return String(v);
@@ -191,9 +194,9 @@ const News = () => {
           </div>
           <div className="flex items-center gap-2">
             <Button
+              onPress={() => setIsOpen(!isOpen)}
               size="sm"
               variant="light"
-              onPress={() => setIsOpen(!isOpen)}
             >
               {isOpen ? "Sembunyikan" : "Tampilkan Detail"}
             </Button>
@@ -211,8 +214,8 @@ const News = () => {
                   Lihat Berita
                 </DropdownItem>
                 <DropdownItem
-                  key={`delete-${news._id}`}
                   className="text-danger-500"
+                  key={`delete-${news._id}`}
                   onPress={() => {
                     setSelectedId(`${news._id}`);
                     deleteNewsModal.onOpen();
@@ -235,9 +238,9 @@ const News = () => {
                   <div className="relative h-40 w-full">
                     <Image
                       alt="banner"
+                      className="rounded-md object-cover"
                       fill
                       src={news.image}
-                      className="rounded-md object-cover"
                     />
                   </div>
                 </div>
@@ -247,8 +250,8 @@ const News = () => {
               <div className="space-y-3">
                 {detailColumns.map((column: Record<string, unknown>) => (
                   <div
-                    key={column.uid as string}
                     className="grid grid-cols-2 gap-2"
+                    key={column.uid as string}
                   >
                     <div className="font-medium text-gray-600">
                       {String(column.name)}:

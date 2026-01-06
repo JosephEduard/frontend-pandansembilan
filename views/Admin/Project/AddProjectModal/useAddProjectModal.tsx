@@ -9,12 +9,12 @@ import serviceProjects from "@/services/project.service";
 import { ToasterContext } from "@/contexts/ToasterContext";
 
 const schema = yup.object({
-  title: yup.string().required("Please enter project title"),
-  description: yup.string().required("Please enter project description"),
-  address: yup.string().required("Please enter project address"),
-  serviceId: yup.string().required("Please select a service"),
-  year: yup.string().required("Please enter project year"),
-  status: yup.string().optional(),
+  title: yup.string().required("Mohon masukkan judul proyek"),
+  description: yup.string().required("Mohon masukkan deskripsi proyek"),
+  address: yup.string().required("Mohon masukkan alamat proyek"),
+  serviceId: yup.string().required("Mohon pilih layanan"),
+  year: yup.string().required("Mohon masukkan tahun proyek"),
+  status: yup.string().required("Mohon masukkan status proyek"),
 });
 
 const useAddProjectModal = () => {
@@ -54,7 +54,7 @@ const useAddProjectModal = () => {
     onSuccess: () => {
       setToaster({
         type: "success",
-        message: "Project added successfully",
+        message: "Proyek berhasil ditambahkan",
       });
       reset();
     },
