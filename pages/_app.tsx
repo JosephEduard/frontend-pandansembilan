@@ -59,11 +59,7 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <SessionProvider
-      session={session}
-      refetchInterval={60}
-      refetchOnWindowFocus
-    >
+    <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <HeroUIProvider>
           <ToasterProvider>
