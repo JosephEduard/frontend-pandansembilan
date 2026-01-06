@@ -60,7 +60,6 @@ const DashboardLayoutTopbar = () => {
             <div
               className={`flex ${heightClass} items-center justify-between text-sm`}
             >
-              {/* Left social icons (desktop only) */}
               <div className="ml-47 hidden items-center gap-3 lg:ml-10 lg:flex xl:ml-22">
                 <NextLink
                   className="hover:opacity-90"
@@ -94,7 +93,6 @@ const DashboardLayoutTopbar = () => {
                 </NextLink>
               </div>
 
-              {/* Mobile centered greeting with dropdown */}
               <div className="flex flex-1 items-center justify-center gap-2 lg:hidden">
                 <Dropdown>
                   <DropdownTrigger>
@@ -127,10 +125,9 @@ const DashboardLayoutTopbar = () => {
                   </DropdownMenu>
                 </Dropdown>
               </div>
-              {/* Desktop spacer to push right-side content */}
+
               <div className="hidden flex-1 lg:flex" />
 
-              {/* Desktop right greeting with dropdown */}
               <div className="mr-37 hidden items-center justify-end gap-2 lg:mr-0 lg:flex lg:w-auto xl:mr-15">
                 <Dropdown>
                   <DropdownTrigger>

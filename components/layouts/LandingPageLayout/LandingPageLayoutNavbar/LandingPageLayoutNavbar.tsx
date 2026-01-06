@@ -115,11 +115,11 @@ const LandingPageLayoutNavbar = () => {
         </NavbarBrand>
         <Spacer className="lg:x={0} lg:hidden" x={32} />
         <NavbarContent
-          className={`${cn(lato.className)} hidden flex-1 justify-center font-bold sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:ml-32 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-15`}
+          className={`${cn(lato.className)} hidden flex-1 justify-center font-bold sm:mr-0 sm:gap-3 md:mr-0 md:gap-4 lg:flex lg:gap-6 xl:mr-20 xl:ml-32 xl:flex-none xl:gap-10 2xl:mr-40 2xl:gap-12`}
           justify="center"
         >
           {NAV_ITEMS.map((item, index) => {
-            if (item.label === "COMPANY") {
+            if (item.label === "PERUSAHAAN") {
               return (
                 <Dropdown key={`dropdown-${index}`}>
                   <NavbarItem className="p-0">
@@ -204,7 +204,7 @@ const LandingPageLayoutNavbar = () => {
 
       <NavbarMenu className="pt-6 sm:pt-8 lg:pt-0">
         {NAV_ITEMS.map((item, index) => {
-          if (item.label === "COMPANY") {
+          if (item.label === "PERUSAHAAN") {
             return (
               <div key={`mobile-${index}`}>
                 <NavbarMenuItem>

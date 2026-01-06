@@ -72,7 +72,7 @@ const Loading = ({ isLoading, progress = 0 }: LoadingProps) => {
                   src="/images/general/logo2.svg"
                   transition={{ duration: 1.2, ease: "easeOut" }}
                 />
-                {/* Shimmer sweep */}
+
                 <motion.div className="absolute inset-0 overflow-hidden rounded-full bg-transparent">
                   <motion.div
                     animate={{ x: ["0%", "180%"] }}

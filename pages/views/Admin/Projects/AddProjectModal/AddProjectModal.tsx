@@ -65,10 +65,10 @@ const AddProjectModal = (props: PropTypes) => {
     >
       <form onSubmit={handleSubmitFormProject(handleAddProject)}>
         <ModalContent className="m-4">
-          <ModalHeader> Add Project </ModalHeader>
+          <ModalHeader> Tambah Proyek</ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-2">
-              <p className="text-sm font-bold">Information</p>
+              <p className="text-sm font-bold">Informasi</p>
               <Controller
                 control={control}
                 name="title"
@@ -78,7 +78,7 @@ const AddProjectModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.title?.message}
                     isInvalid={errors.title !== undefined}
-                    label="Title"
+                    label="Judul Proyek"
                     type="text"
                     variant="bordered"
                   />
@@ -93,7 +93,7 @@ const AddProjectModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.description?.message}
                     isInvalid={errors.description !== undefined}
-                    label="Description"
+                    label="Deskripsi Proyek"
                     type="text"
                     variant="bordered"
                   />
@@ -108,7 +108,7 @@ const AddProjectModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.address?.message}
                     isInvalid={errors.address !== undefined}
-                    label="Address"
+                    label="Alamat"
                     type="text"
                     variant="bordered"
                   />
@@ -123,7 +123,7 @@ const AddProjectModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.year?.message}
                     isInvalid={errors.year !== undefined}
-                    label="Year"
+                    label="Tahun"
                     type="number"
                     variant="bordered"
                   />
@@ -137,7 +137,7 @@ const AddProjectModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.serviceId?.message}
                     isInvalid={errors.serviceId !== undefined}
-                    label="Select Service"
+                    label="Pilih Layanan"
                     onSelectionChange={(keys) => {
                       const selected = Array.from(keys as Set<string>).join("");
 
@@ -169,7 +169,8 @@ const AddProjectModal = (props: PropTypes) => {
                     selectedKeys={field.value ? [field.value] : []}
                     variant="bordered"
                   >
-                    <SelectItem key="true">true</SelectItem>
+                    <SelectItem key="true">Selesai</SelectItem>
+                    <SelectItem key="false">Sedang Dalam Pengerjaan</SelectItem>
                   </Select>
                 )}
               />

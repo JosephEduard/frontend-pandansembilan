@@ -105,6 +105,8 @@ const useProject = () => {
       router.push({
         query: {
           ...router.query,
+          // keep limit present so query stays enabled
+          limit: router.query.limit || LIMIT_DEFAULT,
           search,
           page: PAGE_DEFAULT,
         },

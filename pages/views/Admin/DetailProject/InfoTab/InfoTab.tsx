@@ -90,9 +90,9 @@ const InfoTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Informasi Project</h1>
+        <h1 className="w-full text-xl font-bold">Informasi Proyek</h1>
         <p className="text-small text-default-400 w-full">
-          Atur Informasi Project ini.
+          Atur informasi proyek ini.
         </p>
       </CardHeader>
       <CardBody>
@@ -214,7 +214,8 @@ const InfoTab = (props: PropTypes) => {
                   selectedKeys={field.value ? [field.value] : []}
                   variant="bordered"
                 >
-                  <SelectItem key="true">true</SelectItem>
+                  <SelectItem key="true">Selesai</SelectItem>
+                  <SelectItem key="false">Sedang Dalam Pengerjaan</SelectItem>
                 </Select>
               )}
             />

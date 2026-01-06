@@ -16,25 +16,25 @@ type DashboardItem = {
 
 const items: DashboardItem[] = [
   {
-    title: "Projects",
+    title: "Proyek",
     href: "/admin/project",
     imgSrc: "/images/admin-dashboard/projects.png",
     Icon: MdWork,
   },
   {
-    title: "Services",
+    title: "Layanan",
     href: "/admin/service",
     imgSrc: "/images/admin-dashboard/services.png",
     Icon: MdDesignServices,
   },
   {
-    title: "Certifications",
+    title: "Sertifikasi",
     href: "/admin/certification",
     imgSrc: "/images/admin-dashboard/certification.png",
     Icon: MdWorkspacePremium,
   },
   {
-    title: "News",
+    title: "Berita",
     href: "/admin/news",
     imgSrc: "/images/admin-dashboard/news.png",
     Icon: MdNewspaper,
@@ -44,8 +44,8 @@ const items: DashboardItem[] = [
 const Dashboard = () => {
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <h1 className="text-foreground/80 mb-6 text-base font-medium sm:text-lg"></h1>
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="text-foreground/80 mb-6 text-base font-medium sm:text-lg"></div>
+      <section className="-mt-2 grid grid-cols-1 gap-6 max-sm:-mt-6 md:grid-cols-2">
         {items.map(({ href, Icon, imgSrc, title }) => (
           <Card
             as={Link}

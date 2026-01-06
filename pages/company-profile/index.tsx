@@ -1,7 +1,5 @@
 import { ScrollShadow } from "@heroui/react";
-
 import LandingPageLayout from "@/components/layouts/LandingPageLayout/LandingPageLayout";
-// import DefaultLayout from "@/layouts/default";
 import Profile from "@/pages/views/Profile";
 
 const CompanyPage = () => {

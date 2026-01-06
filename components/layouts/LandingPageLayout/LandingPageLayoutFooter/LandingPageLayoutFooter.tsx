@@ -29,7 +29,6 @@ const LandingPageLayoutFooter = () => {
         window.getSelection()?.removeAllRanges();
       }
 
-      // Search for the text in the page
       // @ts-ignore
       const found = window.find(
         searchQuery,
@@ -59,7 +58,7 @@ const LandingPageLayoutFooter = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
             <h4 className={`${lato.className} mb-4 text-base font-bold`}>
-              About Us
+              Tentang CV Pandan Sembilan
             </h4>
             <p
               className={`${lato.className} text-sm leading-relaxed opacity-90`}

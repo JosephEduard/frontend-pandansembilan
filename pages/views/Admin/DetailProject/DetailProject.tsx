@@ -25,17 +25,12 @@ const DetailProject = () => {
           disabled
           onPress={() => {}}
         >
-          Detail Project
+          Laman Detail Proyek
         </Button>
       </div>
       <Tabs aria-label="Options" onSelectionChange={() => refetchProject()}>
-        <Tab key="images" title="Images">
-          <ImagesTab
-            currentImages={dataProject?.banner}
-            isPendingUpdate={isPendingMutateUpdateProject}
-            isSuccessUpdate={isSuccessMutateUpdateProject}
-            onUpdate={handleUpdateProject}
-          />
+        <Tab key="images" title="Gambar">
+          <ImagesTab isSuccessUpdate={isSuccessMutateUpdateProject} />
         </Tab>
         <Tab key="info" title="Info">
           <InfoTab

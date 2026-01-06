@@ -61,10 +61,10 @@ const AddServiceModal = (props: PropTypes) => {
     >
       <form onSubmit={handleSubmitFormService(handleAddService)}>
         <ModalContent className="m-4">
-          <ModalHeader> Add Service </ModalHeader>
+          <ModalHeader> Tambah Layanan </ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-2">
-              <p className="text-sm font-bold">Information</p>
+              <p className="text-sm font-bold">Informasi</p>
               <Controller
                 control={control}
                 name="name"
@@ -74,7 +74,7 @@ const AddServiceModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.name?.message}
                     isInvalid={errors.name !== undefined}
-                    label="Name"
+                    label="Nama Layanan"
                     type="text"
                     variant="bordered"
                   />
@@ -89,7 +89,7 @@ const AddServiceModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.description?.message}
                     isInvalid={errors.description !== undefined}
-                    label="Description"
+                    label="Deskripsi Layanan"
                     type="text"
                     variant="bordered"
                   />
@@ -128,7 +128,7 @@ const AddServiceModal = (props: PropTypes) => {
               {isPendingMutateAddService ? (
                 <Spinner color="white" size="sm" />
               ) : (
-                "Tambah Service"
+                "Tambah Layanan"
               )}
             </Button>
           </ModalFooter>

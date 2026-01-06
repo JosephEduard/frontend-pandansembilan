@@ -6,7 +6,7 @@ const DashboardAdminPage = () => {
   return (
     <DashboardLayout
       title="Dashboard Admin CV Pandan Sembilan"
-      name="Manage All Company Data Here"
+      name="Kelola Semua Konten Perusahaan di Sini"
     >
       <Dashboard />
     </DashboardLayout>

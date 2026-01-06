@@ -3,7 +3,7 @@ import DetailNews from "@/pages/views/Admin/DetailNews";
 
 const DetailNewsAdminPage = () => {
   return (
-    <DashboardLayout title="Detail News - CV Pandan Sembilan">
+    <DashboardLayout title="Detail Berita - CV Pandan Sembilan">
       <DetailNews />
     </DashboardLayout>
   );

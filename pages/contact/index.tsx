@@ -1,9 +1,5 @@
 import { ScrollShadow } from "@heroui/react";
-
 import LandingPageLayout from "@/components/layouts/LandingPageLayout/LandingPageLayout";
-
-// import DefaultLayout from "@/layouts/default";
-
 import Contact from "@/pages/views/Contact";
 
 const ContactPage = () => {

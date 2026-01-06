@@ -55,7 +55,7 @@ const DeleteCertificationModal = (props: PropTypes) => {
         <ModalHeader> Delete Certification </ModalHeader>
         <ModalBody>
           <p className="text-medium font-bold">
-            Apakah Anda yakin ingin menghapus certificate ini?
+            Apakah Anda yakin ingin menghapus sertifikat ini?
           </p>
         </ModalBody>
         <ModalFooter>
@@ -68,7 +68,7 @@ const DeleteCertificationModal = (props: PropTypes) => {
             }}
             variant="flat"
           >
-            Cancel
+            Batal
           </Button>
           <Button
             color="danger"
@@ -79,7 +79,7 @@ const DeleteCertificationModal = (props: PropTypes) => {
             {isPendingMutateDeleteCertification ? (
               <Spinner color="white" size="sm" />
             ) : (
-              "Delete"
+              "Hapus"
             )}
           </Button>
         </ModalFooter>

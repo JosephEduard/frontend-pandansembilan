@@ -3,7 +3,7 @@ import DetailCertification from "@/pages/views/Admin/DetailCertification/DetailC
 
 const DetailCertificationAdminPage = () => {
   return (
-    <DashboardLayout title="Detail Certification - CV Pandan Sembilan">
+    <DashboardLayout title="Detail Sertifikasi - CV Pandan Sembilan">
       <DetailCertification />
     </DashboardLayout>
   );

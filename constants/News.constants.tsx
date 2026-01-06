@@ -1,9 +1,9 @@
 const COLUMN_LIST_NEWS = [
-  { name: "IMAGE", uid: "image" },
-  { name: "TITLE", uid: "title" },
-  { name: "TEXT", uid: "text" },
-  { name: "DATE", uid: "date" },
-  { name: "ACTIONS", uid: "actions" },
+  { name: "GAMBAR", uid: "image" },
+  { name: "JUDUL", uid: "title" },
+  { name: "TEKS", uid: "text" },
+  { name: "TANGGAL", uid: "date" },
+  { name: "AKSI", uid: "actions" },
 ];
 
 export { COLUMN_LIST_NEWS };

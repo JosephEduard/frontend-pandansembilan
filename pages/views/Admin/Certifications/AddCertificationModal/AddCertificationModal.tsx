@@ -60,10 +60,10 @@ const AddCertificationModal = (props: PropTypes) => {
     >
       <form onSubmit={handleSubmitFormCertification(handleAddCertification)}>
         <ModalContent className="m-4">
-          <ModalHeader> Add Certification </ModalHeader>
+          <ModalHeader> Tambah Sertifikat </ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-2">
-              <p className="text-sm font-bold">Information</p>
+              <p className="text-sm font-bold">Informasi</p>
               <Controller
                 control={control}
                 name="title"
@@ -126,7 +126,8 @@ const AddCertificationModal = (props: PropTypes) => {
                     selectedKeys={field.value ? [field.value] : []}
                     variant="bordered"
                   >
-                    <SelectItem key="true">true</SelectItem>
+                    <SelectItem key="true">Valid</SelectItem>
+                    <SelectItem key="false">Tidak Valid</SelectItem>
                   </Select>
                 )}
               />
@@ -157,13 +158,13 @@ const AddCertificationModal = (props: PropTypes) => {
               onPress={() => handleOnClose(onClose)}
               variant="flat"
             >
-              Cancel
+              Batal
             </Button>
             <Button color="danger" disabled={disabledSubmit} type="submit">
               {isPendingMutateAddCertification ? (
                 <Spinner color="white" size="sm" />
               ) : (
-                "Tambah Certification"
+                "Tambah Sertifikat"
               )}
             </Button>
           </ModalFooter>

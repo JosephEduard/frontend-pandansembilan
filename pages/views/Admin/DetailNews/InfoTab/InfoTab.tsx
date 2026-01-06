@@ -94,9 +94,9 @@ const InfoTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Informasi News</h1>
+        <h1 className="w-full text-xl font-bold">Informasi Berita</h1>
         <p className="text-small text-default-400 w-full">
-          Atur Informasi News ini.
+          Atur informasi berita ini.
         </p>
       </CardHeader>
       <CardBody>

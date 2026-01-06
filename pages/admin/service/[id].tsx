@@ -3,7 +3,7 @@ import DetailServices from "@/pages/views/Admin/DetailServices";
 
 const DetailServiceAdminPage = () => {
   return (
-    <DashboardLayout title="Detail Services - CV Pandan Sembilan">
+    <DashboardLayout title="Detail Layanan - CV Pandan Sembilan">
       <DetailServices />
     </DashboardLayout>
   );

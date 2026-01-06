@@ -24,11 +24,11 @@ const DetailNews = () => {
           disabled
           onPress={() => {}}
         >
-          Detail News
+          Laman Detail Berita
         </Button>
       </div>
       <Tabs aria-label="Options" onSelectionChange={() => refetchNews()}>
-        <Tab key="image" title="Image">
+        <Tab key="image" title="Gambar">
           <ImageTab
             currentImage={dataNews?.image}
             isPendingUpdate={isPendingMutateUpdateNews}

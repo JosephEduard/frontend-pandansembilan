@@ -9,7 +9,6 @@ import {
 import Image from "next/image";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
-
 import useBannerTab from "@/views/Admin/DetailService/BannerTab/useBannerTab";
 import { IService } from "@/types/Service";
 import InputFile from "@/components/ui/InputFile";
@@ -46,9 +45,9 @@ const BannerTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Banner Service</h1>
+        <h1 className="w-full text-xl font-bold">Banner Layanan</h1>
         <p className="text-small text-default-400 w-full">
-          Atur Banner Service ini.
+          Atur banner layanan ini.
         </p>
       </CardHeader>
       <CardBody>

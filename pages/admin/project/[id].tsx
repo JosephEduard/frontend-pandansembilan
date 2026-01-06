@@ -3,7 +3,7 @@ import DetailProject from "@/pages/views/Admin/DetailProject";
 
 const DetailProjectAdminPage = () => {
   return (
-    <DashboardLayout title="Detail Project - CV Pandan Sembilan">
+    <DashboardLayout title="Detail Proyek - CV Pandan Sembilan">
       <DetailProject />
     </DashboardLayout>
   );

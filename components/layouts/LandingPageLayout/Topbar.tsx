@@ -87,7 +87,7 @@ export default function Topbar() {
               <div className="flex-1">
                 <div className={`${lato.className} w-full text-center`}>
                   <span className={`${lato.className} text-sm font-medium`}>
-                    Building Constructions - Supplier - ETC
+                    Konstruksi Bangunan - Pemasok - DLL
                   </span>
                 </div>
               </div>

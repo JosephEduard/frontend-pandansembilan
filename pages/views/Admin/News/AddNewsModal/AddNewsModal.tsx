@@ -60,10 +60,10 @@ const AddNewsModal = (props: PropTypes) => {
     >
       <form onSubmit={handleSubmitFormNews(handleAddNews)}>
         <ModalContent className="m-4">
-          <ModalHeader> Add News </ModalHeader>
+          <ModalHeader> Tambah Berita </ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-2">
-              <p className="text-sm font-bold">Information</p>
+              <p className="text-sm font-bold">Informasi</p>
               <Controller
                 control={control}
                 name="title"
@@ -73,7 +73,7 @@ const AddNewsModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.title?.message}
                     isInvalid={errors.title !== undefined}
-                    label=" News Title"
+                    label=" Judul Berita"
                     type="text"
                     variant="bordered"
                   />
@@ -88,7 +88,7 @@ const AddNewsModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.text?.message}
                     isInvalid={errors.text !== undefined}
-                    label="Text"
+                    label="Teks Berita"
                     type="text"
                     variant="bordered"
                   />
@@ -103,13 +103,13 @@ const AddNewsModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.date?.message}
                     isInvalid={errors.date !== undefined}
-                    label="Date"
+                    label="Tanggal Berita"
                     type="date"
                     variant="bordered"
                   />
                 )}
               />
-              <p className="text-sm font-bold">Image</p>
+              <p className="text-sm font-bold">Gambar</p>
               <Controller
                 control={control}
                 name="image"
@@ -142,7 +142,7 @@ const AddNewsModal = (props: PropTypes) => {
               {isPendingMutateAddNews ? (
                 <Spinner color="white" size="sm" />
               ) : (
-                "Tambah News"
+                "Tambah Berita"
               )}
             </Button>
           </ModalFooter>

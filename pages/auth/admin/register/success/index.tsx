@@ -3,7 +3,7 @@ import RegisterSuccess from "@/pages/views/Admin/RegisterSuccess";
 
 const AdminRegisterSuccessPage = () => {
   return (
-    <AuthLayout title="CV Pandan Sembilan | Admin Register Success">
+    <AuthLayout title="CV Pandan Sembilan | Daftar Admin Berhasil">
       <RegisterSuccess />
     </AuthLayout>
   );

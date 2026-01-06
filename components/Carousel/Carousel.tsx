@@ -11,27 +11,25 @@ interface Slide {
   title: string;
   subtitle?: string;
   image: string;
-  overlay?: string; // optional overlay gradient
+  overlay?: string;
 }
-
-// Option A: Full-bleed image carousel with overlayed text & existing controls/indicators.
 const slides: Slide[] = [
   {
-    title: "Transforming Spaces",
+    title: "Transformasi Ruang",
     subtitle: "Kualitas & Integritas dalam setiap proyek",
     image:
       "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1600&q=60",
     overlay: "bg-gradient-to-r from-black/60 via-black/40 to-transparent",
   },
   {
-    title: "Excellent Engineering",
+    title: "Teknik Unggul",
     subtitle: "Struktur kokoh, desain modern, hasil memuaskan",
     image:
       "https://images.unsplash.com/photo-1486304873000-235643847519?auto=format&fit=crop&w=1600&q=60",
     overlay: "bg-gradient-to-r from-black/50 via-black/30 to-transparent",
   },
   {
-    title: "Build Confidence",
+    title: "Bangun Kepercayaan",
     subtitle: "Solusi konstruksi lengkap dan profesional",
     image: "/images/general/construction.jpg",
     overlay: "bg-gradient-to-r from-black/55 via-black/35 to-transparent",

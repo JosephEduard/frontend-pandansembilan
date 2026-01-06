@@ -63,10 +63,9 @@ const DashboardLayoutNavbar = () => {
 
     const hero = document.getElementById("hero-carousel");
 
-    if (!hero) return; // fallback: keep existing state
+    if (!hero) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Transparent when hero is intersecting (still visible under navbar)
         setTransparent(entry.isIntersecting);
       },
       { threshold: 0.1 },
@@ -119,7 +118,7 @@ const DashboardLayoutNavbar = () => {
           justify="center"
         >
           {NAV_ITEMS.map((item, index) => {
-            if (item.label === "COMPANY") {
+            if (item.label === "PERUSAHAAN") {
               return (
                 <Dropdown key={`dropdown-${index}`}>
                   <NavbarItem className="p-0">
@@ -204,7 +203,7 @@ const DashboardLayoutNavbar = () => {
 
       <NavbarMenu className="pt-6 sm:pt-8 lg:pt-0">
         {NAV_ITEMS.map((item, index) => {
-          if (item.label === "COMPANY") {
+          if (item.label === "  PERUSAHAAN") {
             return (
               <div key={`mobile-${index}`}>
                 <NavbarMenuItem>

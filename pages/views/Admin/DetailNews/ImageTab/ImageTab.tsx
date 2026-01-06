@@ -46,9 +46,9 @@ const ImageTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Image News</h1>
+        <h1 className="w-full text-xl font-bold">Gambar Berita</h1>
         <p className="text-small text-default-400 w-full">
-          Atur Image News ini.
+          Atur gambar berita ini.
         </p>
       </CardHeader>
       <CardBody>
@@ -58,7 +58,7 @@ const ImageTab = (props: PropTypes) => {
         >
           <div className="flex flex-col gap-4">
             <p className="text-default-700 text-sm font-medium">
-              Image saat ini
+              Gambar saat ini
             </p>
             <Skeleton
               className="aspect-square rounded-lg"
@@ -80,7 +80,7 @@ const ImageTab = (props: PropTypes) => {
                 isUploading={isPendingMutateUploadFile}
                 label={
                   <p className="text-default-700 mb-2 text-sm font-medium">
-                    Upload Image Baru
+                    Unggah Gambar Baru
                   </p>
                 }
                 onDelete={() => handleDeleteImage(onChange)}

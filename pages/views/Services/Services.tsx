@@ -1,8 +1,11 @@
 import { Lato } from "next/font/google";
+import { useQuery } from "@tanstack/react-query";
+import serviceServices from "@/services/service";
 type ServiceItem = {
   title: string;
   description: string;
   icon: string;
+  banner?: string;
 };
 
 const lato = Lato({
@@ -10,61 +13,34 @@ const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
 });
 
-// Swagger fetch template (GET /service → list layanan dari backend-cvps)
-// const fetchServicesFromApi = async () => {
-//   try {
-//     const response = await fetch(
-//       "https://backend-cvps.vercel.app/api/service",
-//       {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//         },
-//       },
-//     );
-//     if (!response.ok) throw new Error("Failed to fetch services data");
-//     const payload = await response.json();
-//     // setServices(payload.data);
-//   } catch (error) {
-//     console.error("[ServicesView] fetchServicesFromApi", error);
-//   }
-// };
-
-const services: ServiceItem[] = [
-  {
-    title: "Perencanaan",
-    description:
-      "Perencanaan teknis, costing, dan penjadwalan untuk memastikan proyek siap dieksekusi tanpa kejutan.",
-    icon: "📐",
-  },
-  {
-    title: "Pembangunan",
-    description:
-      "Konstruksi gedung, jalan, dan infrastruktur dengan kontrol mutu ketat dan keselamatan K3 terukur.",
-    icon: "🏗️",
-  },
-  {
-    title: "Renovasi",
-    description:
-      "Transformasi ruang agar selaras dengan fungsi baru tanpa menghentikan operasional utama.",
-    icon: "🪚",
-  },
-  {
-    title: "Pemeliharaan",
-    description:
-      "Perawatan preventif dan korektif untuk memperpanjang umur aset dan menjaga keandalan fasilitas.",
-    icon: "🛠️",
-  },
-  {
-    title: "Kelistrikan",
-    description:
-      "Instalasi dan upgrade sistem listrik yang aman, efisien, dan sesuai regulasi.",
-    icon: "⚡",
-  },
-];
+const iconForName = (name?: string) => {
+  const n = (name || "").toLowerCase();
+  if (n.includes("rencan")) return "📐"; // Perencanaan
+  if (n.includes("bangun")) return "🏗️"; // Pembangunan
+  if (n.includes("renov")) return "🪚"; // Renovasi
+  if (n.includes("pelihara")) return "🛠️"; // Pemeliharaan
+  if (n.includes("listrik")) return "⚡"; // Kelistrikan
+  return "🏗️";
+};
 
 const Services = () => {
+  const { data: servicesData } = useQuery({
+    queryKey: ["ServicesPublicList"],
+    queryFn: async () => {
+      const res = await serviceServices.getServices("page=1&limit=999");
+      return res.data;
+    },
+  });
+
+  const services: ServiceItem[] = (servicesData?.data || []).map(
+    (svc: any) => ({
+      title: svc?.name ?? "",
+      description: svc?.description ?? "",
+      icon: iconForName(svc?.name),
+      banner: typeof svc?.banner === "string" ? svc.banner : undefined,
+    }),
+  );
+
   return (
     <div className="w-full px-0 pb-16 text-slate-900">
       <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col gap-16 px-6 pt-16">
@@ -121,7 +97,7 @@ const Services = () => {
                 aria-label="Hero layanan"
                 className={`${lato.className} h-full w-full bg-cover bg-center`}
                 style={{
-                  backgroundImage: "url('/images/general/construction.jpg')",
+                  backgroundImage: "url('/images/general/layanan2.jpg')",
                 }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/20 via-transparent to-blue-900/10" />
@@ -133,8 +109,8 @@ const Services = () => {
         <section className={`${lato.className} grid gap-4 md:grid-cols-3`}>
           {[
             { label: "5+", desc: "Layanan spesialisasi" },
-            { label: "100%", desc: "Client satisfaction" },
-            { label: "24/7", desc: "Support tersedia" },
+            { label: "100%", desc: "Klien puas" },
+            { label: "24/7", desc: "Dukungan tersedia" },
           ].map((stat) => (
             <div
               className={`${lato.className} relative overflow-hidden rounded-2xl border border-cyan-100 bg-white/85 px-6 py-5 shadow-md`}
@@ -160,12 +136,12 @@ const Services = () => {
             <p
               className={`${lato.className} text-xs tracking-[0.16em] text-cyan-700 uppercase`}
             >
-              Layanan utama
+              Layanan utama CV Pandan Sembilan
             </p>
             <h2
               className={`${lato.className} text-3xl font-semibold text-slate-900 md:text-4xl`}
             >
-              Portofolio layanan CV Pandan Sembilan
+              Daftar layanan CV Pandan Sembilan
             </h2>
             <p
               className={`${lato.className} mx-auto max-w-2xl text-sm text-slate-700 md:text-base`}
@@ -192,8 +168,9 @@ const Services = () => {
                     aria-label={`Foto ${item.title}`}
                     className={`${lato.className} relative h-[320px] w-full bg-cover bg-center md:h-[380px]`}
                     style={{
-                      backgroundImage:
-                        "url('/images/general/construction.jpg')",
+                      backgroundImage: `url('${
+                        item.banner || "/images/general/construction.jpg"
+                      }')`,
                     }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/10 via-transparent to-blue-900/5" />
@@ -306,13 +283,13 @@ const Services = () => {
                   className={`${lato.className} flex items-center gap-2 text-sm text-slate-800`}
                 >
                   <span className="text-cyan-600">📧</span>
-                  media@pandan.com
+                  cv.pandansembilan10@gmail.com
                 </p>
                 <p
                   className={`${lato.className} flex items-center gap-2 text-sm text-slate-800`}
                 >
                   <span className="text-cyan-600">📞</span>
-                  (+62) 812-3456-7890
+                  (+62) 851-0249-8419
                 </p>
               </div>
             </a>

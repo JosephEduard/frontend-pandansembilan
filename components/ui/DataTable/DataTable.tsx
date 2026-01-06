@@ -61,7 +61,7 @@ const DataTable = (props: PropTypes) => {
           isClearable
           onChange={onChangeSearch}
           onClear={onClearSearch}
-          placeholder="Search by name"
+          placeholder="Cari berdasarkan nama"
           startContent={<CiSearch />}
         />
         {buttonTopContentLabel && (

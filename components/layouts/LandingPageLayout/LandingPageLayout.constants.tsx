@@ -1,10 +1,10 @@
 const NAV_ITEMS = [
-  { label: "HOME", href: "/" },
-  { label: "COMPANY", href: "/company-profile" },
-  { label: "SERVICES", href: "/services" },
+  { label: "BERANDA", href: "/" },
+  { label: "PERUSAHAAN", href: "/company-profile" },
+  { label: "LAYANAN", href: "/services" },
   { label: "PORTOFOLIO", href: "/portofolio" },
-  { label: "CONTACT", href: "/contact" },
-  { label: "NEWS", href: "/news" },
+  { label: "KONTAK", href: "/contact" },
+  { label: "BERITA", href: "/news" },
 ];
 
 export default NAV_ITEMS;

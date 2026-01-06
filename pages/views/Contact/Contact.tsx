@@ -2,29 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Lato } from "next/font/google";
 import { EnvelopeIcon, UserGroupIcon } from "@heroicons/react/24/solid";
+import { Textarea } from "@heroui/input";
+import { colorVariants } from "@heroui/theme";
+import { Button } from "@heroui/button";
 
 const lato = Lato({
   subsets: ["latin"],
   weight: ["100", "300", "400", "700", "900"],
 });
-
-// Swagger fetch template (GET /auth/me untuk prefilling identitas pengirim)
-// const fetchContactContent = async () => {
-//   try {
-//     const res = await fetch("https://backend-cvps.vercel.app/api/auth/me", {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//       },
-//     });
-//     if (!res.ok) throw new Error("Failed to load user profile");
-//     const body = await res.json();
-//     // setUserProfile(body.data);
-//   } catch (error) {
-//     console.error("[ContactView] fetchContactContent", error);
-//   }
-// };
 
 const Contact = () => {
   return (
@@ -136,9 +121,9 @@ const Contact = () => {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
             <div className="col-span-6">
               <h2
-                className={`${lato.className} text-secondary mb-9 max-w-72 text-[40px] leading-[3.4rem] font-bold`}
+                className={`${lato.className} text-secondary mb-3 max-w-72 text-[35px] leading-[3.4rem] font-bold`}
               >
-                Get Online Consultation
+                Dapatkan Konsultasi Daring
               </h2>
               <form className="m-auto flex w-full flex-wrap justify-between">
                 <div className="w-full gap-3 sm:flex">
@@ -147,7 +132,7 @@ const Contact = () => {
                       className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                       htmlFor="first-name"
                     >
-                      First Name*
+                      Nama Depan*
                     </label>
                     <input
                       className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
@@ -160,7 +145,7 @@ const Contact = () => {
                       className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                       htmlFor="last-name"
                     >
-                      Last Name*
+                      Nama Belakang*
                     </label>
                     <input
                       className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
@@ -175,7 +160,7 @@ const Contact = () => {
                       className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                       htmlFor="email"
                     >
-                      Email address*
+                      Alamat Email*
                     </label>
                     <input
                       className={`${lato.className} border-border dark:border-dark_border dark:bg-darkmode focus:border-primary dark:focus:border-primary w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
@@ -186,33 +171,9 @@ const Contact = () => {
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
-                      htmlFor="Specialist"
-                    >
-                      Specialist*
-                    </label>
-                    <select
-                      className={`${lato.className} text-SlateBlueText border-border dark:bg-darkmode focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 focus:border-solid focus:outline-0 dark:text-white`}
-                      id="Specialist"
-                    >
-                      <option value="">Choose a specialist</option>
-                      <option value="Baking &amp; Pastry">
-                        Choose a specialist
-                      </option>
-                      <option value="Exotic Cuisine">Exotic Cuisine</option>
-                      <option value="French Desserts">French Desserts</option>
-                      <option value="Seafood &amp; Wine">
-                        Choose a specialist
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div className="w-full gap-3 sm:flex">
-                  <div className="mx-0 my-2.5 flex-1">
-                    <label
-                      className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
                       htmlFor="date"
                     >
-                      Date*
+                      Tanggal*
                     </label>
                     <input
                       className={`${lato.className} text-SlateBlueText dark:bg-darkmode border-border focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 outline-none focus:border-solid focus:outline-0 dark:text-white`}
@@ -220,28 +181,31 @@ const Contact = () => {
                       type="date"
                     />
                   </div>
+                </div>
+                <div className="w-full gap-3 sm:flex">
                   <div className="mx-0 my-2.5 flex-1">
                     <label
                       className={`${lato.className} text-SlateBlueText inline-block pb-3 text-base`}
-                      htmlFor="time"
+                      htmlFor="message"
                     >
-                      Time*
+                      Pesan*
                     </label>
-                    <input
-                      className={`${lato.className} border-border dark:bg-darkmode focus:border-primary dark:focus:border-primary dark:border-dark_border w-full rounded-lg border border-solid px-4 py-2.5 text-base transition-all duration-500 outline-none focus:border-solid focus:outline-0 dark:text-white`}
-                      id="time"
-                      type="time"
+                    <Textarea
+                      className={`${lato.className} w-full text-base transition-all duration-500`}
+                      id="message"
+                      type="text"
+                      variant="bordered"
                     />
                   </div>
                 </div>
                 <div className="mx-0 my-2.5 w-full">
-                  <Link
-                    className={`${lato.className} btn btn-1 hover-filled-slide-down mt-4 overflow-hidden rounded-lg`}
+                  <Button
+                    className={`${lato.className} hover-filled-slide-down bg-primary mt-4 w-1/4 overflow-hidden rounded-lg text-white`}
                     href="#"
                     type="submit"
                   >
-                    <span>Make an appointment</span>
-                  </Link>
+                    <span>Kirim Email</span>
+                  </Button>
                 </div>
               </form>
             </div>

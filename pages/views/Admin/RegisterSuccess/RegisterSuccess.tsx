@@ -31,7 +31,7 @@ const RegisterSuccess = () => {
           onPress={() => router.push("/auth/admin/login")}
           variant="bordered"
         >
-          Login Disini
+          Masuk di sini
         </Button>
       </div>
     </div>

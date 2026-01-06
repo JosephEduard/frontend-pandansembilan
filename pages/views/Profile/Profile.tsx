@@ -15,35 +15,6 @@ const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
 });
 
-// Swagger fetch template (GET /service untuk statistik, GET /certification untuk legal)
-// const fetchCompanyProfile = async () => {
-//   try {
-//     const [servicesRes, certRes] = await Promise.all([
-//       fetch("https://backend-cvps.vercel.app/api/service", {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//         },
-//       }),
-//       fetch("https://backend-cvps.vercel.app/api/certification", {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//         },
-//       }),
-//     ]);
-//     if (!servicesRes.ok || !certRes.ok) {
-//       throw new Error("Failed to fetch profile data");
-//     }
-//     const servicesPayload = await servicesRes.json();
-//     const certificationPayload = await certRes.json();
-//     // setStats(servicesPayload.data);
-//     // setCertifications(certificationPayload.data);
-//   } catch (error) {
-//     console.error("[ProfileView] fetchCompanyProfile", error);
-//   }
-// };
-
 const Profile = () => {
   return (
     <div className="min-h-screen bg-white">
@@ -115,11 +86,13 @@ const Profile = () => {
               <p
                 className={`${lato.className} text-base leading-relaxed text-gray-600 sm:text-lg`}
               >
-                With numerous successful projects across Palembang and South
-                Sumatra, we have delivered transformative construction solutions
-                that meet the highest standards. Our dedicated team works
-                tirelessly to exceed client expectations and deliver excellence
-                in every project.
+                Dengan banyaknya proyek yang berhasil di Palembang dan Sumatera
+                Selatan, kami menghadirkan solusi konstruksi yang berdampak dan
+                memenuhi standar tertinggi. Tim kami bekerja dengan dedikasi
+                untuk melampaui ekspektasi klien dan menghadirkan hasil terbaik
+                di setiap proyek. Kami terus meningkatkan kualitas melalui
+                pengawasan mutu yang ketat, pemanfaatan teknologi terkini, serta
+                komitmen terhadap keselamatan kerja dan keberlanjutan.
               </p>
             </div>
           </div>
@@ -127,10 +100,10 @@ const Profile = () => {
           {/* Stats */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { number: "100+", label: "Projects Completed" },
-              { number: "50+", label: "Team Members" },
-              { number: "15+", label: "Years Experience" },
-              { number: "95%", label: "Client Satisfaction" },
+              { number: "100+", label: "Proyek Selesai" },
+              { number: "30+", label: "Anggota Tim" },
+              { number: "15+", label: "Tahun Pengalaman" },
+              { number: "95%", label: "Kepuasan Klien" },
             ].map((stat, index) => (
               <div
                 className="rounded-lg border border-blue-100 bg-blue-50 p-6 text-center transition-all duration-300 hover:border-blue-300"
@@ -226,16 +199,16 @@ const Profile = () => {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {[
                 {
-                  title: "Quality",
-                  desc: "Delivering excellence in every project",
+                  title: "Kualitas",
+                  desc: "Menghadirkan keunggulan dalam setiap proyek",
                 },
                 {
-                  title: "Integrity",
-                  desc: "Operating with honesty and transparency",
+                  title: "Integritas",
+                  desc: "Bekerja dengan kejujuran dan transparansi",
                 },
                 {
-                  title: "Professionalism",
-                  desc: "Maintaining highest industry standards",
+                  title: "Profesionalisme",
+                  desc: "Menjaga standar tertinggi di industri konstruksi",
                 },
               ].map((value, index) => (
                 <div
@@ -279,7 +252,7 @@ const Profile = () => {
               <h3
                 className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
               >
-                Company Registration
+                Registrasi Perusahaan
               </h3>
               <div
                 className={`${lato.className} space-y-3 text-base text-gray-600 sm:text-lg`}
@@ -288,31 +261,31 @@ const Profile = () => {
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Legal Name:
+                    Nama Perusahaan Legal:
                   </span>{" "}
-                  CV Pandan Sembilan
+                  CV PANDAN SEMBILAN
                 </p>
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Registration Number:
+                    Nomor Registrasi:
                   </span>{" "}
-                  [Your Registration Number]
+                  Tersembunyi
                 </p>
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Establishment Date:
+                    Tanggal Pendirian:
                   </span>{" "}
-                  [Your Date]
+                  15 Desember 2021
                 </p>
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Location:
+                    Lokasi:
                   </span>{" "}
                   Palembang, South Sumatra, Indonesia
                 </p>
@@ -326,7 +299,7 @@ const Profile = () => {
               <h3
                 className={`${lato.className} mb-4 text-2xl font-bold text-gray-800`}
               >
-                Certifications & Compliance
+                Sertifikasi & Kepatuhan
               </h3>
               <div
                 className={`${lato.className} space-y-3 text-base text-gray-600 sm:text-lg`}
@@ -335,33 +308,33 @@ const Profile = () => {
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Business License:
+                    Izin Usaha:
                   </span>{" "}
-                  Active & Valid
+                  Aktif & Valid
                 </p>
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Construction Permit:
+                    Izin Konstruksi:
                   </span>{" "}
-                  Certified
+                  Bersertifikat
                 </p>
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Safety Standards:
+                    Standar Keselamatan:
                   </span>{" "}
-                  Compliant
+                  Mematuhi
                 </p>
                 <p>
                   <span
                     className={`${lato.className} font-semibold text-blue-600`}
                   >
-                    Environmental Compliance:
+                    Kepatuhan Lingkungan:
                   </span>{" "}
-                  Certified
+                  Bersertifikat
                 </p>
               </div>
             </div>
@@ -377,9 +350,9 @@ const Profile = () => {
               className={`${lato.className} flex flex-wrap justify-center gap-4`}
             >
               {[
-                "Business License",
-                "Company Certificate",
-                "Safety Certification",
+                "Izin Usaha",
+                "Sertifikat Perusahaan",
+                "Sertifikasi Keselamatan",
               ].map((doc, index) => (
                 <button
                   className={`${lato.className} rounded bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:bg-blue-700`}
@@ -400,12 +373,12 @@ const Profile = () => {
               <p
                 className={`${lato.className} text-sm tracking-[0.3em] text-blue-500 uppercase`}
               >
-                Contact
+                Hubungi Kami
               </p>
               <h2
                 className={`${lato.className} text-secondary mt-3 text-[32px] leading-[2.5rem] font-bold sm:text-[46px] sm:leading-[3.7rem] dark:text-white`}
               >
-                Corporate Address
+                Alamat Perusahaan
               </h2>
             </div>
 
@@ -421,24 +394,25 @@ const Profile = () => {
                 <p
                   className={`${lato.className} text-secondary dark:text-darktext max-w-266 text-xl leading-10 font-normal sm:text-2xl`}
                 >
-                  [Your Street Address]
-                  <br /> Palembang, South Sumatra
-                  <br /> Indonesia
+                  JALAN SEI SELAN NOMOR 137, Desa/Kelurahan Siringagung, Kec.
+                  Ilir Barat Satu,
+                  <br /> Palembang, Sumatera Selatan
+                  <br /> Indonesia 30138
                 </p>
               </div>
               <div className="col-span-3">
                 <Link
                   className={`${lato.className} text-secondary dark:text-SereneSky hover:text-RegalBlue text-xl font-medium underline sm:text-2xl hover:dark:text-white`}
-                  href="mailto:headoffice@cvpandansembilan.com"
+                  href="/contact"
                 >
-                  headoffice@cvpandansembilan.com
+                  cv.pandansembilan10@gmail.com
                 </Link>
                 <Link
                   className={`${lato.className} text-secondary dark:text-primary hover:text-opacity-100 flex w-fit items-center gap-2 text-xl sm:text-2xl hover:dark:text-white`}
                   href="tel:+62"
                 >
                   <span className={`${lato.className} text-primary`}>Call</span>
-                  +62 [Your Phone]
+                  +62 85102498419
                 </Link>
               </div>
             </div>

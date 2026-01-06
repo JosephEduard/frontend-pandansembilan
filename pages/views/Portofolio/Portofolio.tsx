@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Lato } from "next/font/google";
+import serviceProjects from "@/services/project.service";
+import serviceProjectImage from "@/services/projectimage.service";
 
 type Project = {
   title: string;
@@ -18,136 +20,141 @@ const lato = Lato({
 
 const placeholderImg = "/images/general/construction.jpg";
 
-const projects: Project[] = [
-  {
-    title: "Renovasi Interior Bank BCA Palembang",
-    location: "Palembang",
-    category: "Interior",
-    year: "2024",
-    status: "Selesai",
-    scope: ["Desain interior", "MEP", "Fit-out"],
-    gallery: [
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-    ],
-  },
-  {
-    title: "Pekerjaan Fondasi Batu Kali dan Pagar",
-    location: "Palembang",
-    category: "Infrastruktur",
-    year: "2024",
-    status: "Selesai",
-    scope: ["Sipil", "Drainase", "Pagar"],
-    gallery: [
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-    ],
-  },
-  {
-    title: "Pekerjaan Interior Kamar Tidur, Kamar Mandi, dan Kitchen Set",
-    location: "Palembang",
-    category: "Interior",
-    year: "2023",
-    status: "Selesai",
-    scope: ["Interior", "Custom furniture", "MEP"],
-    gallery: [
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-    ],
-  },
-  {
-    title: "Perawatan ACP dan Pemasangan Booth Kantor",
-    location: "Palembang",
-    category: "Fasad & ACP",
-    year: "2024",
-    status: "Berjalan",
-    scope: ["Fasad", "Booth kantor", "Perawatan"],
-    gallery: [
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-    ],
-  },
-  {
-    title: "Renovasi Bank Indonesia Palembang",
-    location: "Palembang",
-    category: "Renovasi",
-    year: "2023",
-    status: "Selesai",
-    scope: ["Renovasi", "Interior", "Penguatan struktur"],
-    gallery: [
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-    ],
-  },
-  {
-    title: "Perbaikan dan Pengecoran Jalan PT Harakindo Palembang",
-    location: "Palembang",
-    category: "Infrastruktur",
-    year: "2024",
-    status: "Selesai",
-    scope: ["Pengecoran", "Perkerasan", "Drainase"],
-    gallery: [
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-      placeholderImg,
-    ],
-  },
-];
-
-const categories = [
-  "Semua",
-  ...Array.from(new Set(projects.map((p) => p.category))),
-];
-
-// Swagger fetch template (GET /project + GET /project-image/project/{id})
-// const fetchPortfolioProjects = async () => {
-//   try {
-//     const res = await fetch("https://backend-cvps.vercel.app/api/project", {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//       },
-//     });
-//     if (!res.ok) throw new Error("Failed to load portfolio projects");
-//     const projectsPayload = await res.json();
-//     // setProjects(projectsPayload.data ?? []);
-//
-//     // Optional: ambil galeri tiap proyek
-//     // const gallery = await fetch(
-//     //   `https://backend-cvps.vercel.app/api/project-image/project/${projectId}`,
-//     //   { headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}` } },
-//     // );
-//   } catch (error) {
-//     console.error("[PortofolioView] fetchPortfolioProjects", error);
-//   }
-// };
+// Data diisi dari database
+const emptyProjects: Project[] = [];
 
 const Portofolio = () => {
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
+  const [projects, setProjects] = useState<Project[]>(emptyProjects);
+
+  useEffect(() => {
+    const fetchPortfolioProjects = async () => {
+      try {
+        const res = await serviceProjects.getProjects("page=1&limit=999");
+        const payload = res.data;
+        const raw = Array.isArray(payload?.data) ? payload.data : [];
+
+        const baseMapped: Project[] = raw.map((item: any) => {
+          // safely derive fields used by template
+          const title = item?.title ?? item?.name ?? "Tanpa Judul";
+          const address = item?.address ?? "";
+          const serviceName = (() => {
+            // Support various backend shapes: string, nested service object, nested serviceId object
+            const direct = item?.serviceName;
+            const svcObj = item?.service;
+            const svcIdObj = item?.serviceId;
+            if (typeof direct === "string" && direct) return direct;
+            if (svcObj && typeof svcObj === "object") {
+              return svcObj?.name ?? svcObj?.title ?? "Umum";
+            }
+            if (svcIdObj && typeof svcIdObj === "object") {
+              return svcIdObj?.name ?? svcIdObj?.title ?? "Umum";
+            }
+            return "Umum";
+          })();
+
+          const yearVal = item?.year;
+          let year = "";
+          try {
+            if (typeof yearVal === "number") {
+              year = String(yearVal);
+            } else if (typeof yearVal === "string") {
+              const d = new Date(yearVal);
+              year = isNaN(d.getTime())
+                ? String(yearVal ?? "")
+                : d.getFullYear().toString();
+            } else if (yearVal instanceof Date) {
+              year = isNaN(yearVal.getTime())
+                ? String(yearVal ?? "")
+                : yearVal.getFullYear().toString();
+            } else {
+              year = String(yearVal ?? "");
+            }
+          } catch {
+            year = String(yearVal ?? "");
+          }
+
+          // Map status from backend boolean/string to display labels
+          const rawStatus =
+            item?.status ?? item?.isDone ?? item?.isCompleted ?? item?.finished;
+          let status = "Sedang dalam pengerjaan";
+          if (typeof rawStatus === "boolean") {
+            status = rawStatus ? "Selesai" : "Sedang dalam pengerjaan";
+          } else if (typeof rawStatus === "string") {
+            const s = rawStatus.toLowerCase();
+            status = [
+              "selesai",
+              "done",
+              "completed",
+              "true",
+              "finish",
+              "finished",
+            ].some((k) => s.includes(k))
+              ? "Selesai"
+              : "Sedang dalam pengerjaan";
+          }
+
+          return {
+            title,
+            location: address || "",
+            category: String(serviceName || "Umum"),
+            year,
+            status,
+            scope: [String(serviceName || "Proyek")],
+            gallery: [],
+          } as Project;
+        });
+
+        // Fetch galleries per project
+        const withGalleries = await Promise.all(
+          baseMapped.map(async (p, idx) => {
+            const projectId = raw[idx]?._id ?? raw[idx]?.id ?? null;
+            if (!projectId) {
+              return { ...p, gallery: Array(6).fill(placeholderImg) };
+            }
+            try {
+              const gRes =
+                await serviceProjectImage.getProjectImagesProjectByProjectId(
+                  String(projectId) as any,
+                );
+              const gPayload = gRes.data;
+              const urls: string[] = Array.isArray(gPayload?.data)
+                ? gPayload.data
+                    .map((img: any) => img?.url ?? img?.image ?? "")
+                    .filter((u: string) => !!u)
+                : [];
+              return {
+                ...p,
+                gallery: urls.length
+                  ? urls.slice(0, 6)
+                  : Array(6).fill(placeholderImg),
+              };
+            } catch {
+              return { ...p, gallery: Array(6).fill(placeholderImg) };
+            }
+          }),
+        );
+
+        setProjects(withGalleries);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error("[Portofolio] fetchPortfolioProjects", error);
+      }
+    };
+
+    fetchPortfolioProjects();
+  }, []);
 
   const filteredProjects = useMemo(() => {
     if (activeCategory === "Semua") return projects;
 
     return projects.filter((p) => p.category === activeCategory);
   }, [activeCategory]);
+
+  const categories = useMemo(() => {
+    const set = new Set(projects.map((p) => p.category));
+    return ["Semua", ...Array.from(set)];
+  }, [projects]);
   const [lightbox, setLightbox] = useState<{
     project: Project;
     index: number;
@@ -185,8 +192,8 @@ const Portofolio = () => {
                 <p
                   className={`${lato.className} md:text-md text-center text-base text-slate-700 lg:text-lg`}
                 >
-                  Discover a diverse range of properties, from residential to
-                  commercial, tailored to suit your preferences.
+                  Temukan beragam properti, dari hunian hingga komersial, yang
+                  disesuaikan dengan preferensi Anda.
                 </p>
               </div>
               <div className="h-14 border-l-2 border-slate-300 max-sm:hidden sm:ml-17 md:ml-16 lg:ml-26 xl:ml-33" />
@@ -200,7 +207,7 @@ const Portofolio = () => {
                 aria-label="Hero proyek"
                 className={`${lato.className} h-full w-full bg-cover bg-center`}
                 style={{
-                  backgroundImage: "url('/images/general/construction.jpg')",
+                  backgroundImage: "url('/images/general/portfolio.jpg')",
                 }}
               />
             </div>
@@ -211,7 +218,7 @@ const Portofolio = () => {
           {[
             { label: "+40", desc: "Proyek selesai" },
             { label: "12", desc: "Kota dilayani" },
-            { label: "98%", desc: "On-time delivery" },
+            { label: "98%", desc: "Sesuai Jadwal" },
           ].map((stat) => (
             <div
               className={`${lato.className} relative overflow-hidden rounded-2xl border border-cyan-100 bg-white/85 px-6 py-5 shadow-md`}
@@ -354,7 +361,9 @@ const Portofolio = () => {
                       <span
                         className={`${lato.className} h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]`}
                       />
-                      Aktif & siap untuk proyek berikutnya
+                      {project.status?.toLowerCase() === "selesai"
+                        ? "Aktif & siap untuk proyek berikutnya"
+                        : "Mohon menunggu untuk proyek seperti ini"}
                     </span>
                     <a
                       className={`${lato.className} inline-flex items-center gap-2 rounded-full border border-cyan-400 px-3 py-1 font-semibold text-cyan-800 transition hover:bg-cyan-50`}

@@ -5,50 +5,18 @@ import { useEffect, useRef, useState } from "react";
 import { Lato } from "next/font/google";
 
 import Carousel from "@/components/Carousel/Carousel";
+import serviceServices from "@/services/service";
+import serviceProjects from "@/services/project.service";
+import serviceProjectImage from "@/services/projectimage.service";
 
 const lato = Lato({
   subsets: ["latin"],
   weight: ["100", "300", "400", "700", "900"],
 });
 
-const services = [
-  {
-    title: "PEKERJAAN WATERPROOFING",
-    img: "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1200&q=60",
-  },
-  {
-    title: "PEMBANGUNAN RUMAH",
-    img: "https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?auto=format&fit=crop&w=1200&q=60",
-  },
-  {
-    title: "PEKERJAAN RENOVASI",
-    img: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=60",
-  },
-];
+// (removed dummy constants; data will be managed via component state)
 
-const portfolio = [
-  {
-    category: "Project 1",
-    title: "Residential Renovation",
-    img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=60",
-    description:
-      "Renovasi rumah tinggal dengan peningkatan struktur, tata ruang modern, dan efisiensi material tanpa mengorbankan estetika.",
-  },
-  {
-    category: "Project 2",
-    title: "Villa Construction",
-    img: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=60",
-    description:
-      "Pembangunan vila premium dengan konstruksi kokoh, pencahayaan alami optimal, dan finishing berkualitas tinggi.",
-  },
-  {
-    category: "Project 3",
-    title: "Commercial Building",
-    img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=60",
-    description:
-      "Proyek gedung komersial fokus pada keamanan struktural, aksesibilitas, serta fleksibilitas ruang untuk berbagai kebutuhan bisnis.",
-  },
-];
+// Portfolio items: fetched from API (projects + one image per project)
 
 // Swagger fetch template untuk Hero/Home (kombinasikan GET /service & GET /project)
 // const fetchHomeData = async () => {
@@ -145,6 +113,92 @@ const Home = () => {
   const servicesEntered = useDirectionalReveal(servicesRef);
   const portfolioEntered = useDirectionalReveal(portfolioRef);
   const ctaEntered = useDirectionalReveal(ctaRef);
+
+  // Services: fetched from API and shaped for the template (first 3 only)
+  const [services, setServices] = useState<
+    Array<{ title: string; img: string }>
+  >([]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await serviceServices.getServices();
+        const payload = (res?.data && (res.data.data ?? res.data)) ?? [];
+
+        const mapped = (Array.isArray(payload) ? payload : [])
+          .slice(0, 3)
+          .map((item: any) => ({
+            title: `PEKERJAAN ${(item?.name ?? "Layanan").toUpperCase()}`,
+            img:
+              typeof item?.banner === "string" && item.banner
+                ? item.banner
+                : "https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1200&q=60",
+          }));
+
+        setServices(mapped);
+      } catch (error) {
+        console.error("[HomeView] getServices error", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  // Portfolio: latest 3 projects, each with 1 image from project gallery
+  const [portfolio, setPortfolio] = useState<
+    Array<{ category: string; title: string; img: string; description: string }>
+  >([]);
+
+  useEffect(() => {
+    const fetchProjectsWithImages = async () => {
+      try {
+        const res = await serviceProjects.getProjects();
+        const projectsPayload =
+          (res?.data && (res.data.data ?? res.data)) ?? [];
+
+        const projects = (
+          Array.isArray(projectsPayload) ? projectsPayload : []
+        ).slice(0, 3);
+
+        const items = await Promise.all(
+          projects.map(async (proj: any, idx: number) => {
+            let imageUrl = "";
+            try {
+              const imgRes =
+                await serviceProjectImage.getProjectImagesProjectByProjectId(
+                  proj?._id ?? "",
+                );
+              const imgsPayload =
+                (imgRes?.data && (imgRes.data.data ?? imgRes.data)) ?? [];
+              const imgItem =
+                Array.isArray(imgsPayload) && imgsPayload.length > 0
+                  ? imgsPayload[0]
+                  : null;
+              imageUrl = (imgItem?.image as string) ?? "";
+            } catch {
+              // ignore image fetch errors; will use fallback
+            }
+
+            return {
+              category: `Project ${idx + 1}`,
+              title: proj?.title ?? "Project",
+              img:
+                imageUrl && typeof imageUrl === "string"
+                  ? imageUrl
+                  : "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=60",
+              description: proj?.description ?? "",
+            };
+          }),
+        );
+
+        setPortfolio(items);
+      } catch (error) {
+        console.error("[HomeView] getProjects error", error);
+      }
+    };
+
+    fetchProjectsWithImages();
+  }, []);
 
   const [activeFilter, setActiveFilter] = useState("All");
   const filteredProjects =
@@ -298,9 +352,9 @@ const Home = () => {
                   transition={{ duration: 0.6, delay: 0.7 }}
                 >
                   {[
-                    { number: "100+", label: "Projek" },
+                    { number: "40+", label: "Projek" },
                     { number: "50+", label: "Klien" },
-                    { number: "3+", label: "Tahun" },
+                    { number: "4+", label: "Tahun" },
                   ].map((stat, i) => (
                     <motion.div
                       className="rounded-lg bg-gradient-to-br from-blue-50 to-gray-50 p-4 text-center"
@@ -336,7 +390,7 @@ const Home = () => {
                   <div
                     className="h-full w-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
                     style={{
-                      backgroundImage: `url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1400&q=60')`,
+                      backgroundImage: `url('https://images.unsplash.com/photo-1614683361837-963af4039d58?q=80&w=637&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
                       minHeight: "400px",
                     }}
                   />
@@ -569,11 +623,13 @@ const Home = () => {
                       {p.title}
                     </h4>
                     <p
-                      className={`${lato.className} text-base leading-relaxed text-gray-700 sm:text-lg md:text-xl`}
+                      className={`${lato.className} [display:-webkit-box] overflow-hidden text-base leading-relaxed break-words text-gray-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:20] sm:text-lg md:text-xl`}
                     >
                       {p.description}
                     </p>
                     <Button
+                      as={Link}
+                      href="/contact"
                       className={`${lato.className} bg-blue-600 text-white shadow-lg hover:bg-blue-500`}
                       radius="full"
                       size="md"

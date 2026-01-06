@@ -1,12 +1,25 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Lato } from "next/font/google";
+import serviceNews from "@/services/news.service";
+import environment from "@/config/environment";
+import endpoint from "@/services/endpoint.constant";
+
+type BackendNews = {
+  _id?: string;
+  title?: string;
+  text?: string;
+  image?: string;
+  date?: string | Date;
+};
 
 type Article = {
   title: string;
   category: string;
   date: string;
   summary: string;
+  image?: string;
   cta?: string;
+  rawDate?: string | Date;
 };
 
 const lato = Lato({
@@ -14,131 +27,143 @@ const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
 });
 
-const categories = ["Semua", "Layanan", "Proyek", "Pers", "Acara"];
+// Helper: format date to DD/MM/YYYY HH:MM WIB (Asia/Jakarta)
+const formatJakartaDateShort = (input?: string | Date): string => {
+  if (!input) return "";
+  const date = typeof input === "string" ? new Date(input) : input;
+  try {
+    const id = new Intl.DateTimeFormat("id-ID", {
+      timeZone: "Asia/Jakarta",
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+    // Ensure 24h without AM/PM
+    return `${id} WIB`;
+  } catch {
+    return String(input);
+  }
+};
 
-const featuredArticles: Article[] = [
-  {
-    title: "Serah terima proyek gedung perkantoran CBD",
-    category: "Proyek",
-    date: "Ags 2024",
-    summary:
-      "CV Pandan Sembilan menyelesaikan pembangunan struktur dan interior fit-out tepat waktu dengan standar keselamatan tertinggi.",
-    cta: "Lihat dokumentasi",
-  },
-  {
-    title: "Layanan konstruksi hijau untuk kawasan industri",
-    category: "Layanan",
-    date: "Jul 2024",
-    summary:
-      "Paket EPC ramah lingkungan yang mengutamakan efisiensi energi, pengelolaan limbah, dan material bersertifikasi.",
-    cta: "Pelajari layanan",
-  },
-  {
-    title: "CV Pandan Sembilan di Expo Infrastruktur",
-    category: "Acara",
-    date: "Sep 2024",
-    summary:
-      "Tim memamerkan portofolio gedung komersial, fasilitas publik, dan solusi konstruksi cepat untuk kebutuhan darurat.",
-    cta: "Jadwalkan kunjungan",
-  },
-];
+// Helper: infer category from title keywords
+const inferCategory = (title?: string): string => {
+  if (!title) return "Umum";
+  const t = title.toLowerCase();
+  if (t.includes("layanan")) return "Layanan";
+  if (t.includes("proyek")) return "Proyek";
+  if (t.includes("pers")) return "Pers";
+  if (t.includes("acara")) return "Acara";
+  return "Umum";
+};
 
-const updates: Article[] = [
-  {
-    title: "Groundbreaking pabrik manufaktur di Karawang",
-    category: "Proyek",
-    date: "19 Ags 2024",
-    summary:
-      "Pekerjaan pondasi dalam dimulai dengan metode bored pile untuk meminimalkan getaran ke area sekitar.",
-  },
-  {
-    title: "Kemitraan supplier baja lokal",
-    category: "Pers",
-    date: "02 Ags 2024",
-    summary:
-      "Kolaborasi strategis untuk menjaga ketahanan pasokan material struktural dengan kualitas teruji.",
-  },
-  {
-    title: "Unit layanan cepat perbaikan gedung",
-    category: "Layanan",
-    date: "25 Jul 2024",
-    summary:
-      "Tim mobile siap tangani perbaikan fasad, waterproofing, dan MEP ringan untuk properti komersial.",
-  },
-];
-
-const pressKits: Article[] = [
-  {
-    title: "Aset merek & profil perusahaan",
-    category: "Pers",
-    date: "Diperbarui bulanan",
-    summary:
-      "Logo CV Pandan Sembilan, foto proyek, profil pimpinan, dan panduan penggunaan merek.",
-    cta: "Unduh kit",
-  },
-  {
-    title: "Lembar fakta CV Pandan Sembilan",
-    category: "Pers",
-    date: "Q3 2024",
-    summary:
-      "Ringkasan layanan konstruksi, sektor yang dilayani, dan capaian proyek unggulan.",
-    cta: "Lihat PDF",
-  },
-];
-
-// Swagger fetch template (GET /news → daftar berita dari backend-cvps)
-// const fetchNewsFeed = async () => {
-//   try {
-//     const response = await fetch(
-//       "https://backend-cvps.vercel.app/api/news",
-//       {
-//         method: "GET",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//         },
-//       },
-//     );
-//     if (!response.ok) throw new Error("Failed to fetch news feed");
-//     const payload = await response.json();
-//     // setDynamicNews(payload.data);
-//   } catch (error) {
-//     console.error("[NewsView] fetchNewsFeed", error);
-//   }
-// };
+const resolveImageUrl = (image?: string): string | undefined => {
+  if (!image) return undefined;
+  const isAbsolute = /^https?:\/\//i.test(image);
+  if (isAbsolute) return image;
+  if (!environment.API_URL) return undefined;
+  return `${environment.API_URL}${endpoint.MEDIA}/${image}`;
+};
 
 const News = () => {
   const [activeCategory, setActiveCategory] = useState<string>("Semua");
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [selected, setSelected] = useState<Article | null>(null);
+  const [animateIn, setAnimateIn] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
 
-  // Template siap pakai (hubungkan ke backend Anda):
-  // useEffect(() => {
-  //   const sendVisit = async () => {
-  //     try {
-  //       await fetch("/api/visit", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({ path: "/news", section: "news", source: "site" }),
-  //       });
-  //     } catch (err) {
-  //       console.error("visit log failed", err);
-  //     }
-  //   };
-  //   sendVisit();
-  // }, []);
+  // Animate in when modal opens
+  useEffect(() => {
+    if (selected) {
+      setIsClosing(false);
+      // next frame to allow transition
+      const id = requestAnimationFrame(() => setAnimateIn(true));
+      return () => cancelAnimationFrame(id);
+    } else {
+      setAnimateIn(false);
+    }
+  }, [selected]);
+
+  // Close helpers (with exit animation)
+  const closeModal = () => {
+    setIsClosing(true);
+    setAnimateIn(false);
+    window.setTimeout(() => setSelected(null), 200);
+  };
+
+  // Close on ESC
+  useEffect(() => {
+    if (!selected) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selected]);
+
+  // Fetch news from backend and map to template shape
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await serviceNews.getNews("");
+        const payload = (res?.data?.data ?? res?.data ?? []) as BackendNews[];
+
+        const mapped: Article[] = (Array.isArray(payload) ? payload : [])
+          .map((n) => ({
+            title: n.title ?? "",
+            category: inferCategory(n.title),
+            date: formatJakartaDateShort(n.date),
+            summary: n.text ?? "",
+            image: resolveImageUrl(n.image),
+            rawDate: n.date,
+          }))
+          .filter((a) => a.title || a.summary);
+
+        setArticles(mapped);
+      } catch (error) {
+        console.error("[News] fetch error", error);
+        setArticles([]);
+      }
+    };
+    fetchNews();
+  }, []);
+
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    articles.forEach((a) => set.add(a.category));
+    return ["Semua", ...Array.from(set)];
+  }, [articles]);
 
   const filteredFeatured = useMemo(() => {
-    if (activeCategory === "Semua") return featuredArticles;
-
-    return featuredArticles.filter(
-      (article) => article.category === activeCategory,
-    );
-  }, [activeCategory]);
+    const source =
+      activeCategory === "Semua"
+        ? articles
+        : articles.filter((article) => article.category === activeCategory);
+    return source.slice(0, 3);
+  }, [activeCategory, articles]);
 
   const filteredUpdates = useMemo(() => {
-    if (activeCategory === "Semua") return updates;
+    const source =
+      activeCategory === "Semua"
+        ? articles
+        : articles.filter((article) => article.category === activeCategory);
+    return source.slice(3);
+  }, [activeCategory, articles]);
 
-    return updates.filter((article) => article.category === activeCategory);
-  }, [activeCategory]);
+  // Count news within the last 3 months
+  const updatesLast3Months = useMemo(() => {
+    const now = new Date();
+    const threeMonthsAgo = new Date(now);
+    threeMonthsAgo.setMonth(now.getMonth() - 3);
+    return articles.filter((a) => {
+      const raw = a.rawDate ?? a.date;
+      const parsed = new Date(raw as any);
+      return (
+        !isNaN(parsed.getTime()) && parsed >= threeMonthsAgo && parsed <= now
+      );
+    }).length;
+  }, [articles]);
 
   return (
     <div className="w-full px-0 py-10 text-slate-900">
@@ -193,7 +218,7 @@ const News = () => {
                 <p
                   className={`${lato.className} text-2xl font-semibold text-slate-900`}
                 >
-                  12
+                  {updatesLast3Months}
                 </p>
                 <p className={`${lato.className} text-xs text-slate-600`}>
                   dikirim kuartal terakhir
@@ -208,10 +233,10 @@ const News = () => {
                 <p
                   className={`${lato.className} text-2xl font-semibold text-slate-900`}
                 >
-                  180+
+                  100+
                 </p>
                 <p className={`${lato.className} text-xs text-slate-600`}>
-                  aktif menggunakan Pandan
+                  aktif menggunakan layanan
                 </p>
               </div>
               <div>
@@ -226,7 +251,7 @@ const News = () => {
                   99.99%
                 </p>
                 <p className={`${lato.className} text-xs text-slate-600`}>
-                  keandalan dijamin SLA
+                  keandalan dijamin
                 </p>
               </div>
               <div>
@@ -248,25 +273,43 @@ const News = () => {
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-3">
+        <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredFeatured.map((article) => (
             <div
-              className={`${lato.className} flex h-full flex-col justify-between rounded-3xl border border-cyan-100 bg-white/80 p-6 shadow-md transition hover:-translate-y-1 hover:border-cyan-400/80`}
+              className={`${lato.className} flex cursor-pointer flex-col rounded-3xl border border-cyan-100 bg-white/80 p-3 shadow-md transition hover:-translate-y-1 hover:border-cyan-400/80 sm:p-6`}
               key={article.title}
+              role="button"
+              tabIndex={0}
+              aria-label={`Buka detail berita: ${article.title}`}
+              onClick={() => setSelected(article)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelected(article);
+                }
+              }}
             >
               <div
                 aria-label={`Slot gambar untuk ${article.title}`}
-                className={`${lato.className} mb-4 aspect-[16/9] w-full rounded-2xl border border-dashed border-cyan-200 bg-white/70`}
+                className={`${lato.className} mb-3 h-40 w-full overflow-hidden rounded-2xl border border-dashed border-cyan-200 bg-white/70 sm:h-56 md:h-64`}
               >
-                <div
-                  className={`${lato.className} flex h-full items-center justify-center px-3 text-center text-sm text-slate-500`}
-                >
-                  Sisipkan foto proyek/layanan (16:9)
-                </div>
+                {article.image ? (
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="h-full w-full rounded-2xl object-cover"
+                  />
+                ) : (
+                  <div
+                    className={`${lato.className} flex h-full items-center justify-center px-3 text-center text-sm text-slate-500`}
+                  >
+                    Sisipkan foto proyek/layanan (16:9)
+                  </div>
+                )}
               </div>
               <div className="space-y-3">
                 <div
-                  className={`${lato.className} flex items-center justify-between text-xs tracking-[0.12em] text-slate-600 uppercase`}
+                  className={`${lato.className} flex flex-wrap items-center justify-between gap-2 text-xs tracking-[0.12em] text-slate-600 uppercase`}
                 >
                   <span className="rounded-full bg-cyan-50 px-3 py-1 text-cyan-700">
                     {article.category}
@@ -274,24 +317,16 @@ const News = () => {
                   <span>{article.date}</span>
                 </div>
                 <h2
-                  className={`${lato.className} text-xl font-semibold text-slate-900`}
+                  className={`${lato.className} text-base font-semibold [overflow-wrap:anywhere] text-slate-900 sm:text-lg md:text-xl`}
                 >
                   {article.title}
                 </h2>
                 <p
-                  className={`${lato.className} text-sm leading-relaxed text-slate-700`}
+                  className={`${lato.className} [display:-webkit-box] overflow-hidden text-sm leading-relaxed [overflow-wrap:anywhere] text-slate-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:2] sm:[-webkit-line-clamp:3] md:[-webkit-line-clamp:4]`}
                 >
                   {article.summary}
                 </p>
               </div>
-              {article.cta && (
-                <button
-                  className={`${lato.className} mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-700 underline-offset-4 transition hover:text-cyan-900 hover:underline`}
-                >
-                  {article.cta}
-                  <span aria-hidden>→</span>
-                </button>
-              )}
             </div>
           ))}
         </section>
@@ -324,18 +359,36 @@ const News = () => {
             >
               {filteredUpdates.map((article) => (
                 <div
-                  className={`${lato.className} grid grid-cols-[120px_1fr] gap-3 py-4 sm:grid-cols-[150px_1fr]`}
+                  className={`${lato.className} grid cursor-pointer grid-cols-1 gap-3 py-4 sm:grid-cols-[150px_1fr]`}
                   key={article.title}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Buka detail pembaruan: ${article.title}`}
+                  onClick={() => setSelected(article)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setSelected(article);
+                    }
+                  }}
                 >
                   <div
                     aria-label={`Slot gambar untuk ${article.title}`}
-                    className="aspect-video rounded-xl border border-dashed border-cyan-200 bg-white/70"
+                    className="h-48 w-full overflow-hidden rounded-xl border border-dashed border-cyan-200 bg-white/70 sm:h-40"
                   >
-                    <div
-                      className={`${lato.className} flex h-full items-center justify-center px-2 text-center text-xs text-slate-500`}
-                    >
-                      Foto pendukung (16:9)
-                    </div>
+                    {article.image ? (
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="h-full w-full rounded-xl object-cover"
+                      />
+                    ) : (
+                      <div
+                        className={`${lato.className} flex h-full items-center justify-center px-2 text-center text-xs text-slate-500`}
+                      >
+                        Foto pendukung (16:9)
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <div
@@ -349,11 +402,13 @@ const News = () => {
                       <span>{article.date}</span>
                     </div>
                     <h4
-                      className={`${lato.className} text-lg font-semibold text-slate-900`}
+                      className={`${lato.className} text-base font-semibold break-words text-slate-900 sm:text-lg`}
                     >
                       {article.title}
                     </h4>
-                    <p className={`${lato.className} text-sm text-slate-700`}>
+                    <p
+                      className={`${lato.className} [display:-webkit-box] overflow-hidden text-sm break-words text-slate-700 [-webkit-box-orient:vertical] [-webkit-line-clamp:3]`}
+                    >
                       {article.summary}
                     </p>
                   </div>
@@ -369,64 +424,107 @@ const News = () => {
               <p
                 className={`${lato.className} text-xs tracking-[0.14em] text-cyan-700 uppercase`}
               >
-                Pers & sumber daya
+                Pers & Sumber Daya
               </p>
               <h3
                 className={`${lato.className} text-xl font-semibold text-slate-900`}
               >
-                Untuk media & analis
+                Untuk Media & Analis
               </h3>
             </div>
-            <div className="space-y-4">
-              {pressKits.map((item) => (
-                <div
-                  className={`${lato.className} rounded-xl border border-cyan-100 bg-white/80 p-4 shadow-sm`}
-                  key={item.title}
-                >
-                  <div
-                    className={`${lato.className} flex items-center justify-between text-xs tracking-[0.12em] text-slate-600 uppercase`}
-                  >
-                    <span
-                      className={`${lato.className} rounded-full bg-cyan-50 px-3 py-1 text-cyan-700`}
-                    >
-                      {item.category}
-                    </span>
-                    <span>{item.date}</span>
-                  </div>
-                  <h4
-                    className={`${lato.className} pt-3 text-lg font-semibold text-slate-900`}
-                  >
-                    {item.title}
-                  </h4>
-                  <p className={`${lato.className} text-sm text-slate-700`}>
-                    {item.summary}
-                  </p>
-                  {item.cta && (
-                    <button
-                      className={`${lato.className} mt-3 text-sm font-semibold text-cyan-700 underline-offset-4 transition hover:text-cyan-900 hover:underline`}
-                    >
-                      {item.cta}
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div
-              className={`${lato.className} rounded-xl border border-cyan-200 bg-white p-4 text-sm text-cyan-900 shadow-sm`}
+            <div className="space-y-4"></div>
+            <a
+              className={`${lato.className} block w-full rounded-xl border border-cyan-200 bg-white p-4 text-sm text-cyan-900 shadow-sm transition hover:bg-cyan-50`}
+              href="/contact"
             >
               <p className={`${lato.className} font-semibold text-slate-900`}>
-                Kontak pers
+                Kontak Pers
               </p>
               <p className={`${lato.className} text-cyan-800`}>
-                media@pandan.com
+                cv.pandansembilan10@gmail.com
               </p>
               <p className={`${lato.className} text-slate-700`}>
                 Untuk wawancara, permintaan data, atau briefing analis.
               </p>
-            </div>
+            </a>
           </div>
         </section>
       </div>
+      {selected && (
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label="Tutup dialog berita"
+          onClick={(e) => {
+            // close only when clicking on the backdrop itself
+            if (e.target === e.currentTarget) {
+              closeModal();
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              closeModal();
+            }
+          }}
+          className={`fixed inset-0 z-50 flex items-center justify-center px-4 backdrop-blur-sm transition-opacity duration-200 ${
+            animateIn && !isClosing
+              ? "bg-slate-900/70 opacity-100"
+              : "bg-slate-900/70 opacity-0"
+          }`}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            className={`relative w-full max-w-3xl transform overflow-hidden rounded-3xl border border-cyan-100 bg-white/95 shadow-2xl transition-all duration-200 ${
+              animateIn && !isClosing
+                ? "translate-y-0 scale-100 opacity-100"
+                : "translate-y-2 scale-95 opacity-0"
+            }`}
+          >
+            <div className="relative flex max-h-[85vh] flex-col gap-4 overflow-y-auto p-4 md:p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3
+                    className={`${lato.className} text-xl font-semibold text-slate-900 md:text-2xl`}
+                  >
+                    {selected.title}
+                  </h3>
+                  <p className={`${lato.className} text-sm text-slate-700`}>
+                    {selected.date}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Tutup"
+                  className={`${lato.className} rounded-full border border-slate-200 bg-white px-3 py-1 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-cyan-400 hover:text-cyan-800`}
+                  onClick={closeModal}
+                >
+                  ✕
+                </button>
+              </div>
+              {selected.image && (
+                <div className="relative h-72 overflow-hidden rounded-2xl border border-cyan-100 bg-slate-100 md:h-96">
+                  <img
+                    src={selected.image}
+                    alt={selected.title}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              )}
+              <div>
+                <p
+                  className={`${lato.className} text-sm leading-relaxed break-words whitespace-pre-line text-slate-800`}
+                  style={{ overflowWrap: "anywhere" }}
+                >
+                  {selected.summary}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

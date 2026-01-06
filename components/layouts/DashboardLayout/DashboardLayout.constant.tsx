@@ -1,9 +1,9 @@
 const NAV_ITEMS = [
-  { label: "HOME", href: "/admin" },
-  { label: "PROJECTS", href: "/admin/project" },
-  { label: "SERVICES", href: "/admin/service" },
-  { label: "CERTIFICATIONS", href: "/admin/certification" },
-  { label: "NEWS", href: "/admin/news" },
+  { label: "BERANDA", href: "/admin" },
+  { label: "PROYEK", href: "/admin/project" },
+  { label: "LAYANAN", href: "/admin/service" },
+  { label: "SERTIFIKASI", href: "/admin/certification" },
+  { label: "BERITA", href: "/admin/news" },
 ];
 
 export default NAV_ITEMS;

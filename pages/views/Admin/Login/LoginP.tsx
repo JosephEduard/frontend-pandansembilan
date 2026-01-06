@@ -37,7 +37,7 @@ const Login = () => {
       <Card className="w-80 md:w-100 lg:w-100">
         <CardBody className="p-4 md:p-7 lg:p-7">
           <h2 className="text-danger mb-4 text-center text-2xl font-bold">
-            Admin Login
+            Masuk Sebagai Admin
           </h2>
           {errors.root && (
             <p className="text-danger-600 mb-2 font-medium">

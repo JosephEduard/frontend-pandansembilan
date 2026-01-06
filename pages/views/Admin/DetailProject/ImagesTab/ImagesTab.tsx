@@ -13,37 +13,24 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-
 import useImagesTab from "@/views/Admin/DetailProject/ImagesTab/useImagesTab";
-import { IProject } from "@/types/Project";
 import InputFile from "@/components/ui/InputFile";
 
 interface PropTypes {
-  currentImages?: string;
-  onUpdate: (data: IProject) => void;
-  isPendingUpdate: boolean;
   isSuccessUpdate: boolean;
 }
 
 const ImagesTab = (props: PropTypes) => {
-  const { currentImages, isPendingUpdate, isSuccessUpdate, onUpdate } = props;
+  const { isSuccessUpdate } = props;
   const {
-    controlUpdateImages,
     deletingId,
-    errorsUpdateImages,
     handleDeleteImage,
-    handleDeleteImages,
-    handleSubmitUpdateImages,
     handleUploadImages,
     isPendingAddProjectImage,
     isPendingDeleteProjectImage,
-    isPendingMutateDeleteFile,
     isPendingMutateUploadFile,
     isPendingMutateUploadMultipleFiles,
-
-    preview,
     projectImages,
-    refetchProjectImages,
     resetUpdateImages,
   } = useImagesTab();
 
@@ -59,17 +46,14 @@ const ImagesTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Images Project</h1>
+        <h1 className="w-full text-xl font-bold">Gambar Proyek</h1>
         <p className="text-small text-default-400 w-full">
-          Atur Images Project ini.
+          Atur gambar proyek ini.
         </p>
       </CardHeader>
       <CardBody>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <p className="text-default-700 text-sm font-medium">
-              Project Images
-            </p>
             <Skeleton className="rounded-lg" isLoaded>
               <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {(projectImages || []).map((img) => (
@@ -133,7 +117,7 @@ const ImagesTab = (props: PropTypes) => {
               }
               label={
                 <p className="text-default-700 mb-2 text-sm font-medium">
-                  Upload Images Baru
+                  Unggah Gambar Baru
                 </p>
               }
               name="project-images"

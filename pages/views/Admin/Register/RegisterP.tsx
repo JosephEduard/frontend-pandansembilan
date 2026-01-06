@@ -3,7 +3,6 @@ import { Button, Card, CardBody, Input, Spinner } from "@heroui/react";
 import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Controller } from "react-hook-form";
-
 import { useRegister } from "@/views/Admin/Register/useRegister";
 import { cn } from "@/utils/cn";
 
@@ -37,14 +36,14 @@ const Register = () => {
       </div>
       <Card className="w-80 md:w-100 lg:w-100">
         <CardBody className="p-4 md:p-7 lg:p-7">
-          <h2 className="text-primary text-xl font-bold">Admin Register</h2>
+          <h2 className="text-primary text-xl font-bold">Daftar Admin</h2>
           <p className="text-small mb-4">
             Sudah punya akses sebagai admin?&nbsp;
             <Link
               className="text-primary-400 font-semibold"
               href="/auth/admin/login"
             >
-              Login di sini
+              Masuk di sini
             </Link>
           </p>
           {errors.root && (
@@ -68,7 +67,7 @@ const Register = () => {
                   autoComplete="off"
                   errorMessage={errors.fullName?.message}
                   isInvalid={errors.fullName !== undefined}
-                  label="Fullname"
+                  label="Nama Lengkap"
                   type="text"
                   variant="bordered"
                 />
@@ -83,7 +82,7 @@ const Register = () => {
                   autoComplete="off"
                   errorMessage={errors.username?.message}
                   isInvalid={errors.username !== undefined}
-                  label="Username"
+                  label="Nama Pengguna"
                   type="text"
                   variant="bordered"
                 />
@@ -154,7 +153,7 @@ const Register = () => {
                   }
                   errorMessage={errors.confirmPassword?.message}
                   isInvalid={errors.confirmPassword !== undefined}
-                  label="Confirm Password"
+                  label="Konfirmasi Password"
                   type={visiblePassword.confirmPassword ? "text" : "password"}
                   variant="bordered"
                 />
@@ -164,7 +163,7 @@ const Register = () => {
               {isPendingRegister ? (
                 <Spinner color="white" size="sm" />
               ) : (
-                "Register"
+                "Daftar"
               )}
             </Button>
           </form>

@@ -52,10 +52,10 @@ const DeleteProjectModal = (props: PropTypes) => {
       scrollBehavior="inside"
     >
       <ModalContent className="m-4">
-        <ModalHeader> Delete Project </ModalHeader>
+        <ModalHeader> Hapus Proyek </ModalHeader>
         <ModalBody>
           <p className="text-medium font-bold">
-            Apakah Anda yakin ingin menghapus project ini?
+            Apakah Anda yakin ingin menghapus proyek ini?
           </p>
         </ModalBody>
         <ModalFooter>
@@ -68,7 +68,7 @@ const DeleteProjectModal = (props: PropTypes) => {
             }}
             variant="flat"
           >
-            Cancel
+            Batal
           </Button>
           <Button
             color="danger"
@@ -79,7 +79,7 @@ const DeleteProjectModal = (props: PropTypes) => {
             {isPendingMutateDeleteProject ? (
               <Spinner color="white" size="sm" />
             ) : (
-              "Delete"
+              "Hapus"
             )}
           </Button>
         </ModalFooter>

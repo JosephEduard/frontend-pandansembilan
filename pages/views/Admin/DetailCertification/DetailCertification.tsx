@@ -24,7 +24,7 @@ const DetailCertification = () => {
           disabled
           onPress={() => {}}
         >
-          Detail Certification
+          Laman Detail Sertifikat
         </Button>
       </div>
       <Tabs

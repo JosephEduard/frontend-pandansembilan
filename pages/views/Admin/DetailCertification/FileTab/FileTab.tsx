@@ -46,9 +46,9 @@ const FileTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">File Certificate</h1>
+        <h1 className="w-full text-xl font-bold">File Sertifikat</h1>
         <p className="text-small text-default-400 w-full">
-          Atur File Certificate ini.
+          Atur file sertifikat ini.
         </p>
       </CardHeader>
       <CardBody>

@@ -52,10 +52,10 @@ const DeleteServiceModal = (props: PropTypes) => {
       scrollBehavior="inside"
     >
       <ModalContent className="m-4">
-        <ModalHeader> Delete Service </ModalHeader>
+        <ModalHeader> Hapus Layanan </ModalHeader>
         <ModalBody>
           <p className="text-medium font-bold">
-            Apakah Anda yakin ingin menghapus service ini?
+            Apakah Anda yakin ingin menghapus layanan ini?
           </p>
         </ModalBody>
         <ModalFooter>
@@ -68,7 +68,7 @@ const DeleteServiceModal = (props: PropTypes) => {
             }}
             variant="flat"
           >
-            Cancel
+            Batal
           </Button>
           <Button
             color="danger"
@@ -79,7 +79,7 @@ const DeleteServiceModal = (props: PropTypes) => {
             {isPendingMutateDeleteService ? (
               <Spinner color="white" size="sm" />
             ) : (
-              "Delete"
+              "Hapus"
             )}
           </Button>
         </ModalFooter>

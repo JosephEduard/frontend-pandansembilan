@@ -10,7 +10,6 @@ import {
 } from "@heroui/react";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
-
 import useInfoTab from "@/views/Admin/DetailService/InfoTab/useInfoTab";
 import { IService } from "@/types/Service";
 
@@ -61,9 +60,9 @@ const InfoTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Informasi Service</h1>
+        <h1 className="w-full text-xl font-bold">Informasi Layanan</h1>
         <p className="text-small text-default-400 w-full">
-          Atur Informasi Service ini.
+          Atur informasi layanan ini.
         </p>
       </CardHeader>
       <CardBody>

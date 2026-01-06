@@ -52,10 +52,10 @@ const DeleteNewsModal = (props: PropTypes) => {
       scrollBehavior="inside"
     >
       <ModalContent className="m-4">
-        <ModalHeader> Delete News </ModalHeader>
+        <ModalHeader> Hapus Berita </ModalHeader>
         <ModalBody>
           <p className="text-medium font-bold">
-            Apakah Anda yakin ingin menghapus news ini?
+            Apakah Anda yakin ingin menghapus berita ini?
           </p>
         </ModalBody>
         <ModalFooter>
@@ -68,7 +68,7 @@ const DeleteNewsModal = (props: PropTypes) => {
             }}
             variant="flat"
           >
-            Cancel
+            Batal
           </Button>
           <Button
             color="danger"
@@ -79,7 +79,7 @@ const DeleteNewsModal = (props: PropTypes) => {
             {isPendingMutateDeleteNews ? (
               <Spinner color="white" size="sm" />
             ) : (
-              "Delete"
+              "Hapus"
             )}
           </Button>
         </ModalFooter>
