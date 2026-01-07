@@ -14,39 +14,6 @@ const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
 });
 
-// (removed dummy constants; data will be managed via component state)
-
-// Portfolio items: fetched from API (projects + one image per project)
-
-// Swagger fetch template untuk Hero/Home (kombinasikan GET /service & GET /project)
-// const fetchHomeData = async () => {
-//   try {
-//     const [servicesRes, projectsRes] = await Promise.all([
-//       fetch("https://backend-cvps.vercel.app/api/service", {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//         },
-//       }),
-//       fetch("https://backend-cvps.vercel.app/api/project", {
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN ?? ""}`,
-//         },
-//       }),
-//     ]);
-//     if (!servicesRes.ok || !projectsRes.ok) {
-//       throw new Error("Failed to fetch landing data");
-//     }
-//     const servicesPayload = await servicesRes.json();
-//     const projectsPayload = await projectsRes.json();
-//     // setServiceHighlights(servicesPayload.data);
-//     // setFeaturedProjects(projectsPayload.data);
-//   } catch (error) {
-//     console.error("[HomeView] fetchHomeData", error);
-//   }
-// };
-
 const Home = () => {
   const aboutRef = useRef(null);
   const servicesRef = useRef(null);
