@@ -42,26 +42,6 @@ function SessionWatcher() {
     }
   }, [status, isAdminRoute, router]);
 
-  // Schedule logout only for admin routes; on public pages just clear session without redirect
-  useEffect(() => {
-    if (!isAdminRoute) return;
-
-    const expires = sessionData?.expires;
-
-    if (!expires) return;
-
-    const expiryTime = new Date(expires).getTime();
-    const now = Date.now();
-    const timeout = Math.max(expiryTime - now, 0);
-
-    const timer = setTimeout(async () => {
-      await signOut({ redirect: false });
-      router.replace("/auth/admin/login");
-    }, timeout);
-
-    return () => clearTimeout(timer);
-  }, [sessionData?.expires, isAdminRoute, router]);
-
   return null; // tidak render apa-apa
 }
 
@@ -70,7 +50,11 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider
+      session={session}
+      refetchOnWindowFocus={false}
+      refetchInterval={0}
+    >
       <QueryClientProvider client={queryClient}>
         <HeroUIProvider>
           <ToasterProvider>
