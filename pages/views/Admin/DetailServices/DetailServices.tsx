@@ -25,7 +25,7 @@ const DetailServices = () => {
           disabled
           onPress={() => {}}
         >
-          Detail Service
+          Laman Detail Layanan
         </Button>
       </div>
       <Tabs aria-label="Options" onSelectionChange={() => refetchService()}>
