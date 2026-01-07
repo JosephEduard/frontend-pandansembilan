@@ -183,13 +183,13 @@ const AddProjectModal = (props: PropTypes) => {
               onPress={() => handleOnClose(onClose)}
               variant="flat"
             >
-              Cancel
+              Batal
             </Button>
             <Button color="danger" disabled={disabledSubmit} type="submit">
               {isPendingMutateAddProject ? (
                 <Spinner color="white" size="sm" />
               ) : (
-                "Tambah Project"
+                "Tambah Proyek"
               )}
             </Button>
           </ModalFooter>

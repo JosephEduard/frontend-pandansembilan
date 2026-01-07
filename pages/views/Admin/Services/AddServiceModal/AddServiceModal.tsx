@@ -122,7 +122,7 @@ const AddServiceModal = (props: PropTypes) => {
               onPress={() => handleOnClose(onClose)}
               variant="flat"
             >
-              Cancel
+              Batal
             </Button>
             <Button color="danger" disabled={disabledSubmit} type="submit">
               {isPendingMutateAddService ? (
