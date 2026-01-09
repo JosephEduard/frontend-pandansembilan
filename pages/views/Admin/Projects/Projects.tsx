@@ -331,7 +331,7 @@ const Projects = () => {
       // TAMPILAN DESKTOP
       return (
         <DataTable
-          buttonTopContentLabel="Tambah Project"
+          buttonTopContentLabel="Tambah Proyek"
           columns={COLUMN_LIST_PROJECT}
           currentPage={Number(currentPage) || 1}
           data={dataProject?.data || []}

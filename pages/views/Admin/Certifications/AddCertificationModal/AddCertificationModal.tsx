@@ -73,7 +73,7 @@ const AddCertificationModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.title?.message}
                     isInvalid={errors.title !== undefined}
-                    label="Title"
+                    label="Judul"
                     type="text"
                     variant="bordered"
                   />
@@ -88,7 +88,7 @@ const AddCertificationModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.description?.message}
                     isInvalid={errors.description !== undefined}
-                    label="Description"
+                    label="Deskripsi"
                     type="text"
                     variant="bordered"
                   />
@@ -103,7 +103,7 @@ const AddCertificationModal = (props: PropTypes) => {
                     className="mb-2"
                     errorMessage={errors.year?.message}
                     isInvalid={errors.year !== undefined}
-                    label="Year"
+                    label="Tahun"
                     type="number"
                     variant="bordered"
                   />
