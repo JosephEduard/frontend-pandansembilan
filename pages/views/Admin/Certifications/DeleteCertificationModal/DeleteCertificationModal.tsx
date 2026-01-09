@@ -52,7 +52,7 @@ const DeleteCertificationModal = (props: PropTypes) => {
       scrollBehavior="inside"
     >
       <ModalContent className="m-4">
-        <ModalHeader> Delete Certification </ModalHeader>
+        <ModalHeader> Hapus Sertifikasi </ModalHeader>
         <ModalBody>
           <p className="text-medium font-bold">
             Apakah Anda yakin ingin menghapus sertifikat ini?
